@@ -1,0 +1,213 @@
+import { useState, useCallback } from "react";
+import CardBack from "./components/CardBack";
+import ResultCard from "./components/ResultCard";
+import HistoryPage from "./components/HistoryPage";
+import PullAnimation from "./components/PullAnimation";
+import ShopClosed from "./components/ShopClosed";
+import Toast, { getAcceptMessage } from "./components/Toast";
+import { generateReading, SUBTITLES } from "./utils/generateReading";
+import { ACHIEVEMENTS } from "./data/achievements";
+import { useHistory } from "./hooks/useHistory";
+import "./styles/global.css";
+
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes
+const MAX_REROLLS = 10;
+
+function getSavedCooldown() {
+  try {
+    const end = Number(localStorage.getItem("lunch-cooldown-end"));
+    if (end && end > Date.now()) return end;
+  } catch { /* empty */ }
+  return null;
+}
+
+export default function App() {
+  const [page, setPage] = useState(() => getSavedCooldown() ? "closed" : "home");
+  const [reading, setReading] = useState(null);
+  const [rerollCount, setRerollCount] = useState(0);
+  const [subtitle] = useState(() => pick(SUBTITLES));
+  const [newAchievement, setNewAchievement] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [pageKey, setPageKey] = useState(0);
+  const [cooldownEnd, setCooldownEnd] = useState(() => getSavedCooldown());
+
+  const { history, achievements, addEntry, updateAchievements } = useHistory();
+
+  const checkAchievements = useCallback((h, currentAchievements) => {
+    const newUnlocked = [];
+    ACHIEVEMENTS.forEach(a => {
+      if (!currentAchievements.includes(a.id) && a.check(h)) {
+        newUnlocked.push(a.id);
+      }
+    });
+    if (newUnlocked.length > 0) {
+      updateAchievements(newUnlocked);
+      const first = ACHIEVEMENTS.find(a => a.id === newUnlocked[0]);
+      setNewAchievement(first);
+      setTimeout(() => setNewAchievement(null), 3000);
+    }
+  }, [updateAchievements]);
+
+  const handleFlip = () => {
+    const r = generateReading();
+    setReading(r);
+    setRerollCount(0);
+    setPage("pulling");
+  };
+
+  const handlePullComplete = () => {
+    setPageKey(k => k + 1);
+    setPage("result");
+  };
+
+  const handleReroll = () => {
+    const newCount = rerollCount + 1;
+    if (newCount >= MAX_REROLLS) {
+      // Shop closes!
+      const end = Date.now() + COOLDOWN_MS;
+      setCooldownEnd(end);
+      try { localStorage.setItem("lunch-cooldown-end", String(end)); } catch { /* empty */ }
+      setReading(null);
+      setRerollCount(0);
+      setPageKey(k => k + 1);
+      setPage("closed");
+      return;
+    }
+    const r = generateReading();
+    r.rerolls = newCount;
+    setReading(r);
+    setRerollCount(newCount);
+  };
+
+  const handleAccept = () => {
+    const entry = { ...reading, rerolls: rerollCount };
+    const newHistory = [...history, entry];
+    addEntry(entry);
+    checkAchievements(newHistory, achievements);
+
+    // P2: Show toast before going home
+    setToast(getAcceptMessage());
+    setReading(null);
+    setRerollCount(0);
+  };
+
+  const handleToastDone = () => {
+    setToast(null);
+    setPageKey(k => k + 1);
+    setPage("home");
+  };
+
+  const handleCooldownDone = () => {
+    try { localStorage.removeItem("lunch-cooldown-end"); } catch { /* empty */ }
+    setCooldownEnd(null);
+    setPageKey(k => k + 1);
+    setPage("home");
+  };
+
+  const navigateTo = (p) => {
+    setPageKey(k => k + 1);
+    setPage(p);
+  };
+
+  return (
+    <div id="app-root" style={{
+      minHeight: "100vh",
+      background: "var(--bg)",
+      position: "relative",
+    }}>
+      {/* Navigation - history button */}
+      {page !== "history" && page !== "pulling" && page !== "closed" && (
+        <button onClick={() => navigateTo("history")} style={{
+          position: "fixed",
+          top: 16, right: 16,
+          background: "var(--card-bg)",
+          border: "1px solid var(--ink-lighter)",
+          borderRadius: 8,
+          padding: "8px 14px",
+          fontFamily: "'Noto Serif TC', serif",
+          fontSize: 13,
+          color: "var(--ink-light)",
+          cursor: "pointer",
+          letterSpacing: 2,
+          zIndex: 10,
+          transition: "all 0.2s",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+        }}>
+          食曆 {history.length > 0 && `(${history.length})`}
+        </button>
+      )}
+
+      {/* Pages with transition animation */}
+      <div key={pageKey} className={page !== "pulling" ? "page-enter" : undefined}>
+        {page === "home" && !toast && (
+          <CardBack onFlip={handleFlip} subtitle={subtitle} />
+        )}
+        {page === "result" && reading && !toast && (
+          <ResultCard
+            reading={reading}
+            onReroll={handleReroll}
+            onAccept={handleAccept}
+            rerollCount={rerollCount}
+          />
+        )}
+        {page === "history" && (
+          <HistoryPage
+            history={history}
+            achievements={achievements}
+            onBack={() => navigateTo("home")}
+          />
+        )}
+        {page === "closed" && cooldownEnd && (
+          <ShopClosed cooldownEnd={cooldownEnd} onCooldownDone={handleCooldownDone} />
+        )}
+      </div>
+
+      {/* Gacha pull animation */}
+      {page === "pulling" && reading && (
+        <PullAnimation reading={reading} onComplete={handlePullComplete} />
+      )}
+
+      {/* P2: Accept toast */}
+      {toast && (
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "center",
+          minHeight: "100vh",
+        }}>
+          <Toast message={toast} duration={1800} onDone={handleToastDone} />
+        </div>
+      )}
+
+      {/* Achievement toast */}
+      {newAchievement && (
+        <div className="achievement-toast" style={{
+          position: "fixed",
+          bottom: 40,
+          left: "50%",
+          transform: "translateX(-50%)",
+          background: "var(--ink)",
+          color: "var(--card-bg)",
+          borderRadius: 12,
+          padding: "14px 24px",
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          zIndex: 100,
+          boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+        }}>
+          <span style={{ fontSize: 28 }}>{newAchievement.icon}</span>
+          <div>
+            <div style={{
+              fontFamily: "'Noto Serif TC', serif",
+              fontSize: 11, opacity: 0.7, letterSpacing: 2,
+            }}>成就解鎖</div>
+            <div style={{
+              fontFamily: "'Noto Serif TC', serif",
+              fontSize: 15, fontWeight: 700, letterSpacing: 1,
+            }}>{newAchievement.name}</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

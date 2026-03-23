@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(cp -r wushan-tmp/* wushan-tmp/.* .)",
+      "Bash(rm -rf wushan-tmp)",
+      "Bash(npm install:*)",
+      "Bash(rm -rf src/assets)",
+      "Bash(npm run:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where npm.cmd)",
+      "Bash(where node.exe)",
+      "Bash(gh auth:*)"
+    ]
+  }
+}

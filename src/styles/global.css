@@ -1,0 +1,286 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Ma+Shan+Zheng&display=swap');
+
+:root {
+  --bg: #f5f0e8;
+  --bg-alt: #efe9dd;
+  --card-bg: #faf7f0;
+  --ink: #2c2416;
+  --ink-light: #6b5d4d;
+  --ink-lighter: #a89880;
+  --accent: #c23a2e;
+  --gold: #b89030;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes achievePop {
+  0% { opacity: 0; transform: translateY(30px) scale(0.8); }
+  20% { opacity: 1; transform: translateY(0) scale(1.05); }
+  30% { transform: scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+/* P4: Page transition */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: fadeIn 0.35s ease-out forwards;
+}
+
+/* Interactive states */
+.card-back-hover:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18), inset 0 0 60px rgba(139,90,43,0.05) !important;
+}
+
+.card-back-hover:active {
+  transform: scale(0.98) !important;
+}
+
+.btn-secondary:hover {
+  background: var(--bg-alt) !important;
+  border-color: var(--ink-light) !important;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.result-card.revealed {
+  animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.achievement-toast {
+  animation: achievePop 3s ease forwards;
+}
+
+/* ── Pull Animation (Gacha) ───────────────────────────────────── */
+
+.pull-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(44, 36, 22, 0);
+  transition: background 0.4s ease;
+}
+
+.pull-overlay.phase-1,
+.pull-overlay.phase-2 {
+  background: rgba(44, 36, 22, 0.85);
+}
+
+.pull-overlay.phase-3 {
+  background: rgba(44, 36, 22, 0);
+}
+
+/* Legend: darker, more dramatic */
+.pull-overlay.pull-legend.phase-1,
+.pull-overlay.pull-legend.phase-2 {
+  background: rgba(20, 15, 8, 0.92);
+}
+
+/* Radial burst lines */
+.pull-burst {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, transparent 30%, rgba(168, 152, 128, 0.08) 60%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.phase-1 .pull-burst,
+.phase-2 .pull-burst {
+  opacity: 1;
+  animation: burstSpin 4s linear infinite;
+}
+
+.pull-legend .pull-burst {
+  background: radial-gradient(circle, transparent 30%, rgba(184, 144, 48, 0.15) 60%, transparent 70%);
+  width: 400px;
+  height: 400px;
+}
+
+@keyframes burstSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Spinning seal character */
+.pull-seal {
+  width: 80px;
+  height: 80px;
+  border: 3px solid var(--accent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: sealAppear 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards,
+             sealSpin 2s ease-in-out infinite;
+  opacity: 0;
+  z-index: 2;
+}
+
+.pull-legend .pull-seal {
+  width: 100px;
+  height: 100px;
+  border-width: 4px;
+  box-shadow: 0 0 30px rgba(184, 144, 48, 0.4), 0 0 60px rgba(184, 144, 48, 0.2);
+}
+
+.pull-seal-char {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 40px;
+  font-weight: 900;
+}
+
+.pull-legend .pull-seal-char {
+  font-size: 52px;
+}
+
+@keyframes sealAppear {
+  from { opacity: 0; transform: scale(0.3) rotate(-90deg); }
+  to { opacity: 0.9; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes sealSpin {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+}
+
+/* Pull message text */
+.pull-message {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  color: var(--ink-lighter);
+  letter-spacing: 3px;
+  margin-top: 24px;
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+  z-index: 2;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Master reveal */
+.pull-master {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: masterReveal 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  z-index: 3;
+}
+
+.pull-master-icon {
+  font-size: 48px;
+  filter: drop-shadow(0 0 12px rgba(194, 58, 46, 0.4));
+}
+
+.pull-legend .pull-master-icon {
+  font-size: 56px;
+  filter: drop-shadow(0 0 20px rgba(184, 144, 48, 0.6));
+}
+
+.pull-master-name {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 28px;
+  letter-spacing: 6px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.pull-legend .pull-master-name {
+  font-size: 34px;
+  text-shadow: 0 2px 16px rgba(184, 144, 48, 0.5);
+}
+
+@keyframes masterReveal {
+  0% { opacity: 0; transform: scale(1.8); }
+  60% { opacity: 1; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Flash overlay for exit */
+.pull-flash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: flashOut 0.5s ease forwards;
+  z-index: 10;
+}
+
+@keyframes flashOut {
+  0% { opacity: 0; }
+  40% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* Legend floating particles */
+.pull-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pull-particle {
+  position: absolute;
+  bottom: -10px;
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: particleFloat 2s ease-out infinite;
+}
+
+@keyframes particleFloat {
+  0% { opacity: 0; transform: translateY(0) scale(0); }
+  20% { opacity: 0.8; transform: translateY(-80px) scale(1); }
+  100% { opacity: 0; transform: translateY(-400px) scale(0.5); }
+}
+
+/* Subtle texture overlay */
+#app-root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a89880' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
