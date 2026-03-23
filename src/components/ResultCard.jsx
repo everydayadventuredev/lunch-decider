@@ -72,7 +72,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",
       justifyContent: "flex-start", minHeight: "100vh",
-      padding: "24px 16px 100px", /* P1: extra bottom padding for sticky buttons */
+      padding: "24px 16px 56px", /* P1: bottom padding for sticky buttons */
     }}>
       <div style={{ textAlign: "center", marginBottom: 20 }}>
         <div style={{
@@ -272,8 +272,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         bottom: 0,
         left: 0,
         right: 0,
-        background: "linear-gradient(transparent, var(--bg) 20%)",
-        padding: "24px 16px calc(16px + env(safe-area-inset-bottom, 0px))",
+        background: "linear-gradient(transparent, var(--bg) 50%)",
+        padding: "8px 16px calc(6px + env(safe-area-inset-bottom, 0px))",
         display: "flex",
         gap: 12,
         justifyContent: "center",

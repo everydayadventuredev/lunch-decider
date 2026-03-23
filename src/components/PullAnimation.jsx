@@ -25,10 +25,10 @@ export default function PullAnimation({ reading, onComplete }) {
 
   useEffect(() => {
     const timers = [];
-    timers.push(setTimeout(() => setPhase(1), 300));
-    timers.push(setTimeout(() => setPhase(2), isLegend ? 1400 : 1000));
-    timers.push(setTimeout(() => setPhase(3), isLegend ? 2200 : 1700));
-    timers.push(setTimeout(() => onCompleteRef.current(), isLegend ? 2700 : 2100));
+    timers.push(setTimeout(() => setPhase(1), 400));
+    timers.push(setTimeout(() => setPhase(2), isLegend ? 2000 : 1500));
+    timers.push(setTimeout(() => setPhase(3), isLegend ? 3200 : 2600));
+    timers.push(setTimeout(() => onCompleteRef.current(), isLegend ? 3800 : 3100));
     return () => timers.forEach(clearTimeout);
   }, [isLegend]);
 

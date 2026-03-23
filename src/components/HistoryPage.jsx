@@ -174,7 +174,7 @@ export default function HistoryPage({ history, achievements, onBack }) {
                 fontFamily: "'Noto Serif TC', serif",
                 fontSize: 11, color: "var(--ink-lighter)",
                 letterSpacing: 1, marginBottom: 6,
-              }}>{r.date} 週{r.weekday}</div>
+              }}>{r.date} 週{r.weekday}{r.time ? ` ${r.time}` : ""}</div>
               <div style={{
                 fontFamily: "'Ma Shan Zheng', cursive",
                 fontSize: 24, color: "var(--ink)", letterSpacing: 3,
