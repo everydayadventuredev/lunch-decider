@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { SHOP_CLOSED_QUIPS } from "../data/darkCommentary";
 
 function formatTime(ms) {
   const totalSec = Math.max(0, Math.ceil(ms / 1000));
@@ -9,6 +10,14 @@ function formatTime(ms) {
 
 export default function ShopClosed({ cooldownEnd, onCooldownDone }) {
   const [remaining, setRemaining] = useState(() => cooldownEnd - Date.now());
+  const [quipIndex, setQuipIndex] = useState(() => Math.floor(Math.random() * SHOP_CLOSED_QUIPS.length));
+
+  useEffect(() => {
+    const rotate = setInterval(() => {
+      setQuipIndex(i => (i + 1) % SHOP_CLOSED_QUIPS.length);
+    }, 6000);
+    return () => clearInterval(rotate);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -57,6 +66,18 @@ export default function ShopClosed({ cooldownEnd, onCooldownDone }) {
           大師們被你問到集體崩潰，
           <br />
           已拉下鐵門去吃自己的午餐了。
+        </div>
+
+        <div style={{
+          fontFamily: "'Noto Serif TC', serif",
+          fontSize: 12,
+          color: "var(--ink-lighter)",
+          marginTop: 12,
+          lineHeight: 1.8,
+          minHeight: 40,
+          transition: "opacity 0.5s",
+        }}>
+          {SHOP_CLOSED_QUIPS[quipIndex]}
         </div>
 
         {/* Countdown */}

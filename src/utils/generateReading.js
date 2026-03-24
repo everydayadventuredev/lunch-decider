@@ -1,6 +1,6 @@
 import { FOODS } from "../data/foods";
-import { MASTERS, QUOTES } from "../data/masters";
-import { FOOD_FORTUNES, FRIDAY_FORTUNES, MONDAY_FORTUNES } from "../data/fortunes";
+import { MASTERS, QUOTES, WEDNESDAY_MASTER_QUOTES } from "../data/masters";
+import { FOOD_FORTUNES, FRIDAY_FORTUNES, MONDAY_FORTUNES, WEDNESDAY_FORTUNES } from "../data/fortunes";
 import { GOOD_THINGS, BAD_THINGS } from "../data/goodBad";
 import { LUCKY_SIDES, LUCKY_SEATS } from "../data/lucky";
 import {
@@ -17,8 +17,11 @@ const pick2 = (arr) => {
 export function generateReading() {
   const today = new Date();
   const dayOfWeek = today.getDay();
+  const hour = today.getHours();
+  const isOvertime = hour >= 18;
   const isFriday = dayOfWeek === 5;
   const isMonday = dayOfWeek === 1;
+  const isWednesday = dayOfWeek === 3;
 
   let food;
   const roll = Math.random();
@@ -43,7 +46,7 @@ export function generateReading() {
     master = pick(MASTERS.filter(m => m.name !== "週五大帝"));
   }
 
-  const fortunes = isFriday ? FRIDAY_FORTUNES : isMonday ? MONDAY_FORTUNES : FOOD_FORTUNES;
+  const fortunes = isWednesday ? WEDNESDAY_FORTUNES : isFriday ? FRIDAY_FORTUNES : isMonday ? MONDAY_FORTUNES : FOOD_FORTUNES;
 
   return {
     food: food.name,
@@ -51,7 +54,7 @@ export function generateReading() {
     fortune: pick(fortunes),
     master: master.name,
     masterIcon: master.icon,
-    quote: pick(QUOTES[master.name]),
+    quote: isWednesday && Math.random() < 0.4 ? pick(WEDNESDAY_MASTER_QUOTES) : pick(QUOTES[master.name]),
     good: pick2(GOOD_THINGS),
     bad: pick2(BAD_THINGS),
     luckySide: pick(LUCKY_SIDES),
@@ -62,6 +65,8 @@ export function generateReading() {
     isLegend: food.name === "高級餐廳",
     isFriday,
     isMonday,
+    isWednesday,
+    isOvertime,
     rerolls: 0,
   };
 }
@@ -69,6 +74,8 @@ export function generateReading() {
 export function generateDevilReading() {
   const today = new Date();
   const dayOfWeek = today.getDay();
+  const hour = today.getHours();
+  const isOvertime = hour >= 18;
   const food = pick(FOODS.filter(f => f.name !== "高級餐廳"));
 
   return {
@@ -88,6 +95,7 @@ export function generateDevilReading() {
     isLegend: false,
     isFriday: dayOfWeek === 5,
     isMonday: dayOfWeek === 1,
+    isOvertime,
     isDevil: true,
     rerolls: 10,
   };

@@ -1,4 +1,5 @@
 import { ACHIEVEMENTS } from "../data/achievements";
+import { HISTORY_ROASTS } from "../data/darkCommentary";
 import SealStamp from "./SealStamp";
 
 function StatLine({ label, value, comment }) {
@@ -28,6 +29,13 @@ export default function HistoryPage({ history, achievements, onBack }) {
   history.forEach(r => { foodCounts[r.food] = (foodCounts[r.food] || 0) + 1; });
   const topFood = Object.entries(foodCounts).sort((a, b) => b[1] - a[1])[0];
   const uniqueFoods = new Set(history.map(r => r.food)).size;
+  const devilCount = history.filter(r => r.isDevil).length;
+
+  // Collect matching dark roasts (max 3)
+  const activeRoasts = HISTORY_ROASTS
+    .filter(r => r.check(history))
+    .slice(0, 3)
+    .map(r => r.message(history));
 
   const frequentComments = {
     5: "你們是不是有什麼誓約？",
@@ -81,7 +89,32 @@ export default function HistoryPage({ history, achievements, onBack }) {
             {topFood && (
               <StatLine label="最常出現" value={`${topFood[0]} × ${topFood[1]}`} comment={topFoodComment} />
             )}
+            {devilCount > 0 && (
+              <StatLine label="被魔王接管" value={`${devilCount} 次`} comment={devilCount >= 3 ? "魔王的常客" : ""} />
+            )}
           </div>
+
+          {/* Dark roasts based on usage patterns */}
+          {activeRoasts.length > 0 && (
+            <div style={{
+              marginTop: 14,
+              paddingTop: 12,
+              borderTop: "1px dashed var(--ink-lighter)",
+            }}>
+              {activeRoasts.map((roast, i) => (
+                <div key={i} style={{
+                  fontFamily: "'Noto Serif TC', serif",
+                  fontSize: 11,
+                  color: "var(--ink-lighter)",
+                  fontStyle: "italic",
+                  lineHeight: 1.8,
+                  textAlign: "center",
+                }}>
+                  {roast}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 

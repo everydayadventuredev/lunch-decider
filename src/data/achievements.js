@@ -84,4 +84,75 @@ export const ACHIEVEMENTS = [
       return { current: uniqueDays.size, target: 5 };
     },
   },
+  {
+    id: "devil_pet",
+    name: "魔王的寵兒",
+    desc: "被魔王接管 3 次",
+    icon: "🔥",
+    check: (h) => h.filter(r => r.isDevil).length >= 3,
+    progress: (h) => ({ current: Math.min(h.filter(r => r.isDevil).length, 3), target: 3 }),
+  },
+  {
+    id: "indecisive_terminal",
+    name: "選擇困難末期",
+    desc: "同一天抽了 3 輪以上",
+    icon: "😵",
+    check: (h) => {
+      const dateCounts = {};
+      h.forEach(r => { dateCounts[r.date] = (dateCounts[r.date] || 0) + 1; });
+      return Object.values(dateCounts).some(c => c >= 3);
+    },
+    progress: (h) => {
+      const dateCounts = {};
+      h.forEach(r => { dateCounts[r.date] = (dateCounts[r.date] || 0) + 1; });
+      return { current: Math.min(Math.max(...Object.values(dateCounts), 0), 3), target: 3 };
+    },
+  },
+  {
+    id: "squatter",
+    name: "午膳殿釘子戶",
+    desc: "連續 5 天都重抽超過 5 次",
+    icon: "🫠",
+    check: (h) => {
+      if (h.length < 5) return false;
+      let streak = 0;
+      const byDate = {};
+      h.forEach(r => {
+        if (!byDate[r.date]) byDate[r.date] = 0;
+        byDate[r.date] = Math.max(byDate[r.date], r.rerolls || 0);
+      });
+      const dates = Object.keys(byDate).sort();
+      for (let i = 0; i < dates.length; i++) {
+        if (byDate[dates[i]] > 5) {
+          streak++;
+          if (streak >= 5) return true;
+        } else {
+          streak = 0;
+        }
+      }
+      return false;
+    },
+    progress: (h) => {
+      const byDate = {};
+      h.forEach(r => {
+        if (!byDate[r.date]) byDate[r.date] = 0;
+        byDate[r.date] = Math.max(byDate[r.date], r.rerolls || 0);
+      });
+      const dates = Object.keys(byDate).sort();
+      let streak = 0, max = 0;
+      for (let i = 0; i < dates.length; i++) {
+        if (byDate[dates[i]] > 5) { streak++; max = Math.max(max, streak); }
+        else { streak = 0; }
+      }
+      return { current: Math.min(max, 5), target: 5 };
+    },
+  },
+  {
+    id: "acceptance_master",
+    name: "認命大師",
+    desc: "在魔王模式下接受苦行食物",
+    icon: "💀",
+    check: (h) => h.some(r => r.isDevil && r.tier === "苦行"),
+    progress: (h) => ({ current: h.some(r => r.isDevil && r.tier === "苦行") ? 1 : 0, target: 1 }),
+  },
 ];

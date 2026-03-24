@@ -87,7 +87,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           color: "var(--ink)",
           margin: "4px 0",
           letterSpacing: 4,
-        }}>午膳指引</h2>
+        }}>{reading.isOvertime ? "加班續命指引" : "午膳指引"}</h2>
       </div>
 
       {/* Main Card */}
@@ -131,6 +131,18 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               color={reading.isFriday ? "var(--gold)" : "#666"}
               size={50}
               rotate={reading.isFriday ? -8 : -6}
+            />
+          </div>
+        )}
+
+        {/* Wednesday badge */}
+        {reading.isWednesday && !reading.isFriday && !reading.isMonday && !isLegend && (
+          <div style={{ position: "absolute", top: -12, right: 16 }}>
+            <SealStamp
+              text="週三症候群"
+              color="#888"
+              size={50}
+              rotate={-5}
             />
           </div>
         )}

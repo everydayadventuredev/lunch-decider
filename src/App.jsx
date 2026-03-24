@@ -9,6 +9,8 @@ import ShopClosed from "./components/ShopClosed";
 import Toast, { getAcceptMessage } from "./components/Toast";
 import { generateReading, generateDevilReading, SUBTITLES } from "./utils/generateReading";
 import { ACHIEVEMENTS } from "./data/achievements";
+import { OVERTIME_SUBTITLES, STREAK_SUBTITLES, EASTER_EGG_MESSAGES } from "./data/darkCommentary";
+import { calculateStreak } from "./utils/streak";
 import { useHistory } from "./hooks/useHistory";
 import "./styles/global.css";
 
@@ -29,13 +31,33 @@ export default function App() {
   const [reading, setReading] = useState(null);
   const [rerollCount, setRerollCount] = useState(0);
   const [isDevilMode, setIsDevilMode] = useState(false);
-  const [subtitle] = useState(() => pick(SUBTITLES));
+  const [subtitle, setSubtitle] = useState(() => {
+    const hour = new Date().getHours();
+    return hour >= 18 ? pick(OVERTIME_SUBTITLES) : pick(SUBTITLES);
+  });
+  const [lateNightMsg, setLateNightMsg] = useState(null);
   const [newAchievement, setNewAchievement] = useState(null);
   const [toast, setToast] = useState(null);
   const [pageKey, setPageKey] = useState(0);
   const [cooldownEnd, setCooldownEnd] = useState(() => getSavedCooldown());
 
   const { history, achievements, addEntry, updateAchievements } = useHistory();
+
+  // Phase 7: Update subtitle based on streak after history loads
+  useState(() => {
+    // Read history directly from localStorage for initial streak calculation
+    try {
+      const saved = JSON.parse(localStorage.getItem("lunch-tarot-history") || "[]");
+      const streak = calculateStreak(saved);
+      if (streak >= 20 && STREAK_SUBTITLES[20]) {
+        setSubtitle(pick(STREAK_SUBTITLES[20]));
+      } else if (streak >= 10 && STREAK_SUBTITLES[10]) {
+        setSubtitle(pick(STREAK_SUBTITLES[10]));
+      } else if (streak >= 5 && STREAK_SUBTITLES[5]) {
+        setSubtitle(pick(STREAK_SUBTITLES[5]));
+      }
+    } catch { /* empty */ }
+  });
 
   const checkAchievements = useCallback((h, currentAchievements) => {
     const newUnlocked = [];
@@ -53,6 +75,19 @@ export default function App() {
   }, [updateAchievements]);
 
   const handleFlip = () => {
+    // Phase 8: 2AM-5AM easter egg
+    const hour = new Date().getHours();
+    if (hour >= 2 && hour < 5 && !lateNightMsg) {
+      setLateNightMsg(pick(EASTER_EGG_MESSAGES.lateNight));
+      setTimeout(() => {
+        setLateNightMsg(null);
+        const r = generateReading();
+        setReading(r);
+        setRerollCount(0);
+        setPage("pulling");
+      }, 2500);
+      return;
+    }
     const r = generateReading();
     setReading(r);
     setRerollCount(0);
@@ -105,8 +140,8 @@ export default function App() {
       return;
     }
 
-    // P2: Show toast before going home
-    setToast(getAcceptMessage());
+    // P2: Show toast before going home (with context-aware messages)
+    setToast(getAcceptMessage(rerollCount, false));
     setReading(null);
     setRerollCount(0);
   };
@@ -196,6 +231,25 @@ export default function App() {
       {/* Devil pull animation */}
       {page === "devil-pulling" && reading && (
         <DevilAnimation reading={reading} onComplete={handleDevilPullComplete} />
+      )}
+
+      {/* Phase 8: Late night easter egg message */}
+      {lateNightMsg && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 60,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          background: "rgba(44, 36, 22, 0.9)",
+          animation: "fadeIn 0.5s ease",
+        }}>
+          <div style={{
+            fontFamily: "'Noto Serif TC', serif",
+            fontSize: 16, color: "var(--ink-lighter)",
+            letterSpacing: 2, textAlign: "center",
+            padding: "0 32px", lineHeight: 2,
+          }}>
+            {lateNightMsg}
+          </div>
+        </div>
       )}
 
       {/* P2: Accept toast */}
