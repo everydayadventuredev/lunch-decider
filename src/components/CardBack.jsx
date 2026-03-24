@@ -48,7 +48,7 @@ export default function CardBack({ onFlip, subtitle }) {
           justifyContent: "center",
           position: "relative",
           overflow: "hidden",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.12), inset 0 0 60px rgba(139,90,43,0.05)",
+          boxShadow: "0 12px 40px rgba(0,0,0,0.16), 0 2px 6px rgba(0,0,0,0.1), inset 0 0 60px rgba(139,90,43,0.05)",
           transition: "transform 0.3s, box-shadow 0.3s",
         }}
       >

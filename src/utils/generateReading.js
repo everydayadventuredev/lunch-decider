@@ -3,6 +3,10 @@ import { MASTERS, QUOTES } from "../data/masters";
 import { FOOD_FORTUNES, FRIDAY_FORTUNES, MONDAY_FORTUNES } from "../data/fortunes";
 import { GOOD_THINGS, BAD_THINGS } from "../data/goodBad";
 import { LUCKY_SIDES, LUCKY_SEATS } from "../data/lucky";
+import {
+  DEVIL_MASTER, DEVIL_QUOTES, DEVIL_FORTUNES,
+  DEVIL_GOOD, DEVIL_BAD, DEVIL_LUCKY_SIDES, DEVIL_LUCKY_SEATS,
+} from "../data/devil";
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const pick2 = (arr) => {
@@ -59,6 +63,33 @@ export function generateReading() {
     isFriday,
     isMonday,
     rerolls: 0,
+  };
+}
+
+export function generateDevilReading() {
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+  const food = pick(FOODS.filter(f => f.name !== "高級餐廳"));
+
+  return {
+    food: food.name,
+    tier: food.tier,
+    fortune: pick(DEVIL_FORTUNES),
+    master: DEVIL_MASTER.name,
+    masterIcon: DEVIL_MASTER.icon,
+    quote: pick(DEVIL_QUOTES),
+    good: pick2(DEVIL_GOOD),
+    bad: pick2(DEVIL_BAD),
+    luckySide: pick(DEVIL_LUCKY_SIDES),
+    luckySeat: pick(DEVIL_LUCKY_SEATS),
+    date: `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`,
+    time: `${String(today.getHours()).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`,
+    weekday: ["日", "一", "二", "三", "四", "五", "六"][dayOfWeek],
+    isLegend: false,
+    isFriday: dayOfWeek === 5,
+    isMonday: dayOfWeek === 1,
+    isDevil: true,
+    rerolls: 10,
   };
 }
 

@@ -1,11 +1,13 @@
 import { useState, useCallback } from "react";
 import CardBack from "./components/CardBack";
 import ResultCard from "./components/ResultCard";
+import DevilResultCard from "./components/DevilResultCard";
 import HistoryPage from "./components/HistoryPage";
 import PullAnimation from "./components/PullAnimation";
+import DevilAnimation from "./components/DevilAnimation";
 import ShopClosed from "./components/ShopClosed";
 import Toast, { getAcceptMessage } from "./components/Toast";
-import { generateReading, SUBTITLES } from "./utils/generateReading";
+import { generateReading, generateDevilReading, SUBTITLES } from "./utils/generateReading";
 import { ACHIEVEMENTS } from "./data/achievements";
 import { useHistory } from "./hooks/useHistory";
 import "./styles/global.css";
@@ -26,6 +28,7 @@ export default function App() {
   const [page, setPage] = useState(() => getSavedCooldown() ? "closed" : "home");
   const [reading, setReading] = useState(null);
   const [rerollCount, setRerollCount] = useState(0);
+  const [isDevilMode, setIsDevilMode] = useState(false);
   const [subtitle] = useState(() => pick(SUBTITLES));
   const [newAchievement, setNewAchievement] = useState(null);
   const [toast, setToast] = useState(null);
@@ -61,17 +64,20 @@ export default function App() {
     setPage("result");
   };
 
+  const handleDevilPullComplete = () => {
+    setPageKey(k => k + 1);
+    setPage("devil-result");
+  };
+
   const handleReroll = () => {
     const newCount = rerollCount + 1;
     if (newCount >= MAX_REROLLS) {
-      // Shop closes!
-      const end = Date.now() + COOLDOWN_MS;
-      setCooldownEnd(end);
-      try { localStorage.setItem("lunch-cooldown-end", String(end)); } catch { /* empty */ }
-      setReading(null);
-      setRerollCount(0);
-      setPageKey(k => k + 1);
-      setPage("closed");
+      // Devil mode: 魔王接手！
+      const r = generateDevilReading();
+      setReading(r);
+      setRerollCount(newCount);
+      setIsDevilMode(true);
+      setPage("devil-pulling");
       return;
     }
     const r = generateReading();
@@ -81,10 +87,23 @@ export default function App() {
   };
 
   const handleAccept = () => {
-    const entry = { ...reading, rerolls: rerollCount };
+    const entry = { ...reading, rerolls: rerollCount, isDevil: isDevilMode };
     const newHistory = [...history, entry];
     addEntry(entry);
     checkAchievements(newHistory, achievements);
+
+    if (isDevilMode) {
+      // Devil mode accept → cooldown
+      const end = Date.now() + COOLDOWN_MS;
+      setCooldownEnd(end);
+      try { localStorage.setItem("lunch-cooldown-end", String(end)); } catch { /* empty */ }
+      setIsDevilMode(false);
+      setReading(null);
+      setRerollCount(0);
+      setPageKey(k => k + 1);
+      setPage("closed");
+      return;
+    }
 
     // P2: Show toast before going home
     setToast(getAcceptMessage());
@@ -117,7 +136,7 @@ export default function App() {
       position: "relative",
     }}>
       {/* Navigation - history button */}
-      {page !== "history" && page !== "pulling" && page !== "closed" && (
+      {page !== "history" && page !== "pulling" && page !== "closed" && page !== "devil-pulling" && page !== "devil-result" && (
         <button onClick={() => navigateTo("history")} style={{
           position: "fixed",
           top: 16, right: 16,
@@ -139,7 +158,7 @@ export default function App() {
       )}
 
       {/* Pages with transition animation */}
-      <div key={pageKey} className={page !== "pulling" ? "page-enter" : undefined}>
+      <div key={pageKey} className={page !== "pulling" && page !== "devil-pulling" ? "page-enter" : undefined}>
         {page === "home" && !toast && (
           <CardBack onFlip={handleFlip} subtitle={subtitle} />
         )}
@@ -149,6 +168,12 @@ export default function App() {
             onReroll={handleReroll}
             onAccept={handleAccept}
             rerollCount={rerollCount}
+          />
+        )}
+        {page === "devil-result" && reading && !toast && (
+          <DevilResultCard
+            reading={reading}
+            onAccept={handleAccept}
           />
         )}
         {page === "history" && (
@@ -166,6 +191,11 @@ export default function App() {
       {/* Gacha pull animation */}
       {page === "pulling" && reading && (
         <PullAnimation reading={reading} onComplete={handlePullComplete} />
+      )}
+
+      {/* Devil pull animation */}
+      {page === "devil-pulling" && reading && (
+        <DevilAnimation reading={reading} onComplete={handleDevilPullComplete} />
       )}
 
       {/* P2: Accept toast */}

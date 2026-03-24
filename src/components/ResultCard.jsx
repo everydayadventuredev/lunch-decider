@@ -101,11 +101,11 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         padding: "28px 24px",
         position: "relative",
         boxShadow: isLegend
-          ? "0 8px 40px rgba(184,144,48,0.25), inset 0 0 40px rgba(184,144,48,0.05)"
-          : "0 6px 24px rgba(0,0,0,0.08)",
+          ? "0 12px 48px rgba(184,144,48,0.3), 0 2px 4px rgba(0,0,0,0.15), inset 0 0 40px rgba(184,144,48,0.05)"
+          : "0 10px 36px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.1)",
         opacity: revealed ? 1 : 0,
-        transform: revealed ? "translateY(0) rotateX(0)" : "translateY(20px) rotateX(-10deg)",
-        transition: "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+        transform: revealed ? "translateY(0)" : "translateY(-30px) scale(0.95)",
+        transition: "opacity 0.1s",
       }}>
         {/* Legend badge */}
         {isLegend && (
