@@ -188,6 +188,29 @@ export default function DevilResultCard({ reading, onAccept }) {
             <span>{reading.luckySeat}</span>
           </div>
         </div>
+
+        {/* Google Maps search button - devil style */}
+        <a
+          href={`https://www.google.com/maps/search/${encodeURIComponent(reading.food)}+餐廳`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "block",
+            marginTop: 16,
+            padding: "10px 0",
+            textAlign: "center",
+            fontFamily: "'Noto Serif TC', serif",
+            fontSize: 13,
+            color: "#c25050",
+            letterSpacing: 2,
+            border: "1px dashed rgba(139, 58, 58, 0.4)",
+            borderRadius: 8,
+            textDecoration: "none",
+            transition: "all 0.2s",
+          }}
+        >
+          📍 去找你的{reading.food}吧
+        </a>
       </div>
 
       {/* Single accept button - no reroll allowed */}

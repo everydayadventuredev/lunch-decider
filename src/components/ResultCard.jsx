@@ -276,6 +276,29 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             <span>{reading.luckySeat}</span>
           </div>
         </div>
+
+        {/* Google Maps search button */}
+        <a
+          href={`https://www.google.com/maps/search/${encodeURIComponent(reading.food)}+餐廳`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "block",
+            marginTop: 16,
+            padding: "10px 0",
+            textAlign: "center",
+            fontFamily: "'Noto Serif TC', serif",
+            fontSize: 13,
+            color: "var(--accent)",
+            letterSpacing: 2,
+            border: "1px dashed var(--ink-lighter)",
+            borderRadius: 8,
+            textDecoration: "none",
+            transition: "all 0.2s",
+          }}
+        >
+          📍 找附近的{reading.food}
+        </a>
       </div>
 
       {/* P1: Sticky bottom buttons */}
