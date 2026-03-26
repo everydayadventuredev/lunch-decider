@@ -151,24 +151,24 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         {/* Hui-wen corner ornaments */}
         <CardCorners color={isLegend ? "var(--gold)" : "var(--ink-lighter)"} />
 
-        {/* Fortune name */}
+        {/* Fix 1: Fortune name — more breathing room, stronger hierarchy */}
         <div style={{
           textAlign: "center",
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 13,
           color: "var(--ink-light)",
           letterSpacing: 3,
-          marginBottom: 4,
+          marginBottom: 10,
         }}>【{reading.fortune}】</div>
 
-        {/* Tier */}
+        {/* Tier — tighter to food name as a subtitle */}
         <div style={{
           textAlign: "center",
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 11,
           color: isLegend ? "var(--gold)" : "var(--accent)",
           letterSpacing: 2,
-          marginBottom: 16,
+          marginBottom: 6,
         }}>{TIER_LABELS[reading.tier]}</div>
 
         {/* FOOD NAME with glow */}
@@ -178,7 +178,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             fontFamily: "'Ma Shan Zheng', cursive",
             fontSize: isLegend ? "clamp(40px, 10vw, 56px)" : "clamp(36px, 9vw, 48px)",
             color: isLegend ? "var(--gold)" : "var(--ink)",
-            margin: "8px 0 20px",
+            margin: "4px 0 24px",
             letterSpacing: 6,
             textShadow: isLegend ? "0 2px 8px rgba(184,144,48,0.3)" : "none",
           }}>{reading.food}</div>
@@ -190,112 +190,128 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           symbol={isLegend ? "❖" : "◆"}
         />
 
-        {/* 宜忌 section */}
-        <div style={{ display: "flex", gap: 0, marginBottom: 20 }}>
+        {/* Fix 2: 宜忌 section — contained with subtle background */}
+        <div style={{
+          display: "flex", gap: 0, marginBottom: 24,
+          background: "rgba(168, 152, 128, 0.04)",
+          borderRadius: 8,
+          padding: "14px 16px",
+          border: "1px solid rgba(168, 152, 128, 0.1)",
+        }}>
           <div style={{ flex: 1, paddingRight: 14 }}>
             <div style={{
               fontFamily: "'Noto Serif TC', serif",
-              fontSize: 14, fontWeight: 700,
+              fontSize: 13, fontWeight: 700,
               color: "var(--accent)",
-              marginBottom: 8, letterSpacing: 2,
+              marginBottom: 10, letterSpacing: 2,
             }}>▸ 宜</div>
             {reading.good.map((g, i) => (
               <div key={i} style={{
                 fontFamily: "'Noto Serif TC', serif",
                 fontSize: 13, color: "var(--ink)",
-                marginBottom: 4, lineHeight: 1.7,
+                marginBottom: 6, lineHeight: 1.8,
                 display: "flex",
               }}>
-                <span style={{ flexShrink: 0, marginRight: 4 }}>•</span>
+                <span style={{ flexShrink: 0, marginRight: 6, color: "var(--ink-lighter)" }}>·</span>
                 <span>{g}</span>
               </div>
             ))}
           </div>
-          <div style={{ width: 1, background: "var(--ink-lighter)", opacity: 0.3, flexShrink: 0 }} />
+          <div style={{ width: 1, background: "var(--ink-lighter)", opacity: 0.2, flexShrink: 0, margin: "4px 0" }} />
           <div style={{ flex: 1, paddingLeft: 14 }}>
             <div style={{
               fontFamily: "'Noto Serif TC', serif",
-              fontSize: 14, fontWeight: 700,
+              fontSize: 13, fontWeight: 700,
               color: "var(--ink-light)",
-              marginBottom: 8, letterSpacing: 2,
+              marginBottom: 10, letterSpacing: 2,
             }}>▸ 忌</div>
             {reading.bad.map((b, i) => (
               <div key={i} style={{
                 fontFamily: "'Noto Serif TC', serif",
                 fontSize: 13, color: "var(--ink)",
-                marginBottom: 4, lineHeight: 1.7,
+                marginBottom: 6, lineHeight: 1.8,
                 display: "flex",
               }}>
-                <span style={{ flexShrink: 0, marginRight: 4 }}>•</span>
+                <span style={{ flexShrink: 0, marginRight: 6, color: "var(--ink-lighter)" }}>·</span>
                 <span>{b}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Ornamental divider */}
-        <OrnamentDivider color="var(--ink-lighter)" symbol="◇" />
-
-        {/* Master quote */}
+        {/* Fix 4: Master quote — stronger hierarchy between label and quote */}
         <div style={{
           background: "var(--bg-alt)",
           borderRadius: 8,
-          padding: "14px 16px",
-          marginBottom: 16,
+          padding: "16px 18px",
+          marginBottom: 24,
         }}>
           <div style={{
             fontFamily: "'Noto Serif TC', serif",
-            fontSize: 12,
-            color: "var(--ink-light)",
-            marginBottom: 6, letterSpacing: 1,
+            fontSize: 11,
+            color: "var(--ink-lighter)",
+            marginBottom: 10,
+            letterSpacing: 2,
           }}>{reading.masterIcon} {reading.master}曰：</div>
           <div style={{
             fontFamily: "'Noto Serif TC', serif",
             fontSize: 15,
             color: "var(--ink)",
-            lineHeight: 1.8,
+            lineHeight: 1.9,
             fontStyle: "italic",
+            paddingLeft: 4,
           }}>「{IMPATIENT_QUOTES[Math.min(rerollCount, IMPATIENT_QUOTES.length - 1)] || reading.quote}」</div>
         </div>
 
-        {/* Lucky items */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        {/* Fix 3: Lucky items — chip-style with visual boundary */}
+        <div style={{
+          display: "flex", flexWrap: "wrap", gap: 8,
+          marginBottom: 4,
+        }}>
           <div style={{
             fontFamily: "'Noto Serif TC', serif",
-            fontSize: 12, color: "var(--ink-light)", lineHeight: 1.8,
-            display: "flex",
+            fontSize: 12, lineHeight: 1.6,
+            display: "flex", alignItems: "baseline",
+            background: "rgba(194, 58, 46, 0.04)",
+            borderRadius: 6,
+            padding: "6px 12px",
+            border: "1px solid rgba(194, 58, 46, 0.08)",
           }}>
-            <span style={{ color: "var(--accent)", flexShrink: 0 }}>幸運配料：</span>
-            <span>{reading.luckySide}</span>
+            <span style={{ color: "var(--accent)", flexShrink: 0, fontSize: 11, letterSpacing: 1 }}>幸運配料</span>
+            <span style={{ color: "var(--ink-lighter)", margin: "0 6px" }}>｜</span>
+            <span style={{ color: "var(--ink)" }}>{reading.luckySide}</span>
           </div>
           <div style={{
             fontFamily: "'Noto Serif TC', serif",
-            fontSize: 12, color: "var(--ink-light)", lineHeight: 1.8,
-            display: "flex",
+            fontSize: 12, lineHeight: 1.6,
+            display: "flex", alignItems: "baseline",
+            background: "rgba(194, 58, 46, 0.04)",
+            borderRadius: 6,
+            padding: "6px 12px",
+            border: "1px solid rgba(194, 58, 46, 0.08)",
           }}>
-            <span style={{ color: "var(--accent)", flexShrink: 0 }}>幸運座位：</span>
-            <span>{reading.luckySeat}</span>
+            <span style={{ color: "var(--accent)", flexShrink: 0, fontSize: 11, letterSpacing: 1 }}>幸運座位</span>
+            <span style={{ color: "var(--ink-lighter)", margin: "0 6px" }}>｜</span>
+            <span style={{ color: "var(--ink)" }}>{reading.luckySeat}</span>
           </div>
         </div>
 
-        {/* Google Maps search button */}
+        {/* Fix 5: Google Maps link — subtle inline link, no dashed border */}
         <a
           href={`https://www.google.com/maps/search/${encodeURIComponent(reading.food)}+餐廳`}
           target="_blank"
           rel="noopener noreferrer"
           style={{
             display: "block",
-            marginTop: 16,
+            marginTop: 14,
             padding: "10px 0",
             textAlign: "center",
             fontFamily: "'Noto Serif TC', serif",
-            fontSize: 13,
-            color: "var(--accent)",
+            fontSize: 12,
+            color: "var(--ink-lighter)",
             letterSpacing: 2,
-            border: "1px dashed var(--ink-lighter)",
-            borderRadius: 8,
             textDecoration: "none",
-            transition: "all 0.2s",
+            transition: "color 0.2s",
           }}
         >
           📍 找附近的{reading.food}
