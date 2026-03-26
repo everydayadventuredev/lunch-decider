@@ -99,7 +99,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           : "var(--card-bg)",
         borderRadius: 12,
         border: `2px solid ${cardBorder}`,
-        padding: "28px 24px",
+        padding: "28px clamp(18px, 5vw, 24px)",
         position: "relative",
         boxShadow: isLegend
           ? "0 12px 48px rgba(184,144,48,0.3), 0 2px 4px rgba(0,0,0,0.15), inset 0 0 40px rgba(184,144,48,0.05)"
@@ -212,7 +212,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
                 marginBottom: 6, lineHeight: 1.8,
                 display: "flex",
               }}>
-                <span style={{ flexShrink: 0, marginRight: 6, color: "var(--ink-lighter)" }}>·</span>
+                <span style={{ flexShrink: 0, marginRight: 4, color: "var(--ink-lighter)" }}>·</span>
                 <span>{g}</span>
               </div>
             ))}
@@ -232,7 +232,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
                 marginBottom: 6, lineHeight: 1.8,
                 display: "flex",
               }}>
-                <span style={{ flexShrink: 0, marginRight: 6, color: "var(--ink-lighter)" }}>·</span>
+                <span style={{ flexShrink: 0, marginRight: 4, color: "var(--ink-lighter)" }}>·</span>
                 <span>{b}</span>
               </div>
             ))}
@@ -263,48 +263,40 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           }}>「{IMPATIENT_QUOTES[Math.min(rerollCount, IMPATIENT_QUOTES.length - 1)] || reading.quote}」</div>
         </div>
 
-        {/* Fix 3: Lucky items — chip-style with visual boundary */}
+        {/* Lucky items — stacked vertically for long text */}
         <div style={{
-          display: "flex", flexWrap: "wrap", gap: 8,
+          display: "flex", flexDirection: "column", gap: 6,
           marginBottom: 4,
         }}>
-          <div style={{
-            fontFamily: "'Noto Serif TC', serif",
-            fontSize: 12, lineHeight: 1.6,
-            display: "flex", alignItems: "baseline",
-            background: "rgba(194, 58, 46, 0.04)",
-            borderRadius: 6,
-            padding: "6px 12px",
-            border: "1px solid rgba(194, 58, 46, 0.08)",
-          }}>
-            <span style={{ color: "var(--accent)", flexShrink: 0, fontSize: 11, letterSpacing: 1 }}>幸運配料</span>
-            <span style={{ color: "var(--ink-lighter)", margin: "0 6px" }}>｜</span>
-            <span style={{ color: "var(--ink)" }}>{reading.luckySide}</span>
-          </div>
-          <div style={{
-            fontFamily: "'Noto Serif TC', serif",
-            fontSize: 12, lineHeight: 1.6,
-            display: "flex", alignItems: "baseline",
-            background: "rgba(194, 58, 46, 0.04)",
-            borderRadius: 6,
-            padding: "6px 12px",
-            border: "1px solid rgba(194, 58, 46, 0.08)",
-          }}>
-            <span style={{ color: "var(--accent)", flexShrink: 0, fontSize: 11, letterSpacing: 1 }}>幸運座位</span>
-            <span style={{ color: "var(--ink-lighter)", margin: "0 6px" }}>｜</span>
-            <span style={{ color: "var(--ink)" }}>{reading.luckySeat}</span>
-          </div>
+          {[
+            { label: "幸運配料", value: reading.luckySide },
+            { label: "幸運座位", value: reading.luckySeat },
+          ].map(({ label, value }) => (
+            <div key={label} style={{
+              fontFamily: "'Noto Serif TC', serif",
+              fontSize: 12, lineHeight: 1.6,
+              display: "flex", alignItems: "baseline",
+              background: "rgba(194, 58, 46, 0.04)",
+              borderRadius: 6,
+              padding: "6px 12px",
+              border: "1px solid rgba(194, 58, 46, 0.08)",
+            }}>
+              <span style={{ color: "var(--accent)", flexShrink: 0, fontSize: 11, letterSpacing: 1 }}>{label}</span>
+              <span style={{ color: "var(--ink-lighter)", margin: "0 6px", flexShrink: 0 }}>｜</span>
+              <span style={{ color: "var(--ink)" }}>{value}</span>
+            </div>
+          ))}
         </div>
 
-        {/* Fix 5: Google Maps link — subtle inline link, no dashed border */}
+        {/* Google Maps link — integrated with lucky items */}
         <a
           href={`https://www.google.com/maps/search/${encodeURIComponent(reading.food)}+餐廳`}
           target="_blank"
           rel="noopener noreferrer"
           style={{
             display: "block",
-            marginTop: 14,
-            padding: "10px 0",
+            marginTop: 10,
+            padding: "8px 0 4px",
             textAlign: "center",
             fontFamily: "'Noto Serif TC', serif",
             fontSize: 12,
