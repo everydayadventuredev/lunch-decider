@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { TIER_LABELS } from "../data/foods";
 import { getChineseDateStr } from "../utils/generateReading";
+import { CardCorners, OrnamentDivider, FoodNameGlow } from "./CardOrnaments";
 
 export default function DevilResultCard({ reading, onAccept }) {
   const [revealed, setRevealed] = useState(false);
@@ -32,7 +33,7 @@ export default function DevilResultCard({ reading, onAccept }) {
       </div>
 
       {/* Main Card - dark theme */}
-      <div className={`result-card ${revealed ? "revealed" : ""}`} style={{
+      <div className={`devil-card result-card ${revealed ? "revealed" : ""}`} style={{
         width: "min(380px, 90vw)",
         background: "linear-gradient(145deg, #1a1214 0%, #2a1a1e 50%, #1a1214 100%)",
         borderRadius: 12,
@@ -44,6 +45,9 @@ export default function DevilResultCard({ reading, onAccept }) {
         transform: revealed ? "translateY(0) rotateX(0)" : "translateY(20px) rotateX(-10deg)",
         transition: "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
       }}>
+        {/* Hui-wen corner ornaments - devil red */}
+        <CardCorners color="#8b3a3a" />
+
         {/* Devil badge */}
         <div style={{
           position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)",
@@ -78,23 +82,21 @@ export default function DevilResultCard({ reading, onAccept }) {
           marginBottom: 16,
         }}>{TIER_LABELS[reading.tier]}</div>
 
-        {/* FOOD NAME */}
-        <div style={{
-          textAlign: "center",
-          fontFamily: "'Ma Shan Zheng', cursive",
-          fontSize: "clamp(36px, 9vw, 48px)",
-          color: "#e8c4c4",
-          margin: "8px 0 20px",
-          letterSpacing: 6,
-          textShadow: "0 2px 12px rgba(139, 58, 58, 0.5)",
-        }}>{reading.food}</div>
+        {/* FOOD NAME with glow */}
+        <FoodNameGlow>
+          <div style={{
+            textAlign: "center",
+            fontFamily: "'Ma Shan Zheng', cursive",
+            fontSize: "clamp(36px, 9vw, 48px)",
+            color: "#e8c4c4",
+            margin: "8px 0 20px",
+            letterSpacing: 6,
+            textShadow: "0 2px 12px rgba(139, 58, 58, 0.5)",
+          }}>{reading.food}</div>
+        </FoodNameGlow>
 
-        {/* Divider */}
-        <div style={{
-          width: "100%", height: 1,
-          background: "linear-gradient(90deg, transparent, #8b3a3a, transparent)",
-          margin: "0 0 20px",
-        }} />
+        {/* Ornamental divider */}
+        <OrnamentDivider color="#8b3a3a" symbol="◆" />
 
         {/* 宜忌 section */}
         <div style={{ display: "flex", gap: 0, marginBottom: 20 }}>
@@ -139,12 +141,8 @@ export default function DevilResultCard({ reading, onAccept }) {
           </div>
         </div>
 
-        {/* Divider */}
-        <div style={{
-          width: "100%", height: 1,
-          background: "linear-gradient(90deg, transparent, #8b3a3a, transparent)",
-          margin: "0 0 16px",
-        }} />
+        {/* Ornamental divider */}
+        <OrnamentDivider color="#8b3a3a" symbol="◇" />
 
         {/* Devil quote */}
         <div style={{

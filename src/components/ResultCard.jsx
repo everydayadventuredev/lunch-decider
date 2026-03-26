@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { TIER_LABELS } from "../data/foods";
 import { getChineseDateStr } from "../utils/generateReading";
 import SealStamp from "./SealStamp";
+import { CardCorners, OrnamentDivider, FoodNameGlow } from "./CardOrnaments";
 
 // Progressive reroll button text
 const REROLL_BUTTONS = [
@@ -147,6 +148,9 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           </div>
         )}
 
+        {/* Hui-wen corner ornaments */}
+        <CardCorners color={isLegend ? "var(--gold)" : "var(--ink-lighter)"} />
+
         {/* Fortune name */}
         <div style={{
           textAlign: "center",
@@ -167,23 +171,24 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           marginBottom: 16,
         }}>{TIER_LABELS[reading.tier]}</div>
 
-        {/* FOOD NAME */}
-        <div style={{
-          textAlign: "center",
-          fontFamily: "'Ma Shan Zheng', cursive",
-          fontSize: isLegend ? "clamp(40px, 10vw, 56px)" : "clamp(36px, 9vw, 48px)",
-          color: isLegend ? "var(--gold)" : "var(--ink)",
-          margin: "8px 0 20px",
-          letterSpacing: 6,
-          textShadow: isLegend ? "0 2px 8px rgba(184,144,48,0.3)" : "none",
-        }}>{reading.food}</div>
+        {/* FOOD NAME with glow */}
+        <FoodNameGlow isLegend={isLegend}>
+          <div style={{
+            textAlign: "center",
+            fontFamily: "'Ma Shan Zheng', cursive",
+            fontSize: isLegend ? "clamp(40px, 10vw, 56px)" : "clamp(36px, 9vw, 48px)",
+            color: isLegend ? "var(--gold)" : "var(--ink)",
+            margin: "8px 0 20px",
+            letterSpacing: 6,
+            textShadow: isLegend ? "0 2px 8px rgba(184,144,48,0.3)" : "none",
+          }}>{reading.food}</div>
+        </FoodNameGlow>
 
-        {/* Divider */}
-        <div style={{
-          width: "100%", height: 1,
-          background: `linear-gradient(90deg, transparent, ${isLegend ? "var(--gold)" : "var(--ink-lighter)"}, transparent)`,
-          margin: "0 0 20px",
-        }} />
+        {/* Ornamental divider */}
+        <OrnamentDivider
+          color={isLegend ? "var(--gold)" : "var(--ink-lighter)"}
+          symbol={isLegend ? "❖" : "◆"}
+        />
 
         {/* 宜忌 section */}
         <div style={{ display: "flex", gap: 0, marginBottom: 20 }}>
@@ -228,12 +233,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           </div>
         </div>
 
-        {/* Divider */}
-        <div style={{
-          width: "100%", height: 1,
-          background: "linear-gradient(90deg, transparent, var(--ink-lighter), transparent)",
-          margin: "0 0 16px",
-        }} />
+        {/* Ornamental divider */}
+        <OrnamentDivider color="var(--ink-lighter)" symbol="◇" />
 
         {/* Master quote */}
         <div style={{
