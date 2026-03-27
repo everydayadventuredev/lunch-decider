@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { TIER_LABELS } from "../data/foods";
 import { getChineseDateStr } from "../utils/generateReading";
 import SealStamp from "./SealStamp";
-import { CardCorners, OrnamentDivider, FoodNameGlow } from "./CardOrnaments";
+import { CardCorners, OrnamentDivider, FoodNameGlow, FortuneCrest, StarField } from "./CardOrnaments";
 
 // Progressive reroll button text
 const REROLL_BUTTONS = [
@@ -59,6 +59,28 @@ const REROLL_COMMENTS = [
   "（最後的大師嘆了一口氣）",            // 9+
 ];
 
+// Dark tarot color scheme
+const TAROT = {
+  bg: "#1a1612",
+  bgGrad: "linear-gradient(180deg, #1a1612 0%, #221c16 50%, #1a1612 100%)",
+  text: "#e8dcc8",
+  textMuted: "#a89880",
+  textDim: "#6b5d4d",
+  gold: "#c4a44e",
+  goldDim: "rgba(196, 164, 78, 0.15)",
+  accent: "#c4a44e",
+  divider: "rgba(196, 164, 78, 0.12)",
+  sectionBg: "rgba(196, 164, 78, 0.06)",
+  sectionBorder: "rgba(196, 164, 78, 0.1)",
+};
+
+const LEGEND_TAROT = {
+  ...TAROT,
+  bgGrad: "linear-gradient(180deg, #1a1612 0%, #2a2010 50%, #1a1612 100%)",
+  gold: "#d4b44e",
+  goldDim: "rgba(212, 180, 78, 0.2)",
+};
+
 export default function ResultCard({ reading, onReroll, onAccept, rerollCount }) {
   const [revealed, setRevealed] = useState(false);
   useEffect(() => {
@@ -67,13 +89,13 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
   }, []);
 
   const isLegend = reading.isLegend;
-  const cardBorder = isLegend ? "var(--gold)" : "var(--ink)";
+  const t = isLegend ? LEGEND_TAROT : TAROT;
 
   return (
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",
       justifyContent: "flex-start", minHeight: "100vh",
-      padding: "24px 16px 56px", /* P1: bottom padding for sticky buttons */
+      padding: "24px 16px 56px",
     }}>
       <div style={{ textAlign: "center", marginBottom: 20 }}>
         <div style={{
@@ -91,29 +113,32 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         }}>{reading.isOvertime ? "加班續命指引" : "午膳指引"}</h2>
       </div>
 
-      {/* Main Card */}
+      {/* Main Dark Tarot Card */}
       <div className={`result-card ${revealed ? "revealed" : ""}`} style={{
+        "--tarot-bg": t.bg,
         width: "min(380px, 90vw)",
-        background: isLegend
-          ? "linear-gradient(135deg, var(--card-bg) 0%, #fdf6e3 50%, #fff8dc 100%)"
-          : "var(--card-bg)",
+        background: t.bgGrad,
         borderRadius: 12,
-        border: `2px solid ${cardBorder}`,
-        padding: "28px clamp(18px, 5vw, 24px)",
+        border: `1.5px solid ${t.gold}`,
+        padding: "32px clamp(20px, 5vw, 28px)",
         position: "relative",
         boxShadow: isLegend
-          ? "0 12px 48px rgba(184,144,48,0.3), 0 2px 4px rgba(0,0,0,0.15), inset 0 0 40px rgba(184,144,48,0.05)"
-          : "0 10px 36px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.1)",
+          ? `0 16px 56px rgba(0,0,0,0.6), 0 0 40px rgba(196,164,78,0.15), inset 0 0 40px rgba(196,164,78,0.03)`
+          : "0 16px 56px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)",
         opacity: revealed ? 1 : 0,
         transform: revealed ? "translateY(0)" : "translateY(-30px) scale(0.95)",
         transition: "opacity 0.1s",
+        overflow: "hidden",
       }}>
+        {/* Star field background */}
+        <StarField />
+
         {/* Legend badge */}
         {isLegend && (
           <div style={{
             position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)",
-            background: "var(--gold)",
-            color: "#fff",
+            background: `linear-gradient(135deg, ${t.gold}, #d4b44e)`,
+            color: t.bg,
             fontFamily: "'Noto Serif TC', serif",
             fontSize: 12,
             fontWeight: 700,
@@ -121,15 +146,16 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             borderRadius: 20,
             letterSpacing: 2,
             whiteSpace: "nowrap",
+            zIndex: 2,
           }}>百年難遇之祥瑞</div>
         )}
 
         {/* Friday / Monday badge */}
         {(reading.isFriday || reading.isMonday) && !isLegend && (
-          <div style={{ position: "absolute", top: -12, right: 16 }}>
+          <div style={{ position: "absolute", top: -12, right: 16, zIndex: 2 }}>
             <SealStamp
               text={reading.isFriday ? "週五無禁忌" : "週一渡劫中"}
-              color={reading.isFriday ? "var(--gold)" : "#666"}
+              color={reading.isFriday ? t.gold : t.textMuted}
               size={50}
               rotate={reading.isFriday ? -8 : -6}
             />
@@ -138,37 +164,27 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
         {/* Wednesday badge */}
         {reading.isWednesday && !reading.isFriday && !reading.isMonday && !isLegend && (
-          <div style={{ position: "absolute", top: -12, right: 16 }}>
-            <SealStamp
-              text="週三症候群"
-              color="#888"
-              size={50}
-              rotate={-5}
-            />
+          <div style={{ position: "absolute", top: -12, right: 16, zIndex: 2 }}>
+            <SealStamp text="週三症候群" color={t.textMuted} size={50} rotate={-5} />
           </div>
         )}
 
-        {/* Hui-wen corner ornaments */}
-        <CardCorners color={isLegend ? "var(--gold)" : "var(--ink-lighter)"} />
+        {/* Vine corner ornaments */}
+        <CardCorners color={t.gold} />
 
-        {/* Fix 1: Fortune name — more breathing room, stronger hierarchy */}
-        <div style={{
-          textAlign: "center",
-          fontFamily: "'Noto Serif TC', serif",
-          fontSize: 13,
-          color: "var(--ink-light)",
-          letterSpacing: 3,
-          marginBottom: 10,
-        }}>【{reading.fortune}】</div>
+        {/* Fortune name with decorative crest */}
+        <FortuneCrest text={`【${reading.fortune}】`} color={t.textMuted} />
 
-        {/* Tier — tighter to food name as a subtitle */}
+        {/* Tier label */}
         <div style={{
           textAlign: "center",
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 11,
-          color: isLegend ? "var(--gold)" : "var(--accent)",
+          color: t.gold,
           letterSpacing: 2,
-          marginBottom: 6,
+          marginBottom: 8,
+          opacity: 0.8,
+          position: "relative", zIndex: 1,
         }}>{TIER_LABELS[reading.tier]}</div>
 
         {/* FOOD NAME with glow */}
@@ -177,96 +193,98 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             textAlign: "center",
             fontFamily: "'Ma Shan Zheng', cursive",
             fontSize: isLegend ? "clamp(40px, 10vw, 56px)" : "clamp(36px, 9vw, 48px)",
-            color: isLegend ? "var(--gold)" : "var(--ink)",
+            color: t.gold,
             margin: "4px 0 24px",
-            letterSpacing: 6,
-            textShadow: isLegend ? "0 2px 8px rgba(184,144,48,0.3)" : "none",
+            letterSpacing: 8,
+            textShadow: `0 2px 12px rgba(196,164,78,0.3), 0 0 40px rgba(196,164,78,0.1)`,
+            position: "relative", zIndex: 1,
           }}>{reading.food}</div>
         </FoodNameGlow>
 
         {/* Ornamental divider */}
-        <OrnamentDivider
-          color={isLegend ? "var(--gold)" : "var(--ink-lighter)"}
-          symbol={isLegend ? "❖" : "◆"}
-        />
+        <OrnamentDivider color={t.gold} symbol="✦" />
 
-        {/* Fix 2: 宜忌 section — contained with subtle background */}
+        {/* 宜忌 section */}
         <div style={{
           display: "flex", gap: 0, marginBottom: 24,
-          background: "rgba(168, 152, 128, 0.04)",
+          background: t.sectionBg,
           borderRadius: 8,
           padding: "14px 16px",
-          border: "1px solid rgba(168, 152, 128, 0.1)",
+          border: `1px solid ${t.sectionBorder}`,
+          position: "relative", zIndex: 1,
         }}>
           <div style={{ flex: 1, paddingRight: 14 }}>
             <div style={{
               fontFamily: "'Noto Serif TC', serif",
               fontSize: 13, fontWeight: 700,
-              color: "var(--accent)",
+              color: t.gold,
               marginBottom: 10, letterSpacing: 2,
             }}>▸ 宜</div>
             {reading.good.map((g, i) => (
               <div key={i} style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 13, color: "var(--ink)",
+                fontSize: 13, color: t.text,
                 marginBottom: 6, lineHeight: 1.8,
                 display: "flex",
               }}>
-                <span style={{ flexShrink: 0, marginRight: 4, color: "var(--ink-lighter)" }}>·</span>
+                <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
                 <span>{g}</span>
               </div>
             ))}
           </div>
-          <div style={{ width: 1, background: "var(--ink-lighter)", opacity: 0.2, flexShrink: 0, margin: "4px 0" }} />
+          <div style={{ width: 1, background: t.gold, opacity: 0.15, flexShrink: 0, margin: "4px 0" }} />
           <div style={{ flex: 1, paddingLeft: 14 }}>
             <div style={{
               fontFamily: "'Noto Serif TC', serif",
               fontSize: 13, fontWeight: 700,
-              color: "var(--ink-light)",
+              color: t.textMuted,
               marginBottom: 10, letterSpacing: 2,
             }}>▸ 忌</div>
             {reading.bad.map((b, i) => (
               <div key={i} style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 13, color: "var(--ink)",
+                fontSize: 13, color: t.text,
                 marginBottom: 6, lineHeight: 1.8,
                 display: "flex",
               }}>
-                <span style={{ flexShrink: 0, marginRight: 4, color: "var(--ink-lighter)" }}>·</span>
+                <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
                 <span>{b}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Fix 4: Master quote — stronger hierarchy between label and quote */}
+        {/* Master quote */}
         <div style={{
-          background: "var(--bg-alt)",
+          background: t.sectionBg,
           borderRadius: 8,
           padding: "16px 18px",
           marginBottom: 24,
+          border: `1px solid ${t.sectionBorder}`,
+          position: "relative", zIndex: 1,
         }}>
           <div style={{
             fontFamily: "'Noto Serif TC', serif",
             fontSize: 11,
-            color: "var(--ink-lighter)",
+            color: t.textDim,
             marginBottom: 10,
             letterSpacing: 2,
           }}>{reading.masterIcon} {reading.master}曰：</div>
           <div style={{
             fontFamily: "'Noto Serif TC', serif",
             fontSize: 15,
-            color: "var(--ink)",
+            color: t.text,
             lineHeight: 1.9,
             fontStyle: "italic",
             paddingLeft: 4,
           }}>「{IMPATIENT_QUOTES[Math.min(rerollCount, IMPATIENT_QUOTES.length - 1)] || reading.quote}」</div>
         </div>
 
-        {/* Lucky items — stacked vertically for long text */}
+        {/* Lucky items */}
         <div style={{
           display: "flex", flexDirection: "column", gap: 6,
           marginBottom: 4,
+          position: "relative", zIndex: 1,
         }}>
           {[
             { label: "幸運配料", value: reading.luckySide },
@@ -276,19 +294,19 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               fontFamily: "'Noto Serif TC', serif",
               fontSize: 12, lineHeight: 1.6,
               display: "flex", alignItems: "baseline",
-              background: "rgba(194, 58, 46, 0.04)",
+              background: t.sectionBg,
               borderRadius: 6,
               padding: "6px 12px",
-              border: "1px solid rgba(194, 58, 46, 0.08)",
+              border: `1px solid ${t.sectionBorder}`,
             }}>
-              <span style={{ color: "var(--accent)", flexShrink: 0, fontSize: 11, letterSpacing: 1 }}>{label}</span>
-              <span style={{ color: "var(--ink-lighter)", margin: "0 6px", flexShrink: 0 }}>｜</span>
-              <span style={{ color: "var(--ink)" }}>{value}</span>
+              <span style={{ color: t.gold, flexShrink: 0, fontSize: 11, letterSpacing: 1 }}>{label}</span>
+              <span style={{ color: t.textDim, margin: "0 6px", flexShrink: 0 }}>｜</span>
+              <span style={{ color: t.text }}>{value}</span>
             </div>
           ))}
         </div>
 
-        {/* Google Maps link — integrated with lucky items */}
+        {/* Google Maps link */}
         <a
           href={`https://www.google.com/maps/search/${encodeURIComponent(reading.food)}+餐廳`}
           target="_blank"
@@ -300,17 +318,18 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             textAlign: "center",
             fontFamily: "'Noto Serif TC', serif",
             fontSize: 12,
-            color: "var(--ink-lighter)",
+            color: t.textDim,
             letterSpacing: 2,
             textDecoration: "none",
             transition: "color 0.2s",
+            position: "relative", zIndex: 1,
           }}
         >
           📍 找附近的{reading.food}
         </a>
       </div>
 
-      {/* P1: Sticky bottom buttons */}
+      {/* Sticky bottom buttons */}
       <div style={{
         position: "fixed",
         bottom: 0,
@@ -341,10 +360,10 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 15,
           padding: "12px 28px",
-          border: "none",
+          border: `1px solid ${TAROT.gold}`,
           borderRadius: 8,
-          background: "var(--accent)",
-          color: "#fff",
+          background: TAROT.bg,
+          color: TAROT.gold,
           cursor: "pointer",
           letterSpacing: 2,
           transition: "all 0.2s",

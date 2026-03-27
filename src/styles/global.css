@@ -400,39 +400,34 @@ body {
 
 /* ── Card Textures & Ornaments ─────────────────────────────────── */
 
-/* Paper texture overlay for result cards */
+/* Dark tarot card texture — subtle noise grain */
 .result-card::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 12px;
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 0;
 }
 
-/* Cloud pattern at card top */
+/* Gold inner border line */
 .result-card::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 48px;
-  border-radius: 12px 12px 0 0;
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'%3E%3Cpath d='M0 30 Q15 10 30 20 Q45 30 60 20 Q75 10 90 20 Q105 30 120 20' fill='none' stroke='%23a89880' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M0 35 Q15 15 30 25 Q45 35 60 25 Q75 15 90 25 Q105 35 120 25' fill='none' stroke='%23a89880' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E")
-    repeat-x;
+  inset: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(184, 144, 48, 0.15);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Hui-wen corner decorations */
+/* Vine corner decorations */
 .card-corner {
   position: absolute;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   pointer-events: none;
   z-index: 1;
 }
@@ -468,7 +463,7 @@ body {
   letter-spacing: 4px;
 }
 
-/* Food name glow */
+/* Food name glow — gold radial on dark background */
 .food-name-glow {
   position: relative;
 }
@@ -479,17 +474,17 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 100px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(168, 152, 128, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(184, 144, 48, 0.1) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .food-name-glow.legend::before {
-  background: radial-gradient(circle, rgba(184, 144, 48, 0.12) 0%, transparent 70%);
-  width: 140px;
-  height: 140px;
+  background: radial-gradient(ellipse, rgba(184, 144, 48, 0.2) 0%, transparent 70%);
+  width: 200px;
+  height: 120px;
 }
 
 /* Devil card texture */
