@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { TIER_LABELS } from "../data/foods";
 import { getChineseDateStr } from "../utils/generateReading";
+import { getFoodImage } from "../utils/foodImage";
 import SealStamp from "./SealStamp";
 import { CardCorners, OrnamentDivider, FoodNameGlow, FortuneCrest, StarField } from "./CardOrnaments";
 
@@ -83,10 +84,17 @@ const LEGEND_TAROT = {
 
 export default function ResultCard({ reading, onReroll, onAccept, rerollCount }) {
   const [revealed, setRevealed] = useState(false);
+  const [foodImg, setFoodImg] = useState(null);
+
   useEffect(() => {
     const t = setTimeout(() => setRevealed(true), 100);
     return () => clearTimeout(t);
   }, []);
+
+  // Load food image asynchronously
+  useEffect(() => {
+    getFoodImage(reading.food).then(url => { if (url) setFoodImg(url); });
+  }, [reading.food]);
 
   const isLegend = reading.isLegend;
   const t = isLegend ? LEGEND_TAROT : TAROT;
@@ -120,7 +128,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         width: "min(380px, 90vw)",
         background: t.bgGrad,
         borderRadius: 12,
-        border: `1.5px solid ${t.gold}`,
+        border: `2.5px solid ${t.gold}`,
         padding: "32px clamp(20px, 5vw, 28px)",
         position: "relative",
         boxShadow: isLegend
@@ -188,6 +196,28 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           position: "relative", zIndex: 1,
         }}>{TIER_LABELS[reading.tier]}</div>
 
+        {/* Food illustration */}
+        {foodImg && (
+          <div style={{
+            display: "flex", justifyContent: "center",
+            marginBottom: 8,
+            position: "relative", zIndex: 1,
+          }}>
+            <img
+              src={foodImg}
+              alt={reading.food}
+              style={{
+                width: "min(180px, 50vw)",
+                height: "min(180px, 50vw)",
+                objectFit: "cover",
+                borderRadius: 8,
+                border: `1px solid rgba(196,164,78,0.2)`,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+              }}
+            />
+          </div>
+        )}
+
         {/* FOOD NAME with glow */}
         <FoodNameGlow isLegend={isLegend}>
           <div style={{
@@ -195,7 +225,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             fontFamily: "'Ma Shan Zheng', cursive",
             fontSize: isLegend ? "clamp(40px, 10vw, 56px)" : "clamp(36px, 9vw, 48px)",
             color: t.gold,
-            margin: "4px 0 24px",
+            margin: foodImg ? "4px 0 16px" : "4px 0 24px",
             letterSpacing: 8,
             textShadow: `0 2px 12px rgba(196,164,78,0.3), 0 0 40px rgba(196,164,78,0.1)`,
             position: "relative", zIndex: 1,
@@ -347,9 +377,9 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 15,
           padding: "12px 28px",
-          border: `1px solid rgba(196,164,78,0.3)`,
+          border: `1.5px solid rgba(196,164,78,0.4)`,
           borderRadius: 8,
-          background: TAROT.bg,
+          background: "transparent",
           color: TAROT.textMuted,
           cursor: "pointer",
           letterSpacing: 2,
@@ -361,13 +391,15 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 15,
           padding: "12px 28px",
-          border: `1.5px solid ${TAROT.gold}`,
+          border: "none",
           borderRadius: 8,
-          background: TAROT.bg,
-          color: TAROT.gold,
+          background: `linear-gradient(135deg, ${TAROT.gold}, #d4b44e)`,
+          color: TAROT.bg,
           cursor: "pointer",
           letterSpacing: 2,
+          fontWeight: 700,
           transition: "all 0.2s",
+          boxShadow: "0 4px 16px rgba(196,164,78,0.3)",
         }}>{ACCEPT_BUTTONS[Math.min(rerollCount, ACCEPT_BUTTONS.length - 1)]}</button>
       </div>
 

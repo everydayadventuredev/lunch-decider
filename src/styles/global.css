@@ -412,13 +412,13 @@ body {
   z-index: 0;
 }
 
-/* Gold inner border line */
+/* Gold inner border line — double border effect */
 .result-card::after {
   content: '';
   position: absolute;
-  inset: 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(184, 144, 48, 0.15);
+  inset: 7px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(184, 144, 48, 0.2);
   pointer-events: none;
   z-index: 0;
 }
