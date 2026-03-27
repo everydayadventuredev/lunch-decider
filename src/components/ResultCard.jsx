@@ -103,21 +103,21 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",
       justifyContent: "flex-start", minHeight: "100vh",
-      padding: "24px 16px 56px",
+      padding: "10px 16px 68px",
       background: "linear-gradient(180deg, var(--bg) 0%, #e8e0d4 30%, #ddd5c8 100%)",
     }}>
-      <div style={{ textAlign: "center", marginBottom: 20 }}>
+      <div style={{ textAlign: "center", marginBottom: 8 }}>
         <div style={{
           fontFamily: "'Noto Serif TC', serif",
-          fontSize: 12,
+          fontSize: 11,
           color: "var(--ink-lighter)",
           letterSpacing: 3,
         }}>{getChineseDateStr()}</div>
         <h2 style={{
           fontFamily: "'Ma Shan Zheng', cursive",
-          fontSize: "clamp(24px, 6vw, 36px)",
+          fontSize: "clamp(20px, 5vw, 26px)",
           color: "var(--ink)",
-          margin: "4px 0",
+          margin: "2px 0",
           letterSpacing: 4,
         }}>{reading.isOvertime ? "加班續命指引" : "午膳指引"}</h2>
       </div>
@@ -125,11 +125,11 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
       {/* Main Dark Tarot Card */}
       <div className={`result-card ${revealed ? "revealed" : ""}`} style={{
         "--tarot-bg": t.bg,
-        width: "min(380px, 90vw)",
+        width: "min(340px, 88vw)",
         background: t.bgGrad,
         borderRadius: 12,
         border: `2.5px solid ${t.gold}`,
-        padding: "32px clamp(20px, 5vw, 28px)",
+        padding: "20px clamp(14px, 4vw, 20px)",
         position: "relative",
         boxShadow: isLegend
           ? `0 16px 56px rgba(0,0,0,0.6), 0 0 40px rgba(196,164,78,0.15), inset 0 0 40px rgba(196,164,78,0.03)`
@@ -188,10 +188,10 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         <div style={{
           textAlign: "center",
           fontFamily: "'Noto Serif TC', serif",
-          fontSize: 11,
+          fontSize: 10,
           color: t.gold,
           letterSpacing: 2,
-          marginBottom: 8,
+          marginBottom: 4,
           opacity: 0.8,
           position: "relative", zIndex: 1,
         }}>{TIER_LABELS[reading.tier]}</div>
@@ -200,15 +200,15 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         {foodImg && (
           <div style={{
             display: "flex", justifyContent: "center",
-            marginBottom: 8,
+            marginBottom: 2,
             position: "relative", zIndex: 1,
           }}>
             <img
               src={foodImg}
               alt={reading.food}
               style={{
-                width: "min(180px, 50vw)",
-                height: "min(180px, 50vw)",
+                width: "min(130px, 36vw)",
+                height: "min(130px, 36vw)",
                 objectFit: "cover",
                 borderRadius: 8,
                 border: `1px solid rgba(196,164,78,0.2)`,
@@ -223,10 +223,10 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           <div style={{
             textAlign: "center",
             fontFamily: "'Ma Shan Zheng', cursive",
-            fontSize: isLegend ? "clamp(40px, 10vw, 56px)" : "clamp(36px, 9vw, 48px)",
+            fontSize: isLegend ? "clamp(30px, 8vw, 40px)" : "clamp(26px, 7vw, 36px)",
             color: t.gold,
-            margin: foodImg ? "4px 0 16px" : "4px 0 24px",
-            letterSpacing: 8,
+            margin: foodImg ? "0 0 6px" : "0 0 12px",
+            letterSpacing: 6,
             textShadow: `0 2px 12px rgba(196,164,78,0.3), 0 0 40px rgba(196,164,78,0.1)`,
             position: "relative", zIndex: 1,
           }}>{reading.food}</div>
@@ -237,25 +237,25 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
         {/* 宜忌 section */}
         <div style={{
-          display: "flex", gap: 0, marginBottom: 24,
+          display: "flex", gap: 0, marginBottom: 14,
           background: t.sectionBg,
           borderRadius: 8,
-          padding: "14px 16px",
+          padding: "10px 12px",
           border: `1px solid ${t.sectionBorder}`,
           position: "relative", zIndex: 1,
         }}>
-          <div style={{ flex: 1, paddingRight: 14 }}>
+          <div style={{ flex: 1, paddingRight: 10 }}>
             <div style={{
               fontFamily: "'Noto Serif TC', serif",
-              fontSize: 13, fontWeight: 700,
+              fontSize: 12, fontWeight: 700,
               color: t.gold,
-              marginBottom: 10, letterSpacing: 2,
+              marginBottom: 6, letterSpacing: 2,
             }}>▸ 宜</div>
             {reading.good.map((g, i) => (
               <div key={i} style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 13, color: t.text,
-                marginBottom: 6, lineHeight: 1.8,
+                fontSize: 12, color: t.text,
+                marginBottom: 4, lineHeight: 1.7,
                 display: "flex",
               }}>
                 <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
@@ -264,18 +264,18 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             ))}
           </div>
           <div style={{ width: 1, background: t.gold, opacity: 0.15, flexShrink: 0, margin: "4px 0" }} />
-          <div style={{ flex: 1, paddingLeft: 14 }}>
+          <div style={{ flex: 1, paddingLeft: 10 }}>
             <div style={{
               fontFamily: "'Noto Serif TC', serif",
-              fontSize: 13, fontWeight: 700,
+              fontSize: 12, fontWeight: 700,
               color: t.textMuted,
-              marginBottom: 10, letterSpacing: 2,
+              marginBottom: 6, letterSpacing: 2,
             }}>▸ 忌</div>
             {reading.bad.map((b, i) => (
               <div key={i} style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 13, color: t.text,
-                marginBottom: 6, lineHeight: 1.8,
+                fontSize: 12, color: t.text,
+                marginBottom: 4, lineHeight: 1.7,
                 display: "flex",
               }}>
                 <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
@@ -289,49 +289,49 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         <div style={{
           background: t.sectionBg,
           borderRadius: 8,
-          padding: "16px 18px",
-          marginBottom: 24,
+          padding: "10px 14px",
+          marginBottom: 14,
           border: `1px solid ${t.sectionBorder}`,
           position: "relative", zIndex: 1,
         }}>
           <div style={{
             fontFamily: "'Noto Serif TC', serif",
-            fontSize: 11,
+            fontSize: 10,
             color: t.textDim,
-            marginBottom: 10,
+            marginBottom: 6,
             letterSpacing: 2,
           }}>{reading.masterIcon} {reading.master}曰：</div>
           <div style={{
             fontFamily: "'Noto Serif TC', serif",
-            fontSize: 15,
+            fontSize: 13,
             color: t.text,
-            lineHeight: 1.9,
+            lineHeight: 1.8,
             fontStyle: "italic",
             paddingLeft: 4,
           }}>「{IMPATIENT_QUOTES[Math.min(rerollCount, IMPATIENT_QUOTES.length - 1)] || reading.quote}」</div>
         </div>
 
-        {/* Lucky items */}
+        {/* Lucky items — compact single row */}
         <div style={{
-          display: "flex", flexDirection: "column", gap: 6,
-          marginBottom: 4,
+          display: "flex", gap: 6,
+          marginBottom: 2,
           position: "relative", zIndex: 1,
         }}>
           {[
-            { label: "幸運配料", value: reading.luckySide },
-            { label: "幸運座位", value: reading.luckySeat },
+            { label: "配料", value: reading.luckySide },
+            { label: "座位", value: reading.luckySeat },
           ].map(({ label, value }) => (
             <div key={label} style={{
+              flex: 1,
               fontFamily: "'Noto Serif TC', serif",
-              fontSize: 12, lineHeight: 1.6,
-              display: "flex", alignItems: "baseline",
+              fontSize: 11, lineHeight: 1.5,
               background: t.sectionBg,
               borderRadius: 6,
-              padding: "6px 12px",
+              padding: "5px 8px",
               border: `1px solid ${t.sectionBorder}`,
             }}>
-              <span style={{ color: t.gold, flexShrink: 0, fontSize: 11, letterSpacing: 1 }}>{label}</span>
-              <span style={{ color: t.textDim, margin: "0 6px", flexShrink: 0 }}>｜</span>
+              <span style={{ color: t.gold, fontSize: 10, letterSpacing: 1 }}>{label}</span>
+              <span style={{ color: t.textDim, margin: "0 4px" }}>|</span>
               <span style={{ color: t.text }}>{value}</span>
             </div>
           ))}
@@ -344,11 +344,11 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           rel="noopener noreferrer"
           style={{
             display: "block",
-            marginTop: 10,
-            padding: "8px 0 4px",
+            marginTop: 6,
+            padding: "4px 0",
             textAlign: "center",
             fontFamily: "'Noto Serif TC', serif",
-            fontSize: 12,
+            fontSize: 11,
             color: t.textDim,
             letterSpacing: 2,
             textDecoration: "none",
@@ -360,7 +360,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         </a>
       </div>
 
-      {/* Sticky bottom buttons — both dark to match tarot card */}
+      {/* Sticky bottom buttons */}
       <div style={{
         position: "fixed",
         bottom: 0,
@@ -375,8 +375,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
       }}>
         <button onClick={onReroll} className="btn-secondary" style={{
           fontFamily: "'Noto Serif TC', serif",
-          fontSize: 15,
-          padding: "12px 28px",
+          fontSize: 14,
+          padding: "10px 24px",
           border: `1.5px solid rgba(196,164,78,0.4)`,
           borderRadius: 8,
           background: "transparent",
@@ -389,8 +389,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         </button>
         <button onClick={onAccept} className="btn-primary" style={{
           fontFamily: "'Noto Serif TC', serif",
-          fontSize: 15,
-          padding: "12px 28px",
+          fontSize: 14,
+          padding: "10px 24px",
           border: "none",
           borderRadius: 8,
           background: `linear-gradient(135deg, ${TAROT.gold}, #d4b44e)`,
@@ -406,9 +406,9 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
       {rerollCount >= 1 && (
         <p style={{
           fontFamily: "'Noto Serif TC', serif",
-          fontSize: 12,
+          fontSize: 11,
           color: "var(--ink-lighter)",
-          marginTop: 12,
+          marginTop: 8,
           letterSpacing: 1,
           textAlign: "center",
         }}>{REROLL_COMMENTS[Math.min(rerollCount - 1, REROLL_COMMENTS.length - 1)]}</p>
