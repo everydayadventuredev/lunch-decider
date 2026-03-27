@@ -109,10 +109,10 @@ export function FortuneCrest({ text, color = "var(--gold)" }) {
       </svg>
       <span style={{
         fontFamily: "'Noto Serif TC', serif",
-        fontSize: 12,
+        fontSize: 13,
         color,
-        letterSpacing: 3,
-        opacity: 0.7,
+        letterSpacing: 4,
+        opacity: 0.8,
       }}>{text}</span>
       <svg width="20" height="12" viewBox="0 0 20 12" style={{ opacity: 0.4, transform: "scaleX(-1)" }}>
         <path d="M20 6 L12 6 Q10 6 8 4 L4 0" stroke={color} strokeWidth="0.8" fill="none" />

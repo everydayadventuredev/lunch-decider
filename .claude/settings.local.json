@@ -15,7 +15,17 @@
       "Bash(gh api:*)",
       "Bash(gh run:*)",
       "Skill(design-consultation)",
-      "Skill(design-consultation:*)"
+      "Skill(design-consultation:*)",
+      "Bash(B=~/.claude/skills/gstack/browse/dist/browse)",
+      "Bash($B goto:*)",
+      "Bash($B screenshot:*)",
+      "Bash(cp \"C:/Users/USER/AppData/Local/Temp/browse-screenshot.png\" \".gstack/design-reports/screenshots/01-home.png\")",
+      "Bash($B js:*)",
+      "Bash($B click:*)",
+      "Bash(cp \"C:/Users/USER/AppData/Local/Temp/browse-screenshot.png\" \".gstack/design-reports/screenshots/02-result.png\")",
+      "Bash($B viewport:*)",
+      "Bash(cp \"C:/Users/USER/AppData/Local/Temp/browse-screenshot.png\" \".gstack/design-reports/screenshots/05-home-mobile.png\")",
+      "Bash($B stop:*)"
     ]
   }
 }

@@ -96,6 +96,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
       display: "flex", flexDirection: "column", alignItems: "center",
       justifyContent: "flex-start", minHeight: "100vh",
       padding: "24px 16px 56px",
+      background: "linear-gradient(180deg, var(--bg) 0%, #e8e0d4 30%, #ddd5c8 100%)",
     }}>
       <div style={{ textAlign: "center", marginBottom: 20 }}>
         <div style={{
@@ -329,13 +330,13 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         </a>
       </div>
 
-      {/* Sticky bottom buttons */}
+      {/* Sticky bottom buttons — both dark to match tarot card */}
       <div style={{
         position: "fixed",
         bottom: 0,
         left: 0,
         right: 0,
-        background: "linear-gradient(transparent, var(--bg) 50%)",
+        background: "linear-gradient(transparent, #ddd5c8 50%)",
         padding: "8px 16px calc(6px + env(safe-area-inset-bottom, 0px))",
         display: "flex",
         gap: 12,
@@ -346,10 +347,10 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 15,
           padding: "12px 28px",
-          border: "1.5px solid var(--ink-lighter)",
+          border: `1px solid rgba(196,164,78,0.3)`,
           borderRadius: 8,
-          background: "var(--card-bg)",
-          color: "var(--ink)",
+          background: TAROT.bg,
+          color: TAROT.textMuted,
           cursor: "pointer",
           letterSpacing: 2,
           transition: "all 0.2s",
@@ -360,7 +361,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 15,
           padding: "12px 28px",
-          border: `1px solid ${TAROT.gold}`,
+          border: `1.5px solid ${TAROT.gold}`,
           borderRadius: 8,
           background: TAROT.bg,
           color: TAROT.gold,

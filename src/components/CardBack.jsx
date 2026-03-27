@@ -1,8 +1,20 @@
 import { useState, useRef } from "react";
 import { getChineseDateStr } from "../utils/generateReading";
 import { EASTER_EGG_MESSAGES } from "../data/darkCommentary";
+import { CardCorners, StarField } from "./CardOrnaments";
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+// Match the result card's dark tarot palette
+const T = {
+  bg: "#1a1612",
+  bgGrad: "linear-gradient(180deg, #1a1612 0%, #221c16 50%, #1a1612 100%)",
+  text: "#e8dcc8",
+  textMuted: "#a89880",
+  textDim: "#6b5d4d",
+  gold: "#c4a44e",
+  border: "#c4a44e",
+};
 
 export default function CardBack({ onFlip, subtitle }) {
   const isOvertime = new Date().getHours() >= 18;
@@ -46,7 +58,6 @@ export default function CardBack({ onFlip, subtitle }) {
           marginTop: 8,
           letterSpacing: 3,
         }}>{subtitle}</p>
-        {/* P6: 首頁簡短功能說明 */}
         <p style={{
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 12,
@@ -62,9 +73,9 @@ export default function CardBack({ onFlip, subtitle }) {
         style={{
           width: "min(320px, 85vw)",
           aspectRatio: "3/4",
-          background: "var(--card-bg)",
+          background: T.bgGrad,
           borderRadius: 12,
-          border: "3px solid var(--ink)",
+          border: `1.5px solid ${T.gold}`,
           cursor: "pointer",
           display: "flex",
           flexDirection: "column",
@@ -72,61 +83,58 @@ export default function CardBack({ onFlip, subtitle }) {
           justifyContent: "center",
           position: "relative",
           overflow: "hidden",
-          boxShadow: "0 12px 40px rgba(0,0,0,0.16), 0 2px 6px rgba(0,0,0,0.1), inset 0 0 60px rgba(139,90,43,0.05)",
+          boxShadow: "0 16px 56px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2)",
           transition: "transform 0.3s, box-shadow 0.3s",
         }}
       >
-        {/* Corner decorations */}
-        {["top-left", "top-right", "bottom-left", "bottom-right"].map(pos => (
-          <div key={pos} style={{
-            position: "absolute",
-            [pos.includes("top") ? "top" : "bottom"]: 12,
-            [pos.includes("left") ? "left" : "right"]: 12,
-            width: 28, height: 28,
-            borderTop: pos.includes("top") ? "2px solid var(--accent)" : "none",
-            borderBottom: pos.includes("bottom") ? "2px solid var(--accent)" : "none",
-            borderLeft: pos.includes("left") ? "2px solid var(--accent)" : "none",
-            borderRight: pos.includes("right") ? "2px solid var(--accent)" : "none",
-          }} />
-        ))}
+        {/* Star field */}
+        <StarField />
 
-        {/* Inner border */}
+        {/* Vine corner ornaments */}
+        <CardCorners color={T.gold} />
+
+        {/* Inner gold border */}
         <div style={{
           position: "absolute",
-          inset: 20,
-          border: "1px solid var(--ink-lighter)",
-          borderRadius: 6,
+          inset: 10,
+          border: `1px solid rgba(196, 164, 78, 0.15)`,
+          borderRadius: 8,
           pointerEvents: "none",
         }} />
 
         {/* Center content */}
-        <div style={{ fontSize: 52, marginBottom: 12, filter: "grayscale(20%)" }}>🍽️</div>
+        <div style={{ fontSize: 52, marginBottom: 12, filter: "grayscale(20%)", position: "relative", zIndex: 1 }}>🍽️</div>
         <div style={{
           fontFamily: "'Ma Shan Zheng', cursive",
           fontSize: 36,
-          color: "var(--ink)",
+          color: T.gold,
           letterSpacing: 8,
+          textShadow: "0 2px 12px rgba(196,164,78,0.3)",
+          position: "relative", zIndex: 1,
         }}>{isOvertime ? "續命" : "午膳"}</div>
         <div style={{
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 12,
-          color: "var(--ink-light)",
+          color: T.textMuted,
           marginTop: 8,
           letterSpacing: 4,
+          position: "relative", zIndex: 1,
         }}>{isOvertime ? "誠心加班" : "誠心翻牌"}</div>
 
-        {/* Decorative line */}
+        {/* Decorative gold line */}
         <div style={{
           width: 60, height: 1,
-          background: "var(--accent)",
+          background: `linear-gradient(90deg, transparent, ${T.gold}, transparent)`,
           margin: "16px 0 8px",
-          opacity: 0.6,
+          opacity: 0.5,
+          position: "relative", zIndex: 1,
         }} />
         <div style={{
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 11,
-          color: "var(--ink-lighter)",
+          color: T.textDim,
           letterSpacing: 2,
+          position: "relative", zIndex: 1,
         }}>{getChineseDateStr()}</div>
       </div>
 
@@ -146,15 +154,16 @@ export default function CardBack({ onFlip, subtitle }) {
           bottom: 60,
           left: "50%",
           transform: "translateX(-50%)",
-          background: "var(--ink)",
-          color: "var(--card-bg)",
+          background: T.bg,
+          color: T.gold,
           borderRadius: 12,
           padding: "12px 20px",
           fontFamily: "'Noto Serif TC', serif",
           fontSize: 13,
           letterSpacing: 1,
           zIndex: 50,
-          boxShadow: "0 6px 24px rgba(0,0,0,0.2)",
+          border: `1px solid rgba(196,164,78,0.2)`,
+          boxShadow: "0 6px 24px rgba(0,0,0,0.4)",
           whiteSpace: "nowrap",
           animation: "fadeIn 0.3s ease",
         }}>
