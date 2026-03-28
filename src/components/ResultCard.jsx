@@ -207,12 +207,12 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               src={foodImg}
               alt={reading.food}
               style={{
-                width: "min(120px, 32vw)",
-                height: "min(120px, 32vw)",
+                width: "min(180px, 50vw)",
+                height: "min(180px, 50vw)",
                 objectFit: "cover",
-                borderRadius: 8,
-                border: `1px solid rgba(196,164,78,0.2)`,
-                boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+                borderRadius: 10,
+                border: `1.5px solid rgba(196,164,78,0.3)`,
+                boxShadow: "0 6px 24px rgba(0,0,0,0.5), 0 0 12px rgba(196,164,78,0.08)",
               }}
             />
           </div>
@@ -337,27 +337,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           ))}
         </div>
 
-        {/* Google Maps link */}
-        <a
-          href={`https://www.google.com/maps/search/${encodeURIComponent(reading.food)}+餐廳`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "block",
-            marginTop: 4,
-            padding: "3px 0",
-            textAlign: "center",
-            fontFamily: "'Noto Serif TC', serif",
-            fontSize: 11,
-            color: t.textDim,
-            letterSpacing: 2,
-            textDecoration: "none",
-            transition: "color 0.2s",
-            position: "relative", zIndex: 1,
-          }}
-        >
-          📍 找附近的{reading.food}
-        </a>
+        {/* bottom spacing */}
+        <div style={{ height: 4 }} />
       </div>
 
       {/* Action buttons — flow with card */}
