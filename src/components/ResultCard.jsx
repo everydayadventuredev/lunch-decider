@@ -102,8 +102,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
   return (
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",
-      justifyContent: "flex-start", minHeight: "100vh",
-      padding: "10px 16px 68px",
+      justifyContent: "flex-start", minHeight: "100dvh",
+      padding: "10px 16px 24px",
       background: "linear-gradient(180deg, var(--bg) 0%, #e8e0d4 30%, #ddd5c8 100%)",
     }}>
       <div style={{ textAlign: "center", marginBottom: 8 }}>
@@ -360,18 +360,14 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         </a>
       </div>
 
-      {/* Sticky bottom buttons */}
+      {/* Action buttons — flow with card */}
       <div style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        background: "linear-gradient(transparent, #ddd5c8 50%)",
-        padding: "8px 16px calc(6px + env(safe-area-inset-bottom, 0px))",
+        marginTop: 16,
+        padding: "0 16px env(safe-area-inset-bottom, 0px)",
         display: "flex",
         gap: 12,
         justifyContent: "center",
-        zIndex: 20,
+        width: "min(340px, 88vw)",
       }}>
         <button onClick={onReroll} className="btn-secondary" style={{
           fontFamily: "'Noto Serif TC', serif",
