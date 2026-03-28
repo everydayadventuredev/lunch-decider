@@ -72,7 +72,7 @@ export default function DevilResultCard({ reading, onAccept }) {
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 8 }}>
         <div style={{
-          fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 11,
           color: D.textMuted, letterSpacing: 3,
         }}>{getChineseDateStr()}</div>
         <h2 style={{
@@ -122,7 +122,7 @@ export default function DevilResultCard({ reading, onAccept }) {
             <div style={{
               position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)",
               background: D.red, color: D.text,
-              fontFamily: "'Noto Serif TC', serif",
+              fontFamily: "'LXGW WenKai TC', serif",
               fontSize: 11, fontWeight: 700,
               padding: "3px 14px", borderRadius: 20,
               letterSpacing: 2, whiteSpace: "nowrap", zIndex: 3,
@@ -155,11 +155,11 @@ export default function DevilResultCard({ reading, onAccept }) {
             }}>
               <CardCorners color={D.red} />
               <div style={{
-                fontFamily: "'Noto Serif TC', serif",
+                fontFamily: "'LXGW WenKai TC', serif",
                 fontSize: 10, color: D.textMuted, letterSpacing: 3, marginBottom: 2,
               }}>【{reading.fortune}】</div>
               <div style={{
-                fontFamily: "'Noto Serif TC', serif",
+                fontFamily: "'LXGW WenKai TC', serif",
                 fontSize: 10, color: D.redBright, letterSpacing: 2,
                 opacity: 0.7, marginBottom: 4,
               }}>{TIER_LABELS[reading.tier]}</div>
@@ -205,12 +205,12 @@ export default function DevilResultCard({ reading, onAccept }) {
               {/* 命令 / 禁止 — stacked */}
               <div style={{ ...sec, padding: "14px 16px" }}>
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 13, fontWeight: 700,
+                  fontFamily: "'LXGW WenKai TC', serif", fontSize: 13, fontWeight: 700,
                   color: D.redBright, marginBottom: 6, letterSpacing: 2,
                 }}>▸ 命令</div>
                 {reading.good.map((g, i) => (
                   <div key={`g${i}`} style={{
-                    fontFamily: "'Noto Serif TC', serif", fontSize: 13, color: D.text,
+                    fontFamily: "'LXGW WenKai TC', serif", fontSize: 13, color: D.text,
                     marginBottom: 4, lineHeight: 1.7, display: "flex",
                   }}>
                     <span style={{ flexShrink: 0, marginRight: 6, color: D.textMuted }}>•</span>
@@ -221,12 +221,12 @@ export default function DevilResultCard({ reading, onAccept }) {
                   height: 1, background: D.red, opacity: 0.15, margin: "10px 0",
                 }} />
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 13, fontWeight: 700,
+                  fontFamily: "'LXGW WenKai TC', serif", fontSize: 13, fontWeight: 700,
                   color: D.textMuted, marginBottom: 6, letterSpacing: 2,
                 }}>▸ 禁止</div>
                 {reading.bad.map((b, i) => (
                   <div key={`b${i}`} style={{
-                    fontFamily: "'Noto Serif TC', serif", fontSize: 13, color: D.text,
+                    fontFamily: "'LXGW WenKai TC', serif", fontSize: 13, color: D.text,
                     marginBottom: 4, lineHeight: 1.7, display: "flex",
                   }}>
                     <span style={{ flexShrink: 0, marginRight: 6, color: D.textMuted }}>•</span>
@@ -238,18 +238,18 @@ export default function DevilResultCard({ reading, onAccept }) {
               {/* Devil quote */}
               <div style={{ ...sec, padding: "14px 16px" }}>
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+                  fontFamily: "'LXGW WenKai TC', serif", fontSize: 11,
                   color: D.textMuted, marginBottom: 6, letterSpacing: 2,
                 }}>{reading.masterIcon} {reading.master}曰：</div>
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 14,
+                  fontFamily: "'LXGW WenKai TC', serif", fontSize: 14,
                   color: D.text, lineHeight: 1.8, fontStyle: "italic", paddingLeft: 4,
                 }}>「{reading.quote}」</div>
               </div>
 
               {/* Taunt */}
               <div style={{
-                fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+                fontFamily: "'LXGW WenKai TC', serif", fontSize: 11,
                 color: D.textMuted, textAlign: "center",
                 lineHeight: 1.6, fontStyle: "italic", letterSpacing: 1,
               }}>— {taunt}</div>
@@ -261,7 +261,7 @@ export default function DevilResultCard({ reading, onAccept }) {
                   { label: "幸運方位", value: reading.luckySeat },
                 ].map(({ label, value }) => (
                   <div key={label} style={{
-                    ...sec, fontFamily: "'Noto Serif TC', serif",
+                    ...sec, fontFamily: "'LXGW WenKai TC', serif",
                     fontSize: 11, lineHeight: 1.5, borderRadius: 6, padding: "5px 12px",
                     display: "flex", alignItems: "baseline",
                   }}>
@@ -275,7 +275,7 @@ export default function DevilResultCard({ reading, onAccept }) {
 
             {/* Flip hint */}
             <div style={{
-              textAlign: "center", fontFamily: "'Noto Serif TC', serif",
+              textAlign: "center", fontFamily: "'LXGW WenKai TC', serif",
               fontSize: 10, color: D.textDim, letterSpacing: 2,
               marginTop: 8, position: "relative", zIndex: 1,
               flexShrink: 0, opacity: 0.6,
@@ -287,7 +287,7 @@ export default function DevilResultCard({ reading, onAccept }) {
       {/* Flip hint — outside card */}
       {!flipped && (
         <div onClick={handleFlip} style={{
-          marginTop: 8, fontFamily: "'Noto Serif TC', serif",
+          marginTop: 8, fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 11, color: D.textMuted, letterSpacing: 2, cursor: "pointer",
           animation: "pulse-hint 2s ease-in-out infinite",
         }}>↻ 輕觸卡片翻面查看裁決</div>
@@ -299,7 +299,7 @@ export default function DevilResultCard({ reading, onAccept }) {
         justifyContent: "center", width: cardW,
       }}>
         <button onClick={(e) => { e.stopPropagation(); onAccept(); }} style={{
-          fontFamily: "'Noto Serif TC', serif", fontSize: 15,
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 15,
           padding: "12px 48px", border: "none", borderRadius: 8,
           background: D.red, color: D.text,
           cursor: "pointer", letterSpacing: 4, fontWeight: 700,
@@ -315,13 +315,13 @@ export default function DevilResultCard({ reading, onAccept }) {
         onClick={(e) => e.stopPropagation()}
         style={{
           display: "block", marginTop: 10,
-          fontFamily: "'Noto Serif TC', serif", fontSize: 12,
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 12,
           color: D.textMuted, letterSpacing: 2, textDecoration: "none",
         }}
       >📍 去找你的{reading.food}吧</a>
 
       <p style={{
-        fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+        fontFamily: "'LXGW WenKai TC', serif", fontSize: 11,
         color: D.textDim, marginTop: 6, letterSpacing: 1, textAlign: "center",
       }}>（大師們被嚇跑了，魔王接管了午膳殿）</p>
     </div>

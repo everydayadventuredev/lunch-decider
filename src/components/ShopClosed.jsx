@@ -57,7 +57,7 @@ export default function ShopClosed({ cooldownEnd, onCooldownDone }) {
         }}>午膳殿暫停營業</h2>
 
         <div style={{
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 14,
           color: "var(--ink-light)",
           lineHeight: 1.8,
@@ -69,7 +69,7 @@ export default function ShopClosed({ cooldownEnd, onCooldownDone }) {
         </div>
 
         <div style={{
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 12,
           color: "var(--ink-lighter)",
           marginTop: 12,
@@ -88,7 +88,7 @@ export default function ShopClosed({ cooldownEnd, onCooldownDone }) {
           marginBottom: 16,
         }}>
           <div style={{
-            fontFamily: "'Noto Serif TC', serif",
+            fontFamily: "'LXGW WenKai TC', serif",
             fontSize: 12,
             color: "var(--ink-lighter)",
             letterSpacing: 2,
@@ -103,7 +103,7 @@ export default function ShopClosed({ cooldownEnd, onCooldownDone }) {
         </div>
 
         <div style={{
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 12,
           color: "var(--ink-lighter)",
           fontStyle: "italic",

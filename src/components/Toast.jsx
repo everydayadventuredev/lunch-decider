@@ -57,7 +57,7 @@ export default function Toast({ message, duration = 2000, onDone }) {
       color: "var(--card-bg)",
       borderRadius: 12,
       padding: "14px 24px",
-      fontFamily: "'Noto Serif TC', serif",
+      fontFamily: "'LXGW WenKai TC', serif",
       fontSize: 14,
       letterSpacing: 1,
       zIndex: 100,

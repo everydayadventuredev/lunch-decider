@@ -162,7 +162,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 8 }}>
         <div style={{
-          fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 11,
           color: "var(--ink-lighter)", letterSpacing: 3,
         }}>{getChineseDateStr()}</div>
         <h2 style={{
@@ -226,7 +226,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               <div style={{
                 position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)",
                 background: `linear-gradient(135deg, ${t.gold}, #d4b44e)`,
-                color: t.bg, fontFamily: "'Noto Serif TC', serif",
+                color: t.bg, fontFamily: "'LXGW WenKai TC', serif",
                 fontSize: 11, fontWeight: 700,
                 padding: "3px 14px", borderRadius: 20,
                 letterSpacing: 2, whiteSpace: "nowrap", zIndex: 3,
@@ -280,7 +280,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
               {/* Fortune name — small elegant */}
               <div style={{
-                fontFamily: "'Noto Serif TC', serif",
+                fontFamily: "'LXGW WenKai TC', serif",
                 fontSize: 12, color: t.textMuted,
                 letterSpacing: 3, marginBottom: 2,
               }}>【{reading.fortune}】</div>
@@ -288,7 +288,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               {/* Tier gem + label */}
               <TierGem tier={reading.tier} color={t.gold} />
               <div style={{
-                fontFamily: "'Noto Serif TC', serif",
+                fontFamily: "'LXGW WenKai TC', serif",
                 fontSize: 12, color: t.gold, letterSpacing: 2,
                 opacity: 0.7, marginBottom: 4,
               }}>{TIER_LABELS[reading.tier]}</div>
@@ -355,7 +355,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
                 }}>宜</div>
                 {reading.good.map((g, i) => (
                   <div key={`g${i}`} style={{
-                    fontFamily: "'Noto Serif TC', serif", fontSize: 14, color: t.text,
+                    fontFamily: "'LXGW WenKai TC', serif", fontSize: 14, color: t.text,
                     marginBottom: 3, lineHeight: 1.6, display: "flex",
                     paddingRight: 36,
                   }}>
@@ -377,7 +377,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
                 }}>忌</div>
                 {reading.bad.map((b, i) => (
                   <div key={`b${i}`} style={{
-                    fontFamily: "'Noto Serif TC', serif", fontSize: 14, color: t.text,
+                    fontFamily: "'LXGW WenKai TC', serif", fontSize: 14, color: t.text,
                     marginBottom: 3, lineHeight: 1.6, display: "flex",
                     paddingRight: 36,
                   }}>
@@ -390,18 +390,18 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               {/* Master quote — medium */}
               <div style={{ ...sec, padding: "10px 14px" }}>
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 12,
+                  fontFamily: "'LXGW WenKai TC', serif", fontSize: 12,
                   color: t.textMuted, marginBottom: 6, letterSpacing: 2,
                 }}>{reading.masterIcon} {reading.master}曰：</div>
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 15,
+                  fontFamily: "'LXGW WenKai TC', serif", fontSize: 15,
                   color: t.text, lineHeight: 1.8, fontStyle: "italic", paddingLeft: 4,
                 }}>「{IMPATIENT_QUOTES[Math.min(rerollCount, IMPATIENT_QUOTES.length - 1)] || reading.quote}」</div>
               </div>
 
               {/* Dark humor — italic accent */}
               <div style={{
-                fontFamily: "'Noto Serif TC', serif", fontSize: 12,
+                fontFamily: "'LXGW WenKai TC', serif", fontSize: 12,
                 color: t.textMuted, textAlign: "center",
                 lineHeight: 1.6, position: "relative", zIndex: 1,
                 fontStyle: "italic", letterSpacing: 1,
@@ -414,7 +414,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
                   { label: "幸運方位", value: reading.luckySeat },
                 ].map(({ label, value }) => (
                   <div key={label} style={{
-                    ...sec, fontFamily: "'Noto Serif TC', serif",
+                    ...sec, fontFamily: "'LXGW WenKai TC', serif",
                     fontSize: 13, lineHeight: 1.5, borderRadius: 6, padding: "6px 12px",
                     display: "flex", alignItems: "baseline",
                   }}>
@@ -444,7 +444,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1-.25 1.94-.7 2.76l1.46 1.46C19.54 14.9 20 13.5 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1 .25-1.94.7-2.76L5.24 7.78C4.46 9.1 4 10.5 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" fill="#8a8070" />
         </svg>
         <span style={{
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 11, color: "#8a8070",
           letterSpacing: 1,
         }}>{flipped ? "翻回" : "查看解讀"}</span>
@@ -456,7 +456,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         justifyContent: "center", width: cardW,
       }}>
         <button onClick={(e) => { e.stopPropagation(); onReroll(); }} className="btn-secondary" style={{
-          fontFamily: "'Noto Serif TC', serif", fontSize: 14,
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 14,
           padding: "10px 24px",
           border: `1.5px solid rgba(196,164,78,0.4)`,
           borderRadius: 8, background: "transparent",
@@ -466,7 +466,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           {REROLL_BUTTONS[Math.min(rerollCount, REROLL_BUTTONS.length - 1)]}
         </button>
         <button onClick={(e) => { e.stopPropagation(); onAccept(); }} className="btn-primary" style={{
-          fontFamily: "'Noto Serif TC', serif", fontSize: 14,
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 14,
           padding: "10px 24px", border: "none",
           borderRadius: 8,
           background: `linear-gradient(135deg, ${TAROT.gold}, #d4b44e)`,
@@ -486,7 +486,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         style={{
           display: "block",
           marginTop: 10,
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 12,
           color: "var(--ink-lighter)",
           letterSpacing: 2,
@@ -497,7 +497,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
       {rerollCount >= 1 && (
         <p style={{
-          fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 11,
           color: "var(--ink-lighter)", marginTop: 6,
           letterSpacing: 1, textAlign: "center",
         }}>{REROLL_COMMENTS[Math.min(rerollCount - 1, REROLL_COMMENTS.length - 1)]}</p>

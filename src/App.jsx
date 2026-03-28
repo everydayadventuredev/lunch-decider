@@ -180,7 +180,7 @@ export default function App() {
           borderRadius: 8,
           padding: "10px 14px",
           minHeight: 44,
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 13,
           color: "var(--ink-light)",
           cursor: "pointer",
@@ -243,7 +243,7 @@ export default function App() {
           animation: "fadeIn 0.5s ease",
         }}>
           <div style={{
-            fontFamily: "'Noto Serif TC', serif",
+            fontFamily: "'LXGW WenKai TC', serif",
             fontSize: 16, color: "var(--ink-lighter)",
             letterSpacing: 2, textAlign: "center",
             padding: "0 32px", lineHeight: 2,
@@ -283,11 +283,11 @@ export default function App() {
           <span style={{ fontSize: 28 }}>{newAchievement.icon}</span>
           <div>
             <div style={{
-              fontFamily: "'Noto Serif TC', serif",
+              fontFamily: "'LXGW WenKai TC', serif",
               fontSize: 11, opacity: 0.7, letterSpacing: 2,
             }}>成就解鎖</div>
             <div style={{
-              fontFamily: "'Noto Serif TC', serif",
+              fontFamily: "'LXGW WenKai TC', serif",
               fontSize: 15, fontWeight: 700, letterSpacing: 1,
             }}>{newAchievement.name}</div>
           </div>

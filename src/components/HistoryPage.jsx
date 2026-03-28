@@ -6,7 +6,7 @@ function StatLine({ label, value, comment }) {
   return (
     <div style={{
       display: "flex", justifyContent: "space-between", alignItems: "baseline",
-      fontFamily: "'Noto Serif TC', serif",
+      fontFamily: "'LXGW WenKai TC', serif",
       fontSize: 13,
       lineHeight: 1.8,
     }}>
@@ -54,7 +54,7 @@ export default function HistoryPage({ history, achievements, onBack }) {
       <div style={{ display: "flex", alignItems: "center", marginBottom: 24 }}>
         <button onClick={onBack} style={{
           background: "none", border: "none", cursor: "pointer",
-          fontFamily: "'Noto Serif TC', serif", fontSize: 14,
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 14,
           color: "var(--ink-light)", letterSpacing: 1,
         }}>← 返回</button>
         <h2 style={{
@@ -103,7 +103,7 @@ export default function HistoryPage({ history, achievements, onBack }) {
             }}>
               {activeRoasts.map((roast, i) => (
                 <div key={i} style={{
-                  fontFamily: "'Noto Serif TC', serif",
+                  fontFamily: "'LXGW WenKai TC', serif",
                   fontSize: 11,
                   color: "var(--ink-lighter)",
                   fontStyle: "italic",
@@ -148,19 +148,19 @@ export default function HistoryPage({ history, achievements, onBack }) {
                 <span style={{ fontSize: 24 }}>{unlocked ? a.icon : "🔒"}</span>
                 <div style={{ flex: 1 }}>
                   <div style={{
-                    fontFamily: "'Noto Serif TC', serif",
+                    fontFamily: "'LXGW WenKai TC', serif",
                     fontSize: 14, fontWeight: 700,
                     color: "var(--ink)",
                   }}>{a.name}</div>
                   <div style={{
-                    fontFamily: "'Noto Serif TC', serif",
+                    fontFamily: "'LXGW WenKai TC', serif",
                     fontSize: 12,
                     color: "var(--ink-light)",
                   }}>{a.desc}</div>
                   {/* P5: Progress indicator */}
                   {progress && (
                     <div style={{
-                      fontFamily: "'Noto Serif TC', serif",
+                      fontFamily: "'LXGW WenKai TC', serif",
                       fontSize: 11,
                       color: "var(--ink-lighter)",
                       marginTop: 2,
@@ -182,7 +182,7 @@ export default function HistoryPage({ history, achievements, onBack }) {
         }}>歷次紀錄</div>
         {history.length === 0 ? (
           <p style={{
-            fontFamily: "'Noto Serif TC', serif",
+            fontFamily: "'LXGW WenKai TC', serif",
             fontSize: 14,
             color: "var(--ink-lighter)",
             textAlign: "center",
@@ -204,7 +204,7 @@ export default function HistoryPage({ history, achievements, onBack }) {
                 </div>
               )}
               <div style={{
-                fontFamily: "'Noto Serif TC', serif",
+                fontFamily: "'LXGW WenKai TC', serif",
                 fontSize: 11, color: "var(--ink-lighter)",
                 letterSpacing: 1, marginBottom: 6,
               }}>{r.date} 週{r.weekday}{r.time ? ` ${r.time}` : ""}</div>
@@ -213,19 +213,19 @@ export default function HistoryPage({ history, achievements, onBack }) {
                 fontSize: 24, color: "var(--ink)", letterSpacing: 3,
               }}>{r.food}</div>
               <div style={{
-                fontFamily: "'Noto Serif TC', serif",
+                fontFamily: "'LXGW WenKai TC', serif",
                 fontSize: 12, color: "var(--ink-light)", marginTop: 4,
               }}>
                 {r.fortune} ・ {r.master}
               </div>
               <div style={{
-                fontFamily: "'Noto Serif TC', serif",
+                fontFamily: "'LXGW WenKai TC', serif",
                 fontSize: 12, color: "var(--ink-lighter)",
                 marginTop: 4, fontStyle: "italic",
               }}>「{r.quote}」</div>
               {(r.rerolls || 0) > 0 && (
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif",
+                  fontFamily: "'LXGW WenKai TC', serif",
                   fontSize: 11, color: "var(--accent)", marginTop: 6,
                 }}>重抽 {r.rerolls} 次才認命</div>
               )}

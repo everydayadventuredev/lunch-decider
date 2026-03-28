@@ -52,14 +52,14 @@ export default function CardBack({ onFlip, subtitle }) {
           userSelect: "none",
         }}>午膳殿</h1>
         <p style={{
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: "clamp(14px, 3vw, 18px)",
           color: "var(--ink-light)",
           marginTop: 8,
           letterSpacing: 3,
         }}>{subtitle}</p>
         <p style={{
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 12,
           color: "var(--ink-lighter)",
           marginTop: 6,
@@ -113,7 +113,7 @@ export default function CardBack({ onFlip, subtitle }) {
           position: "relative", zIndex: 1,
         }}>{isOvertime ? "續命" : "午膳"}</div>
         <div style={{
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 12,
           color: T.textMuted,
           marginTop: 8,
@@ -130,7 +130,7 @@ export default function CardBack({ onFlip, subtitle }) {
           position: "relative", zIndex: 1,
         }} />
         <div style={{
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 11,
           color: T.textDim,
           letterSpacing: 2,
@@ -139,7 +139,7 @@ export default function CardBack({ onFlip, subtitle }) {
       </div>
 
       <p style={{
-        fontFamily: "'Noto Serif TC', serif",
+        fontFamily: "'LXGW WenKai TC', serif",
         fontSize: 13,
         color: "var(--ink-lighter)",
         marginTop: 24,
@@ -158,7 +158,7 @@ export default function CardBack({ onFlip, subtitle }) {
           color: T.gold,
           borderRadius: 12,
           padding: "12px 20px",
-          fontFamily: "'Noto Serif TC', serif",
+          fontFamily: "'LXGW WenKai TC', serif",
           fontSize: 13,
           letterSpacing: 1,
           zIndex: 50,
