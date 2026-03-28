@@ -325,10 +325,9 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
           {/* ──── BACK: Reading Details ──── */}
           <div style={{
             ...faceBase,
-            padding: "20px clamp(14px, 4vw, 20px)",
+            padding: "16px clamp(14px, 4vw, 20px)",
             transform: "rotateY(180deg)",
             boxShadow: "0 16px 56px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)",
-            justifyContent: "space-between",
           }}>
             <StarField />
             <CardCorners color={t.gold} tier={reading.tier} />
@@ -341,28 +340,30 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
                 : "clamp(24px, 6.5vw, 32px)",
               color: t.gold, whiteSpace: "nowrap",
               letterSpacing: reading.food.length > 7 ? 3 : 6,
-              marginBottom: 4, position: "relative", zIndex: 1,
+              marginBottom: 2, position: "relative", zIndex: 1,
+              flexShrink: 0,
             }}>{reading.food}</div>
 
             <OrnamentDivider color={t.gold} symbol="✦" />
 
-            {/* Main content — fills space, scrolls if needed */}
+            {/* Main content — scrollable, compact gaps */}
             <div style={{
               flex: 1, display: "flex", flexDirection: "column",
-              justifyContent: "space-evenly", gap: 8,
+              justifyContent: "flex-start", gap: 10,
               position: "relative", zIndex: 1,
               overflowY: "auto", minHeight: 0,
+              paddingTop: 4,
             }}>
 
               {/* ★ 宜 — seal stamp on right ★ */}
               <div style={{ ...sec, padding: "8px 14px", position: "relative" }}>
                 <div style={{
-                  position: "absolute", top: 6, right: 10, zIndex: 2,
+                  position: "absolute", top: 4, right: 8, zIndex: 2,
                   border: `2px solid ${t.gold}`,
-                  borderRadius: 4, padding: "2px 8px",
+                  borderRadius: 4, padding: "3px 6px",
                   fontFamily: "'Ma Shan Zheng', cursive",
-                  fontSize: 14, color: t.gold, opacity: 0.7,
-                  transform: "rotate(-6deg)", letterSpacing: 3,
+                  fontSize: 16, color: t.gold, opacity: 0.7,
+                  transform: "rotate(-6deg)", lineHeight: 1,
                 }}>宜</div>
                 {reading.good.map((g, i) => (
                   <div key={`g${i}`} style={{
@@ -379,12 +380,12 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
               {/* ★ 忌 — seal stamp on right ★ */}
               <div style={{ ...sec, padding: "8px 14px", position: "relative" }}>
                 <div style={{
-                  position: "absolute", top: 6, right: 10, zIndex: 2,
+                  position: "absolute", top: 4, right: 8, zIndex: 2,
                   border: `2px solid ${t.textMuted}`,
-                  borderRadius: 4, padding: "2px 8px",
+                  borderRadius: 4, padding: "3px 6px",
                   fontFamily: "'Ma Shan Zheng', cursive",
-                  fontSize: 14, color: t.textMuted, opacity: 0.6,
-                  transform: "rotate(-6deg)", letterSpacing: 3,
+                  fontSize: 16, color: t.textMuted, opacity: 0.6,
+                  transform: "rotate(-6deg)", lineHeight: 1,
                 }}>忌</div>
                 {reading.bad.map((b, i) => (
                   <div key={`b${i}`} style={{
