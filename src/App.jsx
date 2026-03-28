@@ -170,8 +170,8 @@ export default function App() {
       background: "var(--bg)",
       position: "relative",
     }}>
-      {/* Navigation - history button */}
-      {page !== "history" && page !== "pulling" && page !== "closed" && page !== "devil-pulling" && page !== "devil-result" && (
+      {/* Navigation - history button (only on home page, fixed top-right) */}
+      {page === "home" && (
         <button onClick={() => navigateTo("history")} style={{
           position: "fixed",
           top: 16, right: 16,
@@ -204,6 +204,7 @@ export default function App() {
             onReroll={handleReroll}
             onAccept={handleAccept}
             rerollCount={rerollCount}
+            onHistory={() => navigateTo("history")}
           />
         )}
         {page === "devil-result" && reading && !toast && (

@@ -102,7 +102,7 @@ function getTheme(tier, isLegend) {
   return TIER_THEMES[tier] || TAROT;
 }
 
-export default function ResultCard({ reading, onReroll, onAccept, rerollCount }) {
+export default function ResultCard({ reading, onReroll, onAccept, rerollCount, onHistory }) {
   const [revealed, setRevealed] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const [foodImg, setFoodImg] = useState(null);
@@ -482,6 +482,23 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           transition: "color 0.2s",
         }}
       >📍 找附近的{reading.food}</a>
+
+      {/* Bottom links row */}
+      <div style={{
+        display: "flex", justifyContent: "center", gap: 16,
+        marginTop: 6,
+      }}>
+        {onHistory && (
+          <span
+            onClick={(e) => { e.stopPropagation(); onHistory(); }}
+            style={{
+              fontFamily: "'LXGW WenKai TC', serif", fontSize: 12,
+              color: "var(--ink-lighter)", cursor: "pointer",
+              letterSpacing: 1,
+            }}
+          >📜 食曆</span>
+        )}
+      </div>
 
       {rerollCount >= 1 && (
         <p style={{
