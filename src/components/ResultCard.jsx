@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { TIER_LABELS } from "../data/foods";
 import { getChineseDateStr } from "../utils/generateReading";
 import { getFoodImage } from "../utils/foodImage";
+import { AFTERNOON_PROPHECIES, COWORKER_REACTIONS } from "../data/darkCommentary";
 import SealStamp from "./SealStamp";
 import { CardCorners, OrnamentDivider, FoodNameGlow, FortuneCrest, StarField } from "./CardOrnaments";
+
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 // Progressive reroll button text
 const REROLL_BUTTONS = [
@@ -19,45 +22,29 @@ const REROLL_BUTTONS = [
   "真的最後一次",         // 9+
 ];
 
-// Accept button also changes
 const ACCEPT_BUTTONS = [
-  "認命了",               // 0
-  "認命了",               // 1
-  "好吧認命了",           // 2
-  "算了隨便啦",           // 3
-  "⋯⋯認命",              // 4
-  "（投降）",             // 5
-  "（投降）",             // 6
-  "求你讓我認命",         // 7
-  "我錯了",               // 8
-  "（跪）",               // 9+
+  "認命了",  "認命了",  "好吧認命了",  "算了隨便啦",  "⋯⋯認命",
+  "（投降）",  "（投降）",  "求你讓我認命",  "我錯了",  "（跪）",
 ];
 
-// Impatient quotes that replace master quotes on reroll
 const IMPATIENT_QUOTES = [
-  null,                                          // 0: use original
-  null,                                          // 1: still normal
-  "你很挑欸。大師的建議是不要想太多。",          // 2
-  "大師覺得你根本不是來求指引的。",              // 3
-  "……",                                          // 4
-  "（大師已關機）",                               // 5
-  "（無人接聽）",                                 // 6
-  "你還在？",                                     // 7
-  "大師們開始懷疑人生了。",                       // 8
-  "午膳殿即將暫停營業。",                         // 9+
+  null, null,
+  "你很挑欸。大師的建議是不要想太多。",
+  "大師覺得你根本不是來求指引的。",
+  "……",
+  "（大師已關機）",
+  "（無人接聽）",
+  "你還在？",
+  "大師們開始懷疑人生了。",
+  "午膳殿即將暫停營業。",
 ];
 
-// Bottom comment, shown from 1st reroll onward
 const REROLL_COMMENTS = [
-  "（大師微微皺眉）",                    // 1
-  "（大師們交換了一個眼神）",            // 2
-  "（殿內大師們已讀不回）",              // 3
-  "（大師們正在考慮離職）",              // 4
-  "（午膳殿傳來關門的聲音）",            // 5
-  "（大師已關機，請明日再來）",          // 6
-  "（保全走過來了）",                    // 7
-  "（燈一盞一盞關掉）",                  // 8
-  "（最後的大師嘆了一口氣）",            // 9+
+  "（大師微微皺眉）",  "（大師們交換了一個眼神）",
+  "（殿內大師們已讀不回）",  "（大師們正在考慮離職）",
+  "（午膳殿傳來關門的聲音）",  "（大師已關機，請明日再來）",
+  "（保全走過來了）",  "（燈一盞一盞關掉）",
+  "（最後的大師嘆了一口氣）",
 ];
 
 // Dark tarot color scheme
@@ -84,20 +71,63 @@ const LEGEND_TAROT = {
 
 export default function ResultCard({ reading, onReroll, onAccept, rerollCount }) {
   const [revealed, setRevealed] = useState(false);
+  const [flipped, setFlipped] = useState(false);
   const [foodImg, setFoodImg] = useState(null);
+  const frontRef = useRef(null);
+  const backRef = useRef(null);
+  const [cardH, setCardH] = useState("auto");
+
+  const prophecy = useMemo(() => pick(AFTERNOON_PROPHECIES), [reading.food]);
+  const coworker = useMemo(() => pick(COWORKER_REACTIONS), [reading.food]);
 
   useEffect(() => {
     const t = setTimeout(() => setRevealed(true), 100);
     return () => clearTimeout(t);
   }, []);
 
-  // Load food image asynchronously
+  useEffect(() => { setFlipped(false); }, [reading.food]);
+
   useEffect(() => {
     getFoodImage(reading.food).then(url => { if (url) setFoodImg(url); });
   }, [reading.food]);
 
+  // Measure both sides and use max height
+  useEffect(() => {
+    const measure = () => {
+      const fh = frontRef.current?.scrollHeight || 0;
+      const bh = backRef.current?.scrollHeight || 0;
+      if (fh || bh) setCardH(Math.max(fh, bh));
+    };
+    measure();
+    // Re-measure after image loads
+    const timer = setTimeout(measure, 500);
+    return () => clearTimeout(timer);
+  }, [foodImg, reading]);
+
   const isLegend = reading.isLegend;
   const t = isLegend ? LEGEND_TAROT : TAROT;
+  const cardW = "min(340px, 88vw)";
+
+  const faceStyle = {
+    width: "100%",
+    background: t.bgGrad,
+    borderRadius: 12,
+    border: `2.5px solid ${t.gold}`,
+    padding: "16px clamp(12px, 3.5vw, 18px)",
+    position: "absolute",
+    top: 0, left: 0, right: 0,
+    backfaceVisibility: "hidden",
+    WebkitBackfaceVisibility: "hidden",
+    overflow: "hidden",
+    boxSizing: "border-box",
+  };
+
+  const sectionStyle = {
+    background: t.sectionBg,
+    borderRadius: 8,
+    border: `1px solid ${t.sectionBorder}`,
+    position: "relative", zIndex: 1,
+  };
 
   return (
     <div style={{
@@ -106,275 +136,269 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
       padding: "10px 16px 24px",
       background: "linear-gradient(180deg, var(--bg) 0%, #e8e0d4 30%, #ddd5c8 100%)",
     }}>
+      {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 8 }}>
         <div style={{
-          fontFamily: "'Noto Serif TC', serif",
-          fontSize: 11,
-          color: "var(--ink-lighter)",
-          letterSpacing: 3,
+          fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+          color: "var(--ink-lighter)", letterSpacing: 3,
         }}>{getChineseDateStr()}</div>
         <h2 style={{
           fontFamily: "'Ma Shan Zheng', cursive",
           fontSize: "clamp(20px, 5vw, 26px)",
-          color: "var(--ink)",
-          margin: "2px 0",
-          letterSpacing: 4,
+          color: "var(--ink)", margin: "2px 0", letterSpacing: 4,
         }}>{reading.isOvertime ? "加班續命指引" : "午膳指引"}</h2>
       </div>
 
-      {/* Main Dark Tarot Card */}
-      <div className={`result-card ${revealed ? "revealed" : ""}`} style={{
-        "--tarot-bg": t.bg,
-        width: "min(340px, 88vw)",
-        background: t.bgGrad,
-        borderRadius: 12,
-        border: `2.5px solid ${t.gold}`,
-        padding: "16px clamp(12px, 3.5vw, 18px)",
-        position: "relative",
-        boxShadow: isLegend
-          ? `0 16px 56px rgba(0,0,0,0.6), 0 0 40px rgba(196,164,78,0.15), inset 0 0 40px rgba(196,164,78,0.03)`
-          : "0 16px 56px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)",
-        opacity: revealed ? 1 : 0,
-        transform: revealed ? "translateY(0)" : "translateY(-30px) scale(0.95)",
-        transition: "opacity 0.1s",
-        overflow: "hidden",
-      }}>
-        {/* Star field background */}
-        <StarField />
-
-        {/* Legend badge */}
-        {isLegend && (
-          <div style={{
-            position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)",
-            background: `linear-gradient(135deg, ${t.gold}, #d4b44e)`,
-            color: t.bg,
-            fontFamily: "'Noto Serif TC', serif",
-            fontSize: 12,
-            fontWeight: 700,
-            padding: "4px 16px",
-            borderRadius: 20,
-            letterSpacing: 2,
-            whiteSpace: "nowrap",
-            zIndex: 2,
-          }}>百年難遇之祥瑞</div>
-        )}
-
-        {/* Friday / Monday badge */}
-        {(reading.isFriday || reading.isMonday) && !isLegend && (
-          <div style={{ position: "absolute", top: -12, right: 16, zIndex: 2 }}>
-            <SealStamp
-              text={reading.isFriday ? "週五無禁忌" : "週一渡劫中"}
-              color={reading.isFriday ? t.gold : t.textMuted}
-              size={50}
-              rotate={reading.isFriday ? -8 : -6}
-            />
-          </div>
-        )}
-
-        {/* Wednesday badge */}
-        {reading.isWednesday && !reading.isFriday && !reading.isMonday && !isLegend && (
-          <div style={{ position: "absolute", top: -12, right: 16, zIndex: 2 }}>
-            <SealStamp text="週三症候群" color={t.textMuted} size={50} rotate={-5} />
-          </div>
-        )}
-
-        {/* Vine corner ornaments */}
-        <CardCorners color={t.gold} />
-
-        {/* Fortune name with decorative crest */}
-        <FortuneCrest text={`【${reading.fortune}】`} color={t.textMuted} />
-
-        {/* Tier label */}
+      {/* ═══════════ Flip Card ═══════════ */}
+      <div
+        onClick={() => setFlipped(f => !f)}
+        style={{
+          width: cardW,
+          height: cardH !== "auto" ? cardH : undefined,
+          perspective: 1200,
+          cursor: "pointer",
+          opacity: revealed ? 1 : 0,
+          transform: revealed ? "none" : "translateY(-30px) scale(0.95)",
+          transition: "opacity 0.3s, transform 0.3s",
+        }}
+      >
         <div style={{
-          textAlign: "center",
-          fontFamily: "'Noto Serif TC', serif",
-          fontSize: 10,
-          color: t.gold,
-          letterSpacing: 2,
-          marginBottom: 2,
-          opacity: 0.8,
-          position: "relative", zIndex: 1,
-        }}>{TIER_LABELS[reading.tier]}</div>
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          transformStyle: "preserve-3d",
+          transition: "transform 0.6s ease",
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+        }}>
 
-        {/* Food illustration */}
-        {foodImg && (
-          <div style={{
-            display: "flex", justifyContent: "center",
-            marginBottom: 0,
-            position: "relative", zIndex: 1,
+          {/* ──── FRONT: Tarot Image ──── */}
+          <div ref={frontRef} style={{
+            ...faceStyle,
+            boxShadow: isLegend
+              ? "0 16px 56px rgba(0,0,0,0.6), 0 0 40px rgba(196,164,78,0.15)"
+              : "0 16px 56px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)",
           }}>
-            <img
-              src={foodImg}
-              alt={reading.food}
-              style={{
-                width: "min(180px, 50vw)",
-                height: "min(180px, 50vw)",
-                objectFit: "cover",
-                borderRadius: 10,
-                border: `1.5px solid rgba(196,164,78,0.3)`,
-                boxShadow: "0 6px 24px rgba(0,0,0,0.5), 0 0 12px rgba(196,164,78,0.08)",
-              }}
-            />
-          </div>
-        )}
+            <StarField />
 
-        {/* FOOD NAME with glow */}
-        <FoodNameGlow isLegend={isLegend}>
-          <div style={{
-            textAlign: "center",
-            fontFamily: "'Ma Shan Zheng', cursive",
-            fontSize: isLegend ? "clamp(24px, 6vw, 32px)" : "clamp(22px, 5.5vw, 28px)",
-            color: t.gold,
-            margin: foodImg ? "2px 0 4px" : "0 0 8px",
-            letterSpacing: 5,
-            textShadow: `0 2px 12px rgba(196,164,78,0.3), 0 0 40px rgba(196,164,78,0.1)`,
-            position: "relative", zIndex: 1,
-          }}>{reading.food}</div>
-        </FoodNameGlow>
-
-        {/* Ornamental divider */}
-        <OrnamentDivider color={t.gold} symbol="✦" />
-
-        {/* 宜忌 section */}
-        <div style={{
-          display: "flex", gap: 0, marginBottom: 8,
-          background: t.sectionBg,
-          borderRadius: 8,
-          padding: "8px 10px",
-          border: `1px solid ${t.sectionBorder}`,
-          position: "relative", zIndex: 1,
-        }}>
-          <div style={{ flex: 1, paddingRight: 8 }}>
-            <div style={{
-              fontFamily: "'Noto Serif TC', serif",
-              fontSize: 11, fontWeight: 700,
-              color: t.gold,
-              marginBottom: 4, letterSpacing: 2,
-            }}>▸ 宜</div>
-            {reading.good.map((g, i) => (
-              <div key={i} style={{
+            {/* Legend badge */}
+            {isLegend && (
+              <div style={{
+                position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)",
+                background: `linear-gradient(135deg, ${t.gold}, #d4b44e)`,
+                color: t.bg,
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 11, color: t.text,
-                marginBottom: 2, lineHeight: 1.5,
-                display: "flex",
-              }}>
-                <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
-                <span>{g}</span>
+                fontSize: 12, fontWeight: 700,
+                padding: "4px 16px", borderRadius: 20,
+                letterSpacing: 2, whiteSpace: "nowrap", zIndex: 2,
+              }}>百年難遇之祥瑞</div>
+            )}
+
+            {/* Day badges */}
+            {(reading.isFriday || reading.isMonday) && !isLegend && (
+              <div style={{ position: "absolute", top: -12, right: 16, zIndex: 2 }}>
+                <SealStamp
+                  text={reading.isFriday ? "週五無禁忌" : "週一渡劫中"}
+                  color={reading.isFriday ? t.gold : t.textMuted}
+                  size={50} rotate={reading.isFriday ? -8 : -6}
+                />
               </div>
-            ))}
-          </div>
-          <div style={{ width: 1, background: t.gold, opacity: 0.15, flexShrink: 0, margin: "4px 0" }} />
-          <div style={{ flex: 1, paddingLeft: 8 }}>
+            )}
+            {reading.isWednesday && !reading.isFriday && !reading.isMonday && !isLegend && (
+              <div style={{ position: "absolute", top: -12, right: 16, zIndex: 2 }}>
+                <SealStamp text="週三症候群" color={t.textMuted} size={50} rotate={-5} />
+              </div>
+            )}
+
+            <CardCorners color={t.gold} />
+            <FortuneCrest text={`【${reading.fortune}】`} color={t.textMuted} />
+
+            {/* Tier */}
             <div style={{
-              fontFamily: "'Noto Serif TC', serif",
-              fontSize: 11, fontWeight: 700,
-              color: t.textMuted,
-              marginBottom: 4, letterSpacing: 2,
-            }}>▸ 忌</div>
-            {reading.bad.map((b, i) => (
-              <div key={i} style={{
-                fontFamily: "'Noto Serif TC', serif",
-                fontSize: 11, color: t.text,
-                marginBottom: 2, lineHeight: 1.5,
-                display: "flex",
+              textAlign: "center", fontFamily: "'Noto Serif TC', serif",
+              fontSize: 10, color: t.gold, letterSpacing: 2,
+              marginBottom: 6, opacity: 0.8, position: "relative", zIndex: 1,
+            }}>{TIER_LABELS[reading.tier]}</div>
+
+            {/* BIG Food illustration */}
+            {foodImg && (
+              <div style={{
+                display: "flex", justifyContent: "center",
+                marginBottom: 6, position: "relative", zIndex: 1,
               }}>
-                <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
-                <span>{b}</span>
+                <img src={foodImg} alt={reading.food} style={{
+                  width: "min(220px, 58vw)",
+                  height: "min(220px, 58vw)",
+                  objectFit: "cover", borderRadius: 10,
+                  border: `1.5px solid rgba(196,164,78,0.3)`,
+                  boxShadow: "0 6px 24px rgba(0,0,0,0.5), 0 0 12px rgba(196,164,78,0.08)",
+                }} />
               </div>
-            ))}
+            )}
+
+            {/* FOOD NAME */}
+            <FoodNameGlow isLegend={isLegend}>
+              <div style={{
+                textAlign: "center",
+                fontFamily: "'Ma Shan Zheng', cursive",
+                fontSize: isLegend ? "clamp(26px, 7vw, 36px)" : "clamp(24px, 6vw, 32px)",
+                color: t.gold,
+                margin: "2px 0 4px", letterSpacing: 6,
+                textShadow: `0 2px 12px rgba(196,164,78,0.3), 0 0 40px rgba(196,164,78,0.1)`,
+                position: "relative", zIndex: 1,
+              }}>{reading.food}</div>
+            </FoodNameGlow>
+
+            <OrnamentDivider color={t.gold} symbol="✦" />
+
+            {/* Flip hint */}
+            <div style={{
+              textAlign: "center", fontFamily: "'Noto Serif TC', serif",
+              fontSize: 10, color: t.textDim, letterSpacing: 2,
+              marginTop: 6, position: "relative", zIndex: 1,
+              animation: "pulse-hint 2s ease-in-out infinite",
+            }}>↻ 輕觸翻面查看解讀</div>
           </div>
-        </div>
 
-        {/* Master quote */}
-        <div style={{
-          background: t.sectionBg,
-          borderRadius: 8,
-          padding: "8px 12px",
-          marginBottom: 8,
-          border: `1px solid ${t.sectionBorder}`,
-          position: "relative", zIndex: 1,
-        }}>
-          <div style={{
-            fontFamily: "'Noto Serif TC', serif",
-            fontSize: 10,
-            color: t.textDim,
-            marginBottom: 4,
-            letterSpacing: 2,
-          }}>{reading.masterIcon} {reading.master}曰：</div>
-          <div style={{
-            fontFamily: "'Noto Serif TC', serif",
-            fontSize: 12,
-            color: t.text,
-            lineHeight: 1.6,
-            fontStyle: "italic",
-            paddingLeft: 4,
-          }}>「{IMPATIENT_QUOTES[Math.min(rerollCount, IMPATIENT_QUOTES.length - 1)] || reading.quote}」</div>
-        </div>
+          {/* ──── BACK: Reading Details ──── */}
+          <div ref={backRef} style={{
+            ...faceStyle,
+            transform: "rotateY(180deg)",
+            boxShadow: "0 16px 56px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)",
+          }}>
+            <StarField />
+            <CardCorners color={t.gold} />
 
-        {/* Lucky items — inline within a single row */}
-        <div style={{
-          display: "flex", gap: 6,
-          marginBottom: 0,
-          position: "relative", zIndex: 1,
-        }}>
-          {[
-            { label: "配料", value: reading.luckySide },
-            { label: "座位", value: reading.luckySeat },
-          ].map(({ label, value }) => (
-            <div key={label} style={{
-              flex: 1,
-              fontFamily: "'Noto Serif TC', serif",
-              fontSize: 11, lineHeight: 1.4,
-              background: t.sectionBg,
-              borderRadius: 6,
-              padding: "4px 8px",
-              border: `1px solid ${t.sectionBorder}`,
-            }}>
-              <span style={{ color: t.gold, fontSize: 10, letterSpacing: 1 }}>{label}</span>
-              <span style={{ color: t.textDim, margin: "0 4px" }}>|</span>
-              <span style={{ color: t.text }}>{value}</span>
+            {/* Back header */}
+            <div style={{
+              textAlign: "center", fontFamily: "'Ma Shan Zheng', cursive",
+              fontSize: "clamp(18px, 5vw, 24px)", color: t.gold,
+              letterSpacing: 4, marginBottom: 2, position: "relative", zIndex: 1,
+            }}>{reading.food}・解讀</div>
+
+            <OrnamentDivider color={t.gold} symbol="✦" />
+
+            {/* 宜忌 */}
+            <div style={{ ...sectionStyle, display: "flex", gap: 0, marginBottom: 10, padding: "10px 12px" }}>
+              <div style={{ flex: 1, paddingRight: 8 }}>
+                <div style={{
+                  fontFamily: "'Noto Serif TC', serif", fontSize: 11, fontWeight: 700,
+                  color: t.gold, marginBottom: 4, letterSpacing: 2,
+                }}>▸ 宜</div>
+                {reading.good.map((g, i) => (
+                  <div key={i} style={{
+                    fontFamily: "'Noto Serif TC', serif", fontSize: 11, color: t.text,
+                    marginBottom: 2, lineHeight: 1.5, display: "flex",
+                  }}>
+                    <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
+                    <span>{g}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ width: 1, background: t.gold, opacity: 0.15, flexShrink: 0, margin: "4px 0" }} />
+              <div style={{ flex: 1, paddingLeft: 8 }}>
+                <div style={{
+                  fontFamily: "'Noto Serif TC', serif", fontSize: 11, fontWeight: 700,
+                  color: t.textMuted, marginBottom: 4, letterSpacing: 2,
+                }}>▸ 忌</div>
+                {reading.bad.map((b, i) => (
+                  <div key={i} style={{
+                    fontFamily: "'Noto Serif TC', serif", fontSize: 11, color: t.text,
+                    marginBottom: 2, lineHeight: 1.5, display: "flex",
+                  }}>
+                    <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
+                    <span>{b}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
 
-        {/* bottom spacing */}
-        <div style={{ height: 4 }} />
+            {/* Master quote */}
+            <div style={{ ...sectionStyle, padding: "8px 12px", marginBottom: 10 }}>
+              <div style={{
+                fontFamily: "'Noto Serif TC', serif", fontSize: 10,
+                color: t.textDim, marginBottom: 4, letterSpacing: 2,
+              }}>{reading.masterIcon} {reading.master}曰：</div>
+              <div style={{
+                fontFamily: "'Noto Serif TC', serif", fontSize: 12,
+                color: t.text, lineHeight: 1.6, fontStyle: "italic", paddingLeft: 4,
+              }}>「{IMPATIENT_QUOTES[Math.min(rerollCount, IMPATIENT_QUOTES.length - 1)] || reading.quote}」</div>
+            </div>
+
+            {/* Afternoon prophecy */}
+            <div style={{ ...sectionStyle, padding: "8px 12px", marginBottom: 10 }}>
+              <div style={{
+                fontFamily: "'Noto Serif TC', serif", fontSize: 10,
+                color: t.textDim, marginBottom: 4, letterSpacing: 2,
+              }}>🔮 午後預言：</div>
+              <div style={{
+                fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+                color: t.text, lineHeight: 1.6, paddingLeft: 4,
+              }}>{prophecy}</div>
+            </div>
+
+            {/* Coworker reaction */}
+            <div style={{ ...sectionStyle, padding: "8px 12px", marginBottom: 10 }}>
+              <div style={{
+                fontFamily: "'Noto Serif TC', serif", fontSize: 10,
+                color: t.textDim, marginBottom: 4, letterSpacing: 2,
+              }}>👥 同事反應預測：</div>
+              <div style={{
+                fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+                color: t.text, lineHeight: 1.6, paddingLeft: 4,
+              }}>{coworker}</div>
+            </div>
+
+            {/* Lucky items */}
+            <div style={{ display: "flex", gap: 6, marginBottom: 6, position: "relative", zIndex: 1 }}>
+              {[
+                { label: "配料", value: reading.luckySide },
+                { label: "座位", value: reading.luckySeat },
+              ].map(({ label, value }) => (
+                <div key={label} style={{
+                  ...sectionStyle, flex: 1,
+                  fontFamily: "'Noto Serif TC', serif",
+                  fontSize: 11, lineHeight: 1.4,
+                  borderRadius: 6, padding: "4px 8px",
+                }}>
+                  <span style={{ color: t.gold, fontSize: 10, letterSpacing: 1 }}>{label}</span>
+                  <span style={{ color: t.textDim, margin: "0 4px" }}>|</span>
+                  <span style={{ color: t.text }}>{value}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Flip back hint */}
+            <div style={{
+              textAlign: "center", fontFamily: "'Noto Serif TC', serif",
+              fontSize: 10, color: t.textDim, letterSpacing: 2,
+              marginTop: 4, position: "relative", zIndex: 1,
+            }}>↻ 輕觸翻回牌面</div>
+          </div>
+        </div>
       </div>
 
-      {/* Action buttons — flow with card */}
+      {/* ═══════════ Action Buttons ═══════════ */}
       <div style={{
-        marginTop: 16,
-        padding: "0 16px env(safe-area-inset-bottom, 0px)",
-        display: "flex",
-        gap: 12,
-        justifyContent: "center",
-        width: "min(340px, 88vw)",
+        marginTop: 16, display: "flex", gap: 12,
+        justifyContent: "center", width: cardW,
       }}>
-        <button onClick={onReroll} className="btn-secondary" style={{
-          fontFamily: "'Noto Serif TC', serif",
-          fontSize: 14,
+        <button onClick={(e) => { e.stopPropagation(); onReroll(); }} className="btn-secondary" style={{
+          fontFamily: "'Noto Serif TC', serif", fontSize: 14,
           padding: "10px 24px",
           border: `1.5px solid rgba(196,164,78,0.4)`,
-          borderRadius: 8,
-          background: "transparent",
-          color: TAROT.textMuted,
-          cursor: "pointer",
-          letterSpacing: 2,
-          transition: "all 0.2s",
+          borderRadius: 8, background: "transparent",
+          color: TAROT.textMuted, cursor: "pointer",
+          letterSpacing: 2, transition: "all 0.2s",
         }}>
           {REROLL_BUTTONS[Math.min(rerollCount, REROLL_BUTTONS.length - 1)]}
         </button>
-        <button onClick={onAccept} className="btn-primary" style={{
-          fontFamily: "'Noto Serif TC', serif",
-          fontSize: 14,
-          padding: "10px 24px",
-          border: "none",
+        <button onClick={(e) => { e.stopPropagation(); onAccept(); }} className="btn-primary" style={{
+          fontFamily: "'Noto Serif TC', serif", fontSize: 14,
+          padding: "10px 24px", border: "none",
           borderRadius: 8,
           background: `linear-gradient(135deg, ${TAROT.gold}, #d4b44e)`,
-          color: TAROT.bg,
-          cursor: "pointer",
-          letterSpacing: 2,
-          fontWeight: 700,
+          color: TAROT.bg, cursor: "pointer",
+          letterSpacing: 2, fontWeight: 700,
           transition: "all 0.2s",
           boxShadow: "0 4px 16px rgba(196,164,78,0.3)",
         }}>{ACCEPT_BUTTONS[Math.min(rerollCount, ACCEPT_BUTTONS.length - 1)]}</button>
@@ -382,12 +406,9 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
       {rerollCount >= 1 && (
         <p style={{
-          fontFamily: "'Noto Serif TC', serif",
-          fontSize: 11,
-          color: "var(--ink-lighter)",
-          marginTop: 8,
-          letterSpacing: 1,
-          textAlign: "center",
+          fontFamily: "'Noto Serif TC', serif", fontSize: 11,
+          color: "var(--ink-lighter)", marginTop: 8,
+          letterSpacing: 1, textAlign: "center",
         }}>{REROLL_COMMENTS[Math.min(rerollCount - 1, REROLL_COMMENTS.length - 1)]}</p>
       )}
     </div>

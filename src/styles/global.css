@@ -526,6 +526,11 @@ body {
   z-index: 0;
 }
 
+@keyframes pulse-hint {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
+
 @keyframes cardDrop {
   0% { opacity: 0; transform: translateY(-30px) scale(0.95); }
   60% { opacity: 1; transform: translateY(4px) scale(1.01); }
