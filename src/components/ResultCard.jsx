@@ -129,8 +129,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
 
   const isLegend = reading.isLegend;
   const t = getTheme(reading.tier, isLegend);
-  const cardW = "min(320px, 84vw)";
-  const cardH = "min(480px, 120vw)";
+  const cardW = "min(340px, 90vw)";
 
   const faceBase = {
     width: "100%", height: "100%",
@@ -155,17 +154,41 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
   return (
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",
-      justifyContent: "flex-start", minHeight: "100dvh",
-      padding: "8px 16px 12px",
+      height: "100dvh", overflow: "hidden",
+      padding: "0 16px env(safe-area-inset-bottom, 8px)",
       background: "linear-gradient(180deg, var(--bg) 0%, #e8e0d4 30%, #ddd5c8 100%)",
     }}>
+      {/* ═══ Top Bar: 食曆 left, 搜尋 right ═══ */}
+      <div style={{
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        width: cardW, padding: "6px 0", flexShrink: 0,
+      }}>
+        {onHistory ? (
+          <span
+            onClick={(e) => { e.stopPropagation(); onHistory(); }}
+            style={{
+              fontFamily: "'LXGW WenKai TC', serif", fontSize: 12,
+              color: "var(--ink-lighter)", cursor: "pointer", letterSpacing: 1,
+            }}
+          >📜 食曆</span>
+        ) : <span />}
+        <a
+          href={`https://www.google.com/maps/search/${encodeURIComponent(reading.food)}+餐廳`}
+          target="_blank" rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            fontFamily: "'LXGW WenKai TC', serif", fontSize: 12,
+            color: "var(--ink-lighter)", letterSpacing: 1, textDecoration: "none",
+          }}
+        >📍 找附近</a>
+      </div>
 
-      {/* ═══════════ Card Stack ═══════════ */}
+      {/* ═══════════ Card Stack — fills remaining space ═══════════ */}
       <div
         onClick={handleFlip}
         style={{
           position: "relative",
-          width: cardW, height: cardH,
+          width: cardW, flex: 1, minHeight: 0,
           cursor: "pointer",
           opacity: revealed ? 1 : 0,
           transform: revealed ? "none" : "translateY(-30px) scale(0.95)",
@@ -440,12 +463,12 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
 
       {/* ═══ Action Buttons ═══ */}
       <div style={{
-        marginTop: 8, display: "flex", gap: 12,
-        justifyContent: "center", width: cardW,
+        padding: "6px 0 4px", display: "flex", gap: 12,
+        justifyContent: "center", width: cardW, flexShrink: 0,
       }}>
         <button onClick={(e) => { e.stopPropagation(); onReroll(); }} className="btn-secondary" style={{
-          fontFamily: "'LXGW WenKai TC', serif", fontSize: 14,
-          padding: "10px 24px",
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 13,
+          padding: "8px 20px",
           border: `1.5px solid rgba(196,164,78,0.4)`,
           borderRadius: 8, background: "transparent",
           color: TAROT.textMuted, cursor: "pointer",
@@ -454,8 +477,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
           {REROLL_BUTTONS[Math.min(rerollCount, REROLL_BUTTONS.length - 1)]}
         </button>
         <button onClick={(e) => { e.stopPropagation(); onAccept(); }} className="btn-primary" style={{
-          fontFamily: "'LXGW WenKai TC', serif", fontSize: 14,
-          padding: "10px 24px", border: "none",
+          fontFamily: "'LXGW WenKai TC', serif", fontSize: 13,
+          padding: "8px 20px", border: "none",
           borderRadius: 8,
           background: `linear-gradient(135deg, ${TAROT.gold}, #d4b44e)`,
           color: TAROT.bg, cursor: "pointer",
@@ -464,49 +487,6 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
           boxShadow: "0 4px 16px rgba(196,164,78,0.3)",
         }}>{ACCEPT_BUTTONS[Math.min(rerollCount, ACCEPT_BUTTONS.length - 1)]}</button>
       </div>
-
-      {/* ═══ Google Maps — OUTSIDE card, after buttons ═══ */}
-      <a
-        href={`https://www.google.com/maps/search/${encodeURIComponent(reading.food)}+餐廳`}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          display: "block",
-          marginTop: 10,
-          fontFamily: "'LXGW WenKai TC', serif",
-          fontSize: 12,
-          color: "var(--ink-lighter)",
-          letterSpacing: 2,
-          textDecoration: "none",
-          transition: "color 0.2s",
-        }}
-      >📍 找附近的{reading.food}</a>
-
-      {/* Bottom links row */}
-      <div style={{
-        display: "flex", justifyContent: "center", gap: 16,
-        marginTop: 6,
-      }}>
-        {onHistory && (
-          <span
-            onClick={(e) => { e.stopPropagation(); onHistory(); }}
-            style={{
-              fontFamily: "'LXGW WenKai TC', serif", fontSize: 12,
-              color: "var(--ink-lighter)", cursor: "pointer",
-              letterSpacing: 1,
-            }}
-          >📜 食曆</span>
-        )}
-      </div>
-
-      {rerollCount >= 1 && (
-        <p style={{
-          fontFamily: "'LXGW WenKai TC', serif", fontSize: 11,
-          color: "var(--ink-lighter)", marginTop: 6,
-          letterSpacing: 1, textAlign: "center",
-        }}>{REROLL_COMMENTS[Math.min(rerollCount - 1, REROLL_COMMENTS.length - 1)]}</p>
-      )}
     </div>
   );
 }
