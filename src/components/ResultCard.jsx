@@ -392,18 +392,19 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
                 fontStyle: "italic", letterSpacing: 1,
               }}>— {darkHumor}</div>
 
-              {/* Lucky items — inline badges */}
-              <div style={{ display: "flex", gap: 8, position: "relative", zIndex: 1 }}>
+              {/* Lucky items — stacked */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 4, position: "relative", zIndex: 1 }}>
                 {[
                   { label: "幸運物", value: reading.luckySide },
                   { label: "幸運方位", value: reading.luckySeat },
                 ].map(({ label, value }) => (
                   <div key={label} style={{
-                    ...sec, flex: 1, fontFamily: "'Noto Serif TC', serif",
-                    fontSize: 11, lineHeight: 1.5, borderRadius: 6, padding: "6px 10px",
+                    ...sec, fontFamily: "'Noto Serif TC', serif",
+                    fontSize: 11, lineHeight: 1.5, borderRadius: 6, padding: "5px 12px",
+                    display: "flex", alignItems: "baseline",
                   }}>
-                    <span style={{ color: t.gold, fontSize: 10, letterSpacing: 1 }}>{label}</span>
-                    <span style={{ color: t.textDim, margin: "0 4px" }}>|</span>
+                    <span style={{ color: t.gold, fontSize: 10, letterSpacing: 1, flexShrink: 0 }}>{label}</span>
+                    <span style={{ color: t.textDim, margin: "0 6px", flexShrink: 0 }}>|</span>
                     <span style={{ color: t.text }}>{value}</span>
                   </div>
                 ))}
