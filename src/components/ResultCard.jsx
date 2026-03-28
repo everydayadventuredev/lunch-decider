@@ -130,7 +130,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
   const isLegend = reading.isLegend;
   const t = getTheme(reading.tier, isLegend);
   const cardW = "min(340px, 88vw)";
-  const cardH = "min(560px, 148vw)";
+  const cardH = "min(600px, 158vw)";
 
   const faceBase = {
     width: "100%", height: "100%",
@@ -156,21 +156,9 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",
       justifyContent: "flex-start", minHeight: "100dvh",
-      padding: "10px 16px 12px",
+      padding: "8px 16px 12px",
       background: "linear-gradient(180deg, var(--bg) 0%, #e8e0d4 30%, #ddd5c8 100%)",
     }}>
-      {/* Header */}
-      <div style={{ textAlign: "center", marginBottom: 8 }}>
-        <div style={{
-          fontFamily: "'LXGW WenKai TC', serif", fontSize: 11,
-          color: "var(--ink-lighter)", letterSpacing: 3,
-        }}>{getChineseDateStr()}</div>
-        <h2 style={{
-          fontFamily: "'Ma Shan Zheng', cursive",
-          fontSize: "clamp(20px, 5vw, 26px)",
-          color: "var(--ink)", margin: "2px 0", letterSpacing: 4,
-        }}>{reading.isOvertime ? "加班續命指引" : "午膳指引"}</h2>
-      </div>
 
       {/* ═══════════ Card Stack ═══════════ */}
       <div
