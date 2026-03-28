@@ -129,8 +129,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
 
   const isLegend = reading.isLegend;
   const t = getTheme(reading.tier, isLegend);
-  const cardW = "min(340px, 88vw)";
-  const cardH = "min(600px, 158vw)";
+  const cardW = "min(320px, 84vw)";
+  const cardH = "min(480px, 120vw)";
 
   const faceBase = {
     width: "100%", height: "100%",
