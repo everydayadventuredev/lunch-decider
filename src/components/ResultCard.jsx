@@ -129,7 +129,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         background: t.bgGrad,
         borderRadius: 12,
         border: `2.5px solid ${t.gold}`,
-        padding: "20px clamp(14px, 4vw, 20px)",
+        padding: "16px clamp(12px, 3.5vw, 18px)",
         position: "relative",
         boxShadow: isLegend
           ? `0 16px 56px rgba(0,0,0,0.6), 0 0 40px rgba(196,164,78,0.15), inset 0 0 40px rgba(196,164,78,0.03)`
@@ -191,7 +191,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           fontSize: 10,
           color: t.gold,
           letterSpacing: 2,
-          marginBottom: 4,
+          marginBottom: 2,
           opacity: 0.8,
           position: "relative", zIndex: 1,
         }}>{TIER_LABELS[reading.tier]}</div>
@@ -200,15 +200,15 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         {foodImg && (
           <div style={{
             display: "flex", justifyContent: "center",
-            marginBottom: 2,
+            marginBottom: 0,
             position: "relative", zIndex: 1,
           }}>
             <img
               src={foodImg}
               alt={reading.food}
               style={{
-                width: "min(130px, 36vw)",
-                height: "min(130px, 36vw)",
+                width: "min(120px, 32vw)",
+                height: "min(120px, 32vw)",
                 objectFit: "cover",
                 borderRadius: 8,
                 border: `1px solid rgba(196,164,78,0.2)`,
@@ -223,10 +223,10 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           <div style={{
             textAlign: "center",
             fontFamily: "'Ma Shan Zheng', cursive",
-            fontSize: isLegend ? "clamp(30px, 8vw, 40px)" : "clamp(26px, 7vw, 36px)",
+            fontSize: isLegend ? "clamp(24px, 6vw, 32px)" : "clamp(22px, 5.5vw, 28px)",
             color: t.gold,
-            margin: foodImg ? "0 0 6px" : "0 0 12px",
-            letterSpacing: 6,
+            margin: foodImg ? "2px 0 4px" : "0 0 8px",
+            letterSpacing: 5,
             textShadow: `0 2px 12px rgba(196,164,78,0.3), 0 0 40px rgba(196,164,78,0.1)`,
             position: "relative", zIndex: 1,
           }}>{reading.food}</div>
@@ -237,25 +237,25 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
         {/* 宜忌 section */}
         <div style={{
-          display: "flex", gap: 0, marginBottom: 14,
+          display: "flex", gap: 0, marginBottom: 8,
           background: t.sectionBg,
           borderRadius: 8,
-          padding: "10px 12px",
+          padding: "8px 10px",
           border: `1px solid ${t.sectionBorder}`,
           position: "relative", zIndex: 1,
         }}>
-          <div style={{ flex: 1, paddingRight: 10 }}>
+          <div style={{ flex: 1, paddingRight: 8 }}>
             <div style={{
               fontFamily: "'Noto Serif TC', serif",
-              fontSize: 12, fontWeight: 700,
+              fontSize: 11, fontWeight: 700,
               color: t.gold,
-              marginBottom: 6, letterSpacing: 2,
+              marginBottom: 4, letterSpacing: 2,
             }}>▸ 宜</div>
             {reading.good.map((g, i) => (
               <div key={i} style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 12, color: t.text,
-                marginBottom: 4, lineHeight: 1.7,
+                fontSize: 11, color: t.text,
+                marginBottom: 2, lineHeight: 1.5,
                 display: "flex",
               }}>
                 <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
@@ -264,18 +264,18 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             ))}
           </div>
           <div style={{ width: 1, background: t.gold, opacity: 0.15, flexShrink: 0, margin: "4px 0" }} />
-          <div style={{ flex: 1, paddingLeft: 10 }}>
+          <div style={{ flex: 1, paddingLeft: 8 }}>
             <div style={{
               fontFamily: "'Noto Serif TC', serif",
-              fontSize: 12, fontWeight: 700,
+              fontSize: 11, fontWeight: 700,
               color: t.textMuted,
-              marginBottom: 6, letterSpacing: 2,
+              marginBottom: 4, letterSpacing: 2,
             }}>▸ 忌</div>
             {reading.bad.map((b, i) => (
               <div key={i} style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 12, color: t.text,
-                marginBottom: 4, lineHeight: 1.7,
+                fontSize: 11, color: t.text,
+                marginBottom: 2, lineHeight: 1.5,
                 display: "flex",
               }}>
                 <span style={{ flexShrink: 0, marginRight: 4, color: t.textDim }}>·</span>
@@ -289,8 +289,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         <div style={{
           background: t.sectionBg,
           borderRadius: 8,
-          padding: "10px 14px",
-          marginBottom: 14,
+          padding: "8px 12px",
+          marginBottom: 8,
           border: `1px solid ${t.sectionBorder}`,
           position: "relative", zIndex: 1,
         }}>
@@ -298,23 +298,23 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             fontFamily: "'Noto Serif TC', serif",
             fontSize: 10,
             color: t.textDim,
-            marginBottom: 6,
+            marginBottom: 4,
             letterSpacing: 2,
           }}>{reading.masterIcon} {reading.master}曰：</div>
           <div style={{
             fontFamily: "'Noto Serif TC', serif",
-            fontSize: 13,
+            fontSize: 12,
             color: t.text,
-            lineHeight: 1.8,
+            lineHeight: 1.6,
             fontStyle: "italic",
             paddingLeft: 4,
           }}>「{IMPATIENT_QUOTES[Math.min(rerollCount, IMPATIENT_QUOTES.length - 1)] || reading.quote}」</div>
         </div>
 
-        {/* Lucky items — compact single row */}
+        {/* Lucky items — inline within a single row */}
         <div style={{
           display: "flex", gap: 6,
-          marginBottom: 2,
+          marginBottom: 0,
           position: "relative", zIndex: 1,
         }}>
           {[
@@ -324,10 +324,10 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             <div key={label} style={{
               flex: 1,
               fontFamily: "'Noto Serif TC', serif",
-              fontSize: 11, lineHeight: 1.5,
+              fontSize: 11, lineHeight: 1.4,
               background: t.sectionBg,
               borderRadius: 6,
-              padding: "5px 8px",
+              padding: "4px 8px",
               border: `1px solid ${t.sectionBorder}`,
             }}>
               <span style={{ color: t.gold, fontSize: 10, letterSpacing: 1 }}>{label}</span>
@@ -344,8 +344,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
           rel="noopener noreferrer"
           style={{
             display: "block",
-            marginTop: 6,
-            padding: "4px 0",
+            marginTop: 4,
+            padding: "3px 0",
             textAlign: "center",
             fontFamily: "'Noto Serif TC', serif",
             fontSize: 11,
