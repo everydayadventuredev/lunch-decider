@@ -446,7 +446,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
       {/* ═══ Action Buttons ═══ */}
       <div style={{
-        marginTop: flipped ? 16 : 8, display: "flex", gap: 12,
+        marginTop: 8, display: "flex", gap: 12,
         justifyContent: "center", width: cardW,
       }}>
         <button onClick={(e) => { e.stopPropagation(); onReroll(); }} className="btn-secondary" style={{
