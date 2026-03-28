@@ -160,7 +160,7 @@ export default function DevilResultCard({ reading, onAccept }) {
               }}>【{reading.fortune}】</div>
               <div style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 9, color: D.redBright, letterSpacing: 2,
+                fontSize: 10, color: D.redBright, letterSpacing: 2,
                 opacity: 0.7, marginBottom: 4,
               }}>{TIER_LABELS[reading.tier]}</div>
               <FoodNameGlow>
@@ -276,7 +276,7 @@ export default function DevilResultCard({ reading, onAccept }) {
             {/* Flip hint */}
             <div style={{
               textAlign: "center", fontFamily: "'Noto Serif TC', serif",
-              fontSize: 9, color: D.textDim, letterSpacing: 2,
+              fontSize: 10, color: D.textDim, letterSpacing: 2,
               marginTop: 8, position: "relative", zIndex: 1,
               flexShrink: 0, opacity: 0.6,
             }}>↻ 輕觸翻回</div>

@@ -207,7 +207,7 @@ export function OrnamentDivider({ color = "var(--gold)", symbol = "✦" }) {
         background: `linear-gradient(90deg, transparent, ${color})`,
         opacity: 0.4,
       }} />
-      <span className="ornament-center" style={{ color, opacity: 0.6, fontSize: 8 }}>
+      <span className="ornament-center" style={{ color, opacity: 0.6, fontSize: 10 }}>
         {symbol}
       </span>
       <div style={{

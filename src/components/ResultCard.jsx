@@ -289,18 +289,23 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               <TierGem tier={reading.tier} color={t.gold} />
               <div style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 9, color: t.gold, letterSpacing: 2,
+                fontSize: 10, color: t.gold, letterSpacing: 2,
                 opacity: 0.7, marginBottom: 4,
               }}>{TIER_LABELS[reading.tier]}</div>
 
-              {/* FOOD NAME — big and proud */}
+              {/* FOOD NAME — adaptive size to prevent wrapping */}
               <FoodNameGlow isLegend={isLegend}>
                 <div style={{
                   fontFamily: "'Ma Shan Zheng', cursive",
-                  fontSize: isLegend ? "clamp(30px, 9vw, 42px)" : "clamp(28px, 8vw, 38px)",
+                  fontSize: reading.food.length > 7
+                    ? `clamp(18px, 5.5vw, 26px)`
+                    : reading.food.length > 5
+                      ? `clamp(22px, 6.5vw, 30px)`
+                      : isLegend ? "clamp(30px, 9vw, 42px)" : "clamp(28px, 8vw, 38px)",
                   color: t.gold,
-                  letterSpacing: 8,
+                  letterSpacing: reading.food.length > 7 ? 4 : 8,
                   textShadow: `0 2px 12px rgba(196,164,78,0.3), 0 0 40px rgba(196,164,78,0.1)`,
+                  whiteSpace: "nowrap",
                 }}>{reading.food}</div>
               </FoodNameGlow>
             </div>
@@ -320,8 +325,12 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             {/* Back header */}
             <div style={{
               textAlign: "center", fontFamily: "'Ma Shan Zheng', cursive",
-              fontSize: "clamp(26px, 7vw, 34px)", color: t.gold,
-              letterSpacing: 6, marginBottom: 4, position: "relative", zIndex: 1,
+              fontSize: reading.food.length > 7
+                ? "clamp(18px, 5vw, 24px)"
+                : "clamp(24px, 6.5vw, 32px)",
+              color: t.gold, whiteSpace: "nowrap",
+              letterSpacing: reading.food.length > 7 ? 3 : 6,
+              marginBottom: 4, position: "relative", zIndex: 1,
             }}>{reading.food}</div>
 
             <OrnamentDivider color={t.gold} symbol="✦" />
@@ -415,17 +424,25 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         </div>
       </div>
 
-      {/* ═══ Flip Hint — OUTSIDE card (both directions) ═══ */}
+      {/* ═══ Flip Hint — small icon below card ═══ */}
       <div
         onClick={handleFlip}
         style={{
-          marginTop: 8,
-          fontFamily: "'Noto Serif TC', serif",
-          fontSize: 13, color: "#8a8070",
-          letterSpacing: 2, cursor: "pointer",
-          animation: "pulse-hint 1.5s ease-in-out infinite",
+          marginTop: 6,
+          display: "flex", alignItems: "center", gap: 4,
+          cursor: "pointer",
+          animation: "pulse-hint 2s ease-in-out infinite",
         }}
-      >{flipped ? "↻ 輕觸翻回牌面" : "↻ 輕觸卡片翻面查看解讀"}</div>
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.5 }}>
+          <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1-.25 1.94-.7 2.76l1.46 1.46C19.54 14.9 20 13.5 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1 .25-1.94.7-2.76L5.24 7.78C4.46 9.1 4 10.5 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" fill="#8a8070" />
+        </svg>
+        <span style={{
+          fontFamily: "'Noto Serif TC', serif",
+          fontSize: 11, color: "#8a8070",
+          letterSpacing: 1,
+        }}>{flipped ? "翻回" : "查看解讀"}</span>
+      </div>
 
       {/* ═══ Action Buttons ═══ */}
       <div style={{
