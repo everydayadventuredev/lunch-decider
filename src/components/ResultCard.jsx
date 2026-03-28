@@ -156,7 +156,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",
       justifyContent: "flex-start", minHeight: "100dvh",
-      padding: "10px 16px 24px",
+      padding: "10px 16px 12px",
       background: "linear-gradient(180deg, var(--bg) 0%, #e8e0d4 30%, #ddd5c8 100%)",
     }}>
       {/* Header */}
@@ -262,7 +262,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               {/* Gradient overlay at bottom of image for text readability */}
               <div style={{
                 position: "absolute", bottom: 0, left: 0, right: 0,
-                height: 60,
+                height: 100,
                 background: `linear-gradient(transparent, ${t.bg})`,
               }} />
               {/* StarField behind image area */}
@@ -329,7 +329,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             {/* Main content — flex-grow to fill space */}
             <div style={{
               flex: 1, display: "flex", flexDirection: "column",
-              justifyContent: "center", gap: 14,
+              justifyContent: "space-evenly", gap: 10,
               position: "relative", zIndex: 1,
             }}>
 
@@ -421,9 +421,9 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         style={{
           marginTop: 8,
           fontFamily: "'Noto Serif TC', serif",
-          fontSize: 11, color: "#8a8070",
+          fontSize: 13, color: "#8a8070",
           letterSpacing: 2, cursor: "pointer",
-          animation: "pulse-hint 2s ease-in-out infinite",
+          animation: "pulse-hint 1.5s ease-in-out infinite",
         }}
       >{flipped ? "↻ 輕觸翻回牌面" : "↻ 輕觸卡片翻面查看解讀"}</div>
 

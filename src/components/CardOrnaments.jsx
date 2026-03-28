@@ -140,11 +140,11 @@ export function CardCorners({ color, tier }) {
 // ── Gem badge — tier indicator ──
 export function TierGem({ tier, color }) {
   const gemConfig = {
-    "庶民": { shape: "circle", size: 10, opacity: 0.5 },
-    "小資": { shape: "diamond", size: 12, opacity: 0.6 },
-    "放縱": { shape: "diamond", size: 14, opacity: 0.75 },
-    "苦行": { shape: "circle", size: 8, opacity: 0.3 },
-    "傳說": { shape: "star", size: 16, opacity: 0.9 },
+    "庶民": { shape: "circle", size: 14, opacity: 0.5 },
+    "小資": { shape: "diamond", size: 16, opacity: 0.6 },
+    "放縱": { shape: "diamond", size: 18, opacity: 0.75 },
+    "苦行": { shape: "circle", size: 12, opacity: 0.3 },
+    "傳說": { shape: "star", size: 22, opacity: 0.9 },
   };
   const gem = gemConfig[tier] || gemConfig["庶民"];
 
