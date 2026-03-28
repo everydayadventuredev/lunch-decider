@@ -343,38 +343,43 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               overflowY: "auto", minHeight: 0,
             }}>
 
-              {/* ★ 宜忌 — stacked layout for readability ★ */}
-              <div style={{ ...sec, padding: "10px 14px" }}>
-                {/* 宜 */}
+              {/* ★ 宜 — seal stamp on right ★ */}
+              <div style={{ ...sec, padding: "8px 14px", position: "relative" }}>
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 14, fontWeight: 700,
-                  color: t.gold, marginBottom: 6, letterSpacing: 2,
-                }}>▸ 宜</div>
+                  position: "absolute", top: 6, right: 10, zIndex: 2,
+                  border: `2px solid ${t.gold}`,
+                  borderRadius: 4, padding: "2px 8px",
+                  fontFamily: "'Ma Shan Zheng', cursive",
+                  fontSize: 14, color: t.gold, opacity: 0.7,
+                  transform: "rotate(-6deg)", letterSpacing: 3,
+                }}>宜</div>
                 {reading.good.map((g, i) => (
                   <div key={`g${i}`} style={{
                     fontFamily: "'Noto Serif TC', serif", fontSize: 14, color: t.text,
-                    marginBottom: 4, lineHeight: 1.7, display: "flex",
+                    marginBottom: 3, lineHeight: 1.6, display: "flex",
+                    paddingRight: 36,
                   }}>
                     <span style={{ flexShrink: 0, marginRight: 6, color: t.textDim }}>·</span>
                     <span>{g}</span>
                   </div>
                 ))}
+              </div>
 
-                {/* Divider */}
+              {/* ★ 忌 — seal stamp on right ★ */}
+              <div style={{ ...sec, padding: "8px 14px", position: "relative" }}>
                 <div style={{
-                  height: 1, background: t.gold, opacity: 0.12,
-                  margin: "10px 0",
-                }} />
-
-                {/* 忌 */}
-                <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 14, fontWeight: 700,
-                  color: t.textMuted, marginBottom: 6, letterSpacing: 2,
-                }}>▸ 忌</div>
+                  position: "absolute", top: 6, right: 10, zIndex: 2,
+                  border: `2px solid ${t.textMuted}`,
+                  borderRadius: 4, padding: "2px 8px",
+                  fontFamily: "'Ma Shan Zheng', cursive",
+                  fontSize: 14, color: t.textMuted, opacity: 0.6,
+                  transform: "rotate(-6deg)", letterSpacing: 3,
+                }}>忌</div>
                 {reading.bad.map((b, i) => (
                   <div key={`b${i}`} style={{
                     fontFamily: "'Noto Serif TC', serif", fontSize: 14, color: t.text,
-                    marginBottom: 4, lineHeight: 1.7, display: "flex",
+                    marginBottom: 3, lineHeight: 1.6, display: "flex",
+                    paddingRight: 36,
                   }}>
                     <span style={{ flexShrink: 0, marginRight: 6, color: t.textDim }}>·</span>
                     <span>{b}</span>
