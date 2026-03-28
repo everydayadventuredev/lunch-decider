@@ -76,7 +76,13 @@ export function generateDevilReading() {
   const dayOfWeek = today.getDay();
   const hour = today.getHours();
   const isOvertime = hour >= 18;
-  const food = pick(FOODS.filter(f => f.name !== "高級餐廳"));
+  // Devil prefers 苦行 (60%) or 庶民 (30%), rarely 小資 (10%), never 放縱/傳說
+  const roll = Math.random();
+  const food = roll < 0.6
+    ? pick(FOODS.filter(f => f.tier === "苦行"))
+    : roll < 0.9
+      ? pick(FOODS.filter(f => f.tier === "庶民"))
+      : pick(FOODS.filter(f => f.tier === "小資"));
 
   return {
     food: food.name,

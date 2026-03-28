@@ -39,11 +39,48 @@ const TAROT = {
   sectionBg: "rgba(196, 164, 78, 0.06)",
   sectionBorder: "rgba(196, 164, 78, 0.1)",
 };
-const LEGEND_TAROT = {
-  ...TAROT,
-  bgGrad: "linear-gradient(180deg, #1a1612 0%, #2a2010 50%, #1a1612 100%)",
-  gold: "#d4b44e", goldDim: "rgba(212, 180, 78, 0.2)",
+// ── Tier-specific visual themes ──
+const TIER_THEMES = {
+  "庶民": { // Classic gold — the standard
+    ...TAROT,
+  },
+  "小資": { // Warm gold — slightly richer
+    ...TAROT,
+    gold: "#c9a84e",
+    bgGrad: "linear-gradient(180deg, #1a1612 0%, #221e16 50%, #1a1612 100%)",
+  },
+  "放縱": { // Amber — warm, indulgent glow
+    ...TAROT,
+    gold: "#d4944a",
+    goldDim: "rgba(212, 148, 74, 0.18)",
+    bgGrad: "linear-gradient(180deg, #1a1612 0%, #241c14 50%, #1a1612 100%)",
+    sectionBg: "rgba(212, 148, 74, 0.06)",
+    sectionBorder: "rgba(212, 148, 74, 0.12)",
+  },
+  "苦行": { // Desaturated silver-grey — austere, faded
+    ...TAROT,
+    gold: "#9a9688",
+    goldDim: "rgba(154, 150, 136, 0.1)",
+    bgGrad: "linear-gradient(180deg, #18181a 0%, #1e1e20 50%, #18181a 100%)",
+    text: "#d0ccc4",
+    textMuted: "#8a8878",
+    sectionBg: "rgba(154, 150, 136, 0.05)",
+    sectionBorder: "rgba(154, 150, 136, 0.08)",
+  },
+  "傳說": { // Brilliant gold — maximum glow
+    ...TAROT,
+    gold: "#ffd700",
+    goldDim: "rgba(255, 215, 0, 0.2)",
+    bgGrad: "linear-gradient(180deg, #1a1612 0%, #2a2010 50%, #1a1612 100%)",
+    sectionBg: "rgba(255, 215, 0, 0.06)",
+    sectionBorder: "rgba(255, 215, 0, 0.12)",
+  },
 };
+
+function getTheme(tier, isLegend) {
+  if (isLegend) return TIER_THEMES["傳說"];
+  return TIER_THEMES[tier] || TAROT;
+}
 
 export default function ResultCard({ reading, onReroll, onAccept, rerollCount }) {
   const [revealed, setRevealed] = useState(false);
@@ -71,7 +108,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
   };
 
   const isLegend = reading.isLegend;
-  const t = isLegend ? LEGEND_TAROT : TAROT;
+  const t = getTheme(reading.tier, isLegend);
   const cardW = "min(320px, 84vw)";
   const cardH = "min(520px, 138vw)";
 
@@ -157,8 +194,12 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             ...faceBase,
             padding: 0,
             boxShadow: isLegend
-              ? "0 16px 56px rgba(0,0,0,0.6), 0 0 40px rgba(196,164,78,0.15)"
-              : "0 16px 56px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)",
+              ? `0 16px 56px rgba(0,0,0,0.6), 0 0 40px rgba(255,215,0,0.2)`
+              : reading.tier === "放縱"
+                ? `0 16px 56px rgba(0,0,0,0.5), 0 0 24px rgba(212,148,74,0.12)`
+                : reading.tier === "苦行"
+                  ? `0 12px 40px rgba(0,0,0,0.4)`
+                  : `0 16px 56px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)`,
           }}>
             {/* Badges — absolute on top of image */}
             {isLegend && (
