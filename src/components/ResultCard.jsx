@@ -395,8 +395,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               {/* Lucky items — inline badges */}
               <div style={{ display: "flex", gap: 8, position: "relative", zIndex: 1 }}>
                 {[
-                  { label: "配料", value: reading.luckySide },
-                  { label: "座位", value: reading.luckySeat },
+                  { label: "幸運物", value: reading.luckySide },
+                  { label: "幸運方位", value: reading.luckySeat },
                 ].map(({ label, value }) => (
                   <div key={label} style={{
                     ...sec, flex: 1, fontFamily: "'Noto Serif TC', serif",
