@@ -129,8 +129,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
   const isLegend = reading.isLegend;
   const t = getTheme(reading.tier, isLegend);
-  const cardW = "min(320px, 84vw)";
-  const cardH = "min(520px, 138vw)";
+  const cardW = "min(340px, 88vw)";
+  const cardH = "min(560px, 148vw)";
 
   const faceBase = {
     width: "100%", height: "100%",
@@ -335,15 +335,16 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
             <OrnamentDivider color={t.gold} symbol="✦" />
 
-            {/* Main content — flex-grow to fill space */}
+            {/* Main content — fills space, scrolls if needed */}
             <div style={{
               flex: 1, display: "flex", flexDirection: "column",
-              justifyContent: "space-evenly", gap: 10,
+              justifyContent: "space-evenly", gap: 8,
               position: "relative", zIndex: 1,
+              overflowY: "auto", minHeight: 0,
             }}>
 
               {/* ★ 宜忌 — stacked layout for readability ★ */}
-              <div style={{ ...sec, padding: "14px 16px" }}>
+              <div style={{ ...sec, padding: "10px 14px" }}>
                 {/* 宜 */}
                 <div style={{
                   fontFamily: "'Noto Serif TC', serif", fontSize: 14, fontWeight: 700,
@@ -382,7 +383,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               </div>
 
               {/* Master quote — medium */}
-              <div style={{ ...sec, padding: "14px 16px" }}>
+              <div style={{ ...sec, padding: "10px 14px" }}>
                 <div style={{
                   fontFamily: "'Noto Serif TC', serif", fontSize: 12,
                   color: t.textMuted, marginBottom: 6, letterSpacing: 2,
