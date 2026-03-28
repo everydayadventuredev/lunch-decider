@@ -281,7 +281,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               {/* Fortune name — small elegant */}
               <div style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 10, color: t.textMuted,
+                fontSize: 12, color: t.textMuted,
                 letterSpacing: 3, marginBottom: 2,
               }}>【{reading.fortune}】</div>
 
@@ -289,7 +289,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               <TierGem tier={reading.tier} color={t.gold} />
               <div style={{
                 fontFamily: "'Noto Serif TC', serif",
-                fontSize: 10, color: t.gold, letterSpacing: 2,
+                fontSize: 12, color: t.gold, letterSpacing: 2,
                 opacity: 0.7, marginBottom: 4,
               }}>{TIER_LABELS[reading.tier]}</div>
 
@@ -346,12 +346,12 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               <div style={{ ...sec, padding: "14px 16px" }}>
                 {/* 宜 */}
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 13, fontWeight: 700,
+                  fontFamily: "'Noto Serif TC', serif", fontSize: 14, fontWeight: 700,
                   color: t.gold, marginBottom: 6, letterSpacing: 2,
                 }}>▸ 宜</div>
                 {reading.good.map((g, i) => (
                   <div key={`g${i}`} style={{
-                    fontFamily: "'Noto Serif TC', serif", fontSize: 13, color: t.text,
+                    fontFamily: "'Noto Serif TC', serif", fontSize: 14, color: t.text,
                     marginBottom: 4, lineHeight: 1.7, display: "flex",
                   }}>
                     <span style={{ flexShrink: 0, marginRight: 6, color: t.textDim }}>·</span>
@@ -367,12 +367,12 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
 
                 {/* 忌 */}
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 13, fontWeight: 700,
+                  fontFamily: "'Noto Serif TC', serif", fontSize: 14, fontWeight: 700,
                   color: t.textMuted, marginBottom: 6, letterSpacing: 2,
                 }}>▸ 忌</div>
                 {reading.bad.map((b, i) => (
                   <div key={`b${i}`} style={{
-                    fontFamily: "'Noto Serif TC', serif", fontSize: 13, color: t.text,
+                    fontFamily: "'Noto Serif TC', serif", fontSize: 14, color: t.text,
                     marginBottom: 4, lineHeight: 1.7, display: "flex",
                   }}>
                     <span style={{ flexShrink: 0, marginRight: 6, color: t.textDim }}>·</span>
@@ -384,19 +384,19 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               {/* Master quote — medium */}
               <div style={{ ...sec, padding: "14px 16px" }}>
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 11,
-                  color: t.textDim, marginBottom: 6, letterSpacing: 2,
+                  fontFamily: "'Noto Serif TC', serif", fontSize: 12,
+                  color: t.textMuted, marginBottom: 6, letterSpacing: 2,
                 }}>{reading.masterIcon} {reading.master}曰：</div>
                 <div style={{
-                  fontFamily: "'Noto Serif TC', serif", fontSize: 14,
+                  fontFamily: "'Noto Serif TC', serif", fontSize: 15,
                   color: t.text, lineHeight: 1.8, fontStyle: "italic", paddingLeft: 4,
                 }}>「{IMPATIENT_QUOTES[Math.min(rerollCount, IMPATIENT_QUOTES.length - 1)] || reading.quote}」</div>
               </div>
 
               {/* Dark humor — italic accent */}
               <div style={{
-                fontFamily: "'Noto Serif TC', serif", fontSize: 11,
-                color: t.textDim, textAlign: "center",
+                fontFamily: "'Noto Serif TC', serif", fontSize: 12,
+                color: t.textMuted, textAlign: "center",
                 lineHeight: 1.6, position: "relative", zIndex: 1,
                 fontStyle: "italic", letterSpacing: 1,
               }}>— {darkHumor}</div>
@@ -409,10 +409,10 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
                 ].map(({ label, value }) => (
                   <div key={label} style={{
                     ...sec, fontFamily: "'Noto Serif TC', serif",
-                    fontSize: 11, lineHeight: 1.5, borderRadius: 6, padding: "5px 12px",
+                    fontSize: 13, lineHeight: 1.5, borderRadius: 6, padding: "6px 12px",
                     display: "flex", alignItems: "baseline",
                   }}>
-                    <span style={{ color: t.gold, fontSize: 10, letterSpacing: 1, flexShrink: 0 }}>{label}</span>
+                    <span style={{ color: t.gold, fontSize: 12, letterSpacing: 1, flexShrink: 0 }}>{label}</span>
                     <span style={{ color: t.textDim, margin: "0 6px", flexShrink: 0 }}>|</span>
                     <span style={{ color: t.text }}>{value}</span>
                   </div>
