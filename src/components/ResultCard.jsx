@@ -271,42 +271,43 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               position: "relative", zIndex: 1,
             }}>
 
-              {/* ★ 宜忌 — HERO section, largest ★ */}
-              <div style={{
-                ...sec, display: "flex", gap: 0,
-                padding: "16px 16px",
-              }}>
-                <div style={{ flex: 1, paddingRight: 12 }}>
-                  <div style={{
-                    fontFamily: "'Noto Serif TC', serif", fontSize: 13, fontWeight: 700,
-                    color: t.gold, marginBottom: 8, letterSpacing: 2,
-                  }}>▸ 宜</div>
-                  {reading.good.map((g, i) => (
-                    <div key={i} style={{
-                      fontFamily: "'Noto Serif TC', serif", fontSize: 13, color: t.text,
-                      marginBottom: 5, lineHeight: 1.7, display: "flex",
-                    }}>
-                      <span style={{ flexShrink: 0, marginRight: 6, color: t.textDim }}>·</span>
-                      <span>{g}</span>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ width: 1, background: t.gold, opacity: 0.15, flexShrink: 0, margin: "4px 0" }} />
-                <div style={{ flex: 1, paddingLeft: 12 }}>
-                  <div style={{
-                    fontFamily: "'Noto Serif TC', serif", fontSize: 13, fontWeight: 700,
-                    color: t.textMuted, marginBottom: 8, letterSpacing: 2,
-                  }}>▸ 忌</div>
-                  {reading.bad.map((b, i) => (
-                    <div key={i} style={{
-                      fontFamily: "'Noto Serif TC', serif", fontSize: 13, color: t.text,
-                      marginBottom: 5, lineHeight: 1.7, display: "flex",
-                    }}>
-                      <span style={{ flexShrink: 0, marginRight: 6, color: t.textDim }}>·</span>
-                      <span>{b}</span>
-                    </div>
-                  ))}
-                </div>
+              {/* ★ 宜忌 — stacked layout for readability ★ */}
+              <div style={{ ...sec, padding: "14px 16px" }}>
+                {/* 宜 */}
+                <div style={{
+                  fontFamily: "'Noto Serif TC', serif", fontSize: 13, fontWeight: 700,
+                  color: t.gold, marginBottom: 6, letterSpacing: 2,
+                }}>▸ 宜</div>
+                {reading.good.map((g, i) => (
+                  <div key={`g${i}`} style={{
+                    fontFamily: "'Noto Serif TC', serif", fontSize: 13, color: t.text,
+                    marginBottom: 4, lineHeight: 1.7, display: "flex",
+                  }}>
+                    <span style={{ flexShrink: 0, marginRight: 6, color: t.textDim }}>·</span>
+                    <span>{g}</span>
+                  </div>
+                ))}
+
+                {/* Divider */}
+                <div style={{
+                  height: 1, background: t.gold, opacity: 0.12,
+                  margin: "10px 0",
+                }} />
+
+                {/* 忌 */}
+                <div style={{
+                  fontFamily: "'Noto Serif TC', serif", fontSize: 13, fontWeight: 700,
+                  color: t.textMuted, marginBottom: 6, letterSpacing: 2,
+                }}>▸ 忌</div>
+                {reading.bad.map((b, i) => (
+                  <div key={`b${i}`} style={{
+                    fontFamily: "'Noto Serif TC', serif", fontSize: 13, color: t.text,
+                    marginBottom: 4, lineHeight: 1.7, display: "flex",
+                  }}>
+                    <span style={{ flexShrink: 0, marginRight: 6, color: t.textDim }}>·</span>
+                    <span>{b}</span>
+                  </div>
+                ))}
               </div>
 
               {/* Master quote — medium */}
