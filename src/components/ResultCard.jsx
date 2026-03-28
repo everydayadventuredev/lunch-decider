@@ -39,41 +39,61 @@ const TAROT = {
   sectionBg: "rgba(196, 164, 78, 0.06)",
   sectionBorder: "rgba(196, 164, 78, 0.1)",
 };
-// ── Tier-specific visual themes ──
+// ── Tier-specific visual themes — strong differentiation ──
 const TIER_THEMES = {
-  "庶民": { // Classic gold — the standard
+  "庶民": { // Classic warm gold
     ...TAROT,
+    borderWidth: "2px",
+    tierIcon: "",
   },
-  "小資": { // Warm gold — slightly richer
+  "小資": { // Brighter gold, slightly elevated
     ...TAROT,
-    gold: "#c9a84e",
+    gold: "#d4b44e",
+    goldDim: "rgba(212, 180, 78, 0.18)",
     bgGrad: "linear-gradient(180deg, #1a1612 0%, #221e16 50%, #1a1612 100%)",
+    sectionBg: "rgba(212, 180, 78, 0.08)",
+    sectionBorder: "rgba(212, 180, 78, 0.15)",
+    borderWidth: "2px",
+    tierIcon: "",
   },
-  "放縱": { // Amber — warm, indulgent glow
+  "放縱": { // 🔥 Hot amber-orange — sinful and indulgent
     ...TAROT,
-    gold: "#d4944a",
-    goldDim: "rgba(212, 148, 74, 0.18)",
-    bgGrad: "linear-gradient(180deg, #1a1612 0%, #241c14 50%, #1a1612 100%)",
-    sectionBg: "rgba(212, 148, 74, 0.06)",
-    sectionBorder: "rgba(212, 148, 74, 0.12)",
+    gold: "#e8943a",
+    goldDim: "rgba(232, 148, 58, 0.2)",
+    bgGrad: "linear-gradient(180deg, #1c1610 0%, #2a1c10 50%, #1c1610 100%)",
+    text: "#f0dcc0",
+    textMuted: "#b89060",
+    textDim: "#7a5a3a",
+    sectionBg: "rgba(232, 148, 58, 0.08)",
+    sectionBorder: "rgba(232, 148, 58, 0.18)",
+    borderWidth: "2.5px",
+    tierIcon: "🔥",
   },
-  "苦行": { // Desaturated silver-grey — austere, faded
+  "苦行": { // 🪨 Cold blue-grey — monastic, withered
     ...TAROT,
-    gold: "#9a9688",
-    goldDim: "rgba(154, 150, 136, 0.1)",
-    bgGrad: "linear-gradient(180deg, #18181a 0%, #1e1e20 50%, #18181a 100%)",
-    text: "#d0ccc4",
-    textMuted: "#8a8878",
-    sectionBg: "rgba(154, 150, 136, 0.05)",
-    sectionBorder: "rgba(154, 150, 136, 0.08)",
+    gold: "#7a8088",
+    goldDim: "rgba(122, 128, 136, 0.1)",
+    bg: "#16171a",
+    bgGrad: "linear-gradient(180deg, #14151a 0%, #1a1b20 50%, #14151a 100%)",
+    text: "#b8b4ae",
+    textMuted: "#70707a",
+    textDim: "#4a4a54",
+    sectionBg: "rgba(122, 128, 136, 0.05)",
+    sectionBorder: "rgba(122, 128, 136, 0.1)",
+    borderWidth: "1.5px",
+    tierIcon: "",
   },
-  "傳說": { // Brilliant gold — maximum glow
+  "傳說": { // ✦ Pure radiant gold — divine
     ...TAROT,
     gold: "#ffd700",
-    goldDim: "rgba(255, 215, 0, 0.2)",
-    bgGrad: "linear-gradient(180deg, #1a1612 0%, #2a2010 50%, #1a1612 100%)",
-    sectionBg: "rgba(255, 215, 0, 0.06)",
-    sectionBorder: "rgba(255, 215, 0, 0.12)",
+    goldDim: "rgba(255, 215, 0, 0.25)",
+    bgGrad: "linear-gradient(180deg, #1a1812 0%, #2c2410 50%, #1a1812 100%)",
+    text: "#fff8e0",
+    textMuted: "#c0a850",
+    sectionBg: "rgba(255, 215, 0, 0.08)",
+    sectionBorder: "rgba(255, 215, 0, 0.18)",
+    borderWidth: "3px",
+    tierIcon: "✦",
   },
 };
 
@@ -116,7 +136,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
     width: "100%", height: "100%",
     background: t.bgGrad,
     borderRadius: 14,
-    border: `2.5px solid ${t.gold}`,
+    border: `${t.borderWidth || "2px"} solid ${t.gold}`,
     position: "absolute",
     top: 0, left: 0,
     backfaceVisibility: "hidden",
@@ -194,11 +214,11 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             ...faceBase,
             padding: 0,
             boxShadow: isLegend
-              ? `0 16px 56px rgba(0,0,0,0.6), 0 0 40px rgba(255,215,0,0.2)`
+              ? `0 16px 56px rgba(0,0,0,0.6), 0 0 50px rgba(255,215,0,0.25), 0 0 100px rgba(255,215,0,0.08)`
               : reading.tier === "放縱"
-                ? `0 16px 56px rgba(0,0,0,0.5), 0 0 24px rgba(212,148,74,0.12)`
+                ? `0 16px 56px rgba(0,0,0,0.5), 0 0 36px rgba(232,148,58,0.2), 0 0 80px rgba(232,148,58,0.06)`
                 : reading.tier === "苦行"
-                  ? `0 12px 40px rgba(0,0,0,0.4)`
+                  ? `0 8px 30px rgba(0,0,0,0.3)`
                   : `0 16px 56px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)`,
           }}>
             {/* Badges — absolute on top of image */}
@@ -389,30 +409,21 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               </div>
             </div>
 
-            {/* Flip back hint */}
-            <div style={{
-              textAlign: "center", fontFamily: "'Noto Serif TC', serif",
-              fontSize: 9, color: t.textDim, letterSpacing: 2,
-              marginTop: 8, position: "relative", zIndex: 1, flexShrink: 0,
-              opacity: 0.6,
-            }}>↻ 輕觸翻回</div>
           </div>
         </div>
       </div>
 
-      {/* ═══ Flip Hint — OUTSIDE card ═══ */}
-      {!flipped && (
-        <div
-          onClick={handleFlip}
-          style={{
-            marginTop: 8,
-            fontFamily: "'Noto Serif TC', serif",
-            fontSize: 11, color: "var(--ink-lighter)",
-            letterSpacing: 2, cursor: "pointer",
-            animation: "pulse-hint 2s ease-in-out infinite",
-          }}
-        >↻ 輕觸卡片翻面查看解讀</div>
-      )}
+      {/* ═══ Flip Hint — OUTSIDE card (both directions) ═══ */}
+      <div
+        onClick={handleFlip}
+        style={{
+          marginTop: 8,
+          fontFamily: "'Noto Serif TC', serif",
+          fontSize: 11, color: "var(--ink-lighter)",
+          letterSpacing: 2, cursor: "pointer",
+          animation: "pulse-hint 2s ease-in-out infinite",
+        }}
+      >{flipped ? "↻ 輕觸翻回牌面" : "↻ 輕觸卡片翻面查看解讀"}</div>
 
       {/* ═══ Action Buttons ═══ */}
       <div style={{
