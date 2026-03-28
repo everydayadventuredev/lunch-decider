@@ -4,7 +4,7 @@ import { getChineseDateStr } from "../utils/generateReading";
 import { getFoodImage } from "../utils/foodImage";
 import { AFTERNOON_PROPHECIES, COWORKER_REACTIONS } from "../data/darkCommentary";
 import SealStamp from "./SealStamp";
-import { CardCorners, OrnamentDivider, FoodNameGlow, FortuneCrest, StarField } from "./CardOrnaments";
+import { CardCorners, TierGem, OrnamentDivider, FoodNameGlow, FortuneCrest, StarField } from "./CardOrnaments";
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -276,7 +276,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
               textAlign: "center",
               position: "relative",
             }}>
-              <CardCorners color={t.gold} />
+              <CardCorners color={t.gold} tier={reading.tier} />
 
               {/* Fortune name — small elegant */}
               <div style={{
@@ -285,7 +285,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
                 letterSpacing: 3, marginBottom: 2,
               }}>【{reading.fortune}】</div>
 
-              {/* Tier */}
+              {/* Tier gem + label */}
+              <TierGem tier={reading.tier} color={t.gold} />
               <div style={{
                 fontFamily: "'Noto Serif TC', serif",
                 fontSize: 9, color: t.gold, letterSpacing: 2,
@@ -314,7 +315,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
             justifyContent: "space-between",
           }}>
             <StarField />
-            <CardCorners color={t.gold} />
+            <CardCorners color={t.gold} tier={reading.tier} />
 
             {/* Back header */}
             <div style={{
@@ -419,7 +420,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount })
         style={{
           marginTop: 8,
           fontFamily: "'Noto Serif TC', serif",
-          fontSize: 11, color: "var(--ink-lighter)",
+          fontSize: 11, color: "#8a8070",
           letterSpacing: 2, cursor: "pointer",
           animation: "pulse-hint 2s ease-in-out infinite",
         }}
