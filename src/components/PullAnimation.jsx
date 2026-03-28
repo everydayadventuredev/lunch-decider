@@ -38,17 +38,19 @@ export default function PullAnimation({ reading, onComplete }) {
     <div className={`pull-overlay phase-${phase} ${isLegend ? "pull-legend" : ""}`}>
       <div className="pull-burst" />
 
-      {phase >= 1 && (
+      {/* Phase 1: seal + message (message fades out before phase 2) */}
+      {phase >= 1 && phase < 2 && (
         <div className="pull-seal" style={{ borderColor: accentColor, color: accentColor }}>
           <span className="pull-seal-char">膳</span>
         </div>
       )}
 
-      {phase >= 1 && phase < 3 && (
+      {phase >= 1 && phase < 2 && (
         <div className="pull-message">{pullMessage}</div>
       )}
 
-      {phase >= 2 && (
+      {/* Phase 2: master replaces seal+message (no overlap) */}
+      {phase >= 2 && phase < 3 && (
         <div className="pull-master" style={{ color: accentColor }}>
           <span className="pull-master-icon">{reading.masterIcon}</span>
           <span className="pull-master-name">
