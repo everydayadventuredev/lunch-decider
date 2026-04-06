@@ -245,17 +245,25 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
               }}>百年難遇之祥瑞</div>
             )}
             {(reading.isFriday || reading.isMonday) && !isLegend && (
-              <div style={{ position: "absolute", top: 4, right: 12, zIndex: 3 }}>
+              <div style={{
+                position: "absolute", top: 8, right: 8, zIndex: 3,
+                background: "rgba(26,22,18,0.6)",
+                borderRadius: 6, padding: 4,
+              }}>
                 <SealStamp
                   text={reading.isFriday ? "週五無禁忌" : "週一渡劫中"}
-                  color={reading.isFriday ? t.gold : t.textMuted}
-                  size={50} rotate={reading.isFriday ? -8 : -6}
+                  color={reading.isFriday ? t.gold : "#c0a868"}
+                  size={56} rotate={reading.isFriday ? -8 : -6}
                 />
               </div>
             )}
             {reading.isWednesday && !reading.isFriday && !reading.isMonday && !isLegend && (
-              <div style={{ position: "absolute", top: 4, right: 12, zIndex: 3 }}>
-                <SealStamp text="週三症候群" color={t.textMuted} size={50} rotate={-5} />
+              <div style={{
+                position: "absolute", top: 8, right: 8, zIndex: 3,
+                background: "rgba(26,22,18,0.6)",
+                borderRadius: 6, padding: 4,
+              }}>
+                <SealStamp text="週三症候群" color="#c0a868" size={56} rotate={-5} />
               </div>
             )}
 
