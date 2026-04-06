@@ -83,10 +83,11 @@ const TIER_THEMES = {
     borderWidth: "1.5px",
     tierIcon: "",
   },
-  "傳說": { // ✦ Pure radiant gold — divine
+  "傳說": { // ✦ Pure radiant gold + vermillion accent — divine
     ...TAROT,
     gold: "#ffd700",
     goldDim: "rgba(255, 215, 0, 0.25)",
+    vermillion: "#c23a2e",
     bgGrad: "linear-gradient(180deg, #1a1812 0%, #2c2410 50%, #1a1812 100%)",
     text: "#fff8e0",
     textMuted: "#c0a850",
@@ -215,7 +216,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
           position: "relative",
           width: "100%", height: "100%",
           transformStyle: "preserve-3d",
-          transition: "transform 0.6s ease",
+          transition: "transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1)",
           transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
           zIndex: 1,
         }}>
@@ -265,7 +266,8 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
             }}>
               {foodImg && (
                 <img src={foodImg} alt={reading.food} style={{
-                  width: "100%", height: "100%",
+                  width: "108%", height: "108%",
+                  marginLeft: "-4%", marginTop: "-4%",
                   objectFit: "cover",
                   display: "block",
                 }} />
@@ -288,6 +290,19 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
               position: "relative",
             }}>
               <CardCorners color={t.gold} tier={reading.tier} />
+
+              {/* Vermillion seal — legend only (Hokusai's accent color) */}
+              {isLegend && (
+                <div style={{
+                  position: "absolute", top: -8, left: 16,
+                  border: `2px solid #c23a2e`,
+                  borderRadius: 4, padding: "2px 6px",
+                  fontFamily: "'Ma Shan Zheng', cursive",
+                  fontSize: 12, color: "#c23a2e", opacity: 0.75,
+                  transform: "rotate(-8deg)", lineHeight: 1,
+                  letterSpacing: 1,
+                }}>御膳</div>
+              )}
 
               {/* Fortune name — small elegant */}
               <div style={{
@@ -315,7 +330,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
                       : isLegend ? "clamp(30px, 9vw, 42px)" : "clamp(28px, 8vw, 38px)",
                   color: t.gold,
                   letterSpacing: reading.food.length > 7 ? 4 : 8,
-                  textShadow: `0 2px 12px rgba(196,164,78,0.3), 0 0 40px rgba(196,164,78,0.1)`,
+                  textShadow: `0 2px 12px rgba(196,164,78,0.35), 0 0 30px rgba(196,164,78,0.15), 0 0 60px rgba(196,164,78,0.05)`,
                   whiteSpace: "nowrap",
                 }}>{reading.food}</div>
               </FoodNameGlow>
@@ -349,7 +364,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
             {/* Main content — scrollable, compact gaps */}
             <div style={{
               flex: 1, display: "flex", flexDirection: "column",
-              justifyContent: "flex-start", gap: 10,
+              justifyContent: "flex-start", gap: 14,
               position: "relative", zIndex: 1,
               overflowY: "auto", minHeight: 0,
               paddingTop: 4,
