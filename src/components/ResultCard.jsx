@@ -274,8 +274,7 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
             }}>
               {foodImg && (
                 <img src={foodImg} alt={reading.food} style={{
-                  width: "108%", height: "108%",
-                  marginLeft: "-4%", marginTop: "-4%",
+                  width: "100%", height: "100%",
                   objectFit: "cover",
                   display: "block",
                 }} />
@@ -382,10 +381,12 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
               <div style={{ ...sec, padding: "8px 14px", position: "relative" }}>
                 <div style={{
                   position: "absolute", top: 4, right: 8, zIndex: 2,
+                  background: t.bg,
                   border: `2px solid ${t.gold}`,
-                  borderRadius: 4, padding: "3px 6px",
+                  borderRadius: 4, padding: "3px 8px",
                   fontFamily: "'Ma Shan Zheng', cursive",
-                  fontSize: 16, color: t.gold, opacity: 0.7,
+                  fontSize: 18, color: t.gold,
+                  fontWeight: 700,
                   transform: "rotate(-6deg)", lineHeight: 1,
                 }}>宜</div>
                 {reading.good.map((g, i) => (
@@ -404,10 +405,12 @@ export default function ResultCard({ reading, onReroll, onAccept, rerollCount, o
               <div style={{ ...sec, padding: "8px 14px", position: "relative" }}>
                 <div style={{
                   position: "absolute", top: 4, right: 8, zIndex: 2,
+                  background: t.bg,
                   border: `2px solid ${t.textMuted}`,
-                  borderRadius: 4, padding: "3px 6px",
+                  borderRadius: 4, padding: "3px 8px",
                   fontFamily: "'Ma Shan Zheng', cursive",
-                  fontSize: 16, color: t.textMuted, opacity: 0.6,
+                  fontSize: 18, color: t.textMuted,
+                  fontWeight: 700,
                   transform: "rotate(-6deg)", lineHeight: 1,
                 }}>忌</div>
                 {reading.bad.map((b, i) => (
