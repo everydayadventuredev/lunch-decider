@@ -1,65 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Ma+Shan+Zheng&display=swap');
 
 :root {
-  /* ── Parchment / Light (temple surface) ─────────────────── */
   --bg: #f5f0e8;
   --bg-alt: #efe9dd;
   --card-bg: #faf7f0;
-
-  /* ── Ink / Foreground (three-level type ramp) ───────────── */
   --ink: #2c2416;
   --ink-light: #6b5d4d;
   --ink-lighter: #a89880;
-
-  /* ── Accents ────────────────────────────────────────────── */
-  --accent: #c23a2e;           /* vermillion seal-stamp red */
-  --gold: #b89030;             /* ceremonial gold on light */
-  --gold-card: #c4a44e;        /* gold on dark tarot cards */
-
-  /* ── Dark Tarot (card interior) ─────────────────────────── */
-  --tarot-bg: #1a1612;
-  --tarot-bg-mid: #221c16;
-  --tarot-text: #e8dcc8;
-  --tarot-text-mut: #a89880;
-  --tarot-text-dim: #6b5d4d;
-  --tarot-bg-grad: linear-gradient(180deg, #1a1612 0%, #221c16 50%, #1a1612 100%);
-
-  /* ── Tier Accents — each tier has its own soul ──────────── */
-  --tier-shumin: #c4a44e;       /* 庶民 — classic warm gold */
-  --tier-xiaozi: #d4b44e;       /* 小資 — brighter gold */
-  --tier-fangzong: #e8943a;     /* 放縱 — hot amber sin-orange */
-  --tier-kuxing: #7a8088;       /* 苦行 — cold monastic slate */
-  --tier-chuanshuo: #ffd700;    /* 傳說 — pure divine gold */
-
-  /* ── Devil Mode ─────────────────────────────────────────── */
-  --devil-bg: #1a1214;
-  --devil-bg-grad: linear-gradient(180deg, #1a1214 0%, #2a1a1e 50%, #1a1214 100%);
-  --devil-red: #8b3a3a;
-  --devil-red-hot: #c25050;
-  --devil-text: #e8c4c4;
-  --devil-text-mut: #8a6060;
-
-  /* ── Type Families ──────────────────────────────────────── */
-  --font-brush: 'Ma Shan Zheng', cursive;
-  --font-body: 'LXGW WenKai TC', 'Noto Serif TC', serif;
-
-  /* ── Spacing / Radii ────────────────────────────────────── */
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 14px;
-
-  /* ── Elevation ──────────────────────────────────────────── */
-  --shadow-card: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-card-hover: 0 12px 40px rgba(0,0,0,0.18);
-  --shadow-tarot: 0 16px 56px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2);
-  --shadow-legend: 0 16px 56px rgba(0,0,0,0.6), 0 0 50px rgba(255,215,0,0.25);
-  --shadow-devil: 0 16px 56px rgba(139,58,58,0.4), 0 0 60px rgba(139,58,58,0.1);
-
-  /* ── Section fills on dark tarot ────────────────────────── */
-  --sec-gold-bg: rgba(196, 164, 78, 0.06);
-  --sec-gold-border: rgba(196, 164, 78, 0.10);
-  --sec-gold-dim: rgba(196, 164, 78, 0.15);
+  --accent: #c23a2e;
+  --gold: #b89030;
 }
 
 * {

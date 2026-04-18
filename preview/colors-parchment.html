@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-TW"><head>
+<meta charset="utf-8"><title>Colors — Parchment</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+body{margin:0;background:#fff;padding:20px;font-family:var(--font-body)}
+.wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.sw{border-radius:8px;overflow:hidden;border:1px solid #eee}
+.chip{height:68px}
+.meta{padding:8px 10px;font-size:11px;color:#333;display:flex;justify-content:space-between;align-items:center;background:#faf7f0}
+.name{font-family:var(--font-brush);letter-spacing:2px;font-size:13px;color:#2c2416}
+.hex{color:#a89880;font-variant-numeric:tabular-nums}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="sw"><div class="chip" style="background:#f5f0e8"></div><div class="meta"><span class="name">bg 底紙</span><span class="hex">#f5f0e8</span></div></div>
+  <div class="sw"><div class="chip" style="background:#efe9dd"></div><div class="meta"><span class="name">bg-alt</span><span class="hex">#efe9dd</span></div></div>
+  <div class="sw"><div class="chip" style="background:#faf7f0;border-bottom:1px solid #eee"></div><div class="meta"><span class="name">card-bg</span><span class="hex">#faf7f0</span></div></div>
+</div></body></html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-TW"><head>
+<meta charset="utf-8"><title>Spacing & Radii</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+body{margin:0;background:#f5f0e8;padding:20px;font-family:var(--font-body);color:#2c2416}
+.section{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+h4{margin:0 0 10px;font-family:var(--font-brush);font-size:15px;letter-spacing:3px;color:#6b5d4d;font-weight:400}
+.radius-row{display:flex;gap:14px;margin-bottom:18px}
+.r{width:70px;height:54px;background:#faf7f0;border:1px solid #a89880;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6b5d4d;letter-spacing:1px}
+.r.sm{border-radius:6px}.r.md{border-radius:8px}.r.lg{border-radius:12px}.r.xl{border-radius:14px}
+</style></head>
+<body>
+<h4>圓角 radius</h4>
+<div class="radius-row">
+  <div class="r sm">6 · sm</div>
+  <div class="r md">8 · md</div>
+  <div class="r lg">12 · lg</div>
+  <div class="r xl">14 · xl</div>
+</div>
+</body></html>
